@@ -8,15 +8,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c88d6e95-f0ba-43a4-9c74-4ec036e49e77" name="Default Changelist" comment="">
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+>>>>>>> e854f9f4f3805da9c061f7412e34e47b246dd5b1
       <change beforePath="$PROJECT_DIR$/includes/defines.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/defines.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/get_next_line.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/get_next_line.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/libft.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/libft.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/minishell.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/minishell.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/structures.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/structures.h" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/srcs/exec_command/get_cd.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/exec_command/get_cd.c" afterDir="false" />
+=======
       <change beforePath="$PROJECT_DIR$/libs/get_next_line/get_next_line.c" beforeDir="false" afterPath="$PROJECT_DIR$/libs/get_next_line/get_next_line.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/get_next_line/get_next_line_utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/libs/get_next_line/get_next_line_utils.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/minishell" beforeDir="false" afterPath="$PROJECT_DIR$/minishell" afterDir="false" />
+>>>>>>> e854f9f4f3805da9c061f7412e34e47b246dd5b1
       <change beforePath="$PROJECT_DIR$/srcs/exec_command/get_echo.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/exec_command/get_echo.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/srcs/exec_command/get_env.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/exec_command/get_env.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/srcs/exec_command/get_pwd.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/exec_command/get_pwd.c" afterDir="false" />
@@ -42,6 +50,11 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/srcs/exec_command" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
