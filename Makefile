@@ -6,7 +6,7 @@
 #    By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/27 14:21:29 by llaurent          #+#    #+#              #
-#    Updated: 2020/01/27 16:30:26 by mbrignol         ###   ########.fr        #
+#    Updated: 2020/01/27 17:43:42 by llaurent         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ CFLAGS		= -Wall -Wextra -Werror
 
 $(NAME):	${OBJS} ${SRCSH}
 			@make -C libs/libft
-			@${CC} ${OBJS} ${CFLAGS} -L ./libs/libft -lft -o ${NAME}
+			@make -C libs/ft_printf
+			@${CC} ${OBJS} ${CFLAGS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
 			@echo "\033[1;32m┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐"
 			@echo "└─┐│ ││  │  ├┤ └─┐└─┐"
 			@echo "└─┘└─┘└─┘└─┘└─┘└─┘└─┘"
@@ -41,11 +42,13 @@ all:		${NAME}
 
 clean:
 			@make clean -C libs/libft
+			@make clean -C libs/ft_printf
 			@echo "\033[1;31mMinishell > Removing ${OBJS}\033[0;0m"
 			@${RM} ${OBJS}
 
 fclean:		clean
 			@make fclean -C libs/libft
+			@make fclean -C libs/ft_printf
 			@echo "\033[1;34mMinishell > Removing ${NAME}\033[0;0m"
 			@${RM} ${NAME}
 
