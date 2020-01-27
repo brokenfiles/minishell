@@ -68,13 +68,13 @@ int	parse_line(t_data *data)
 		if (get_command(data) == 0)
 		{
 			ft_putstr(COMMAND_NOT_FOUND);
+			// free splitted
 			return (0);
 		}
 		get_arguments(data);
 		exec_command(data);
-//		free(*commands);
 		commands++;
 	}
-//	free(commands);
+	// free splitted
 	return (1);
 }

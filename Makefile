@@ -6,7 +6,7 @@
 #    By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/27 14:21:29 by llaurent          #+#    #+#              #
-#    Updated: 2020/01/27 16:30:26 by mbrignol         ###   ########.fr        #
+#    Updated: 2020/01/27 18:04:08 by mbrignol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ CFLAGS		= -Wall -Wextra -Werror
 
 $(NAME):	${OBJS} ${SRCSH}
 			@make -C libs/libft
-			@${CC} ${OBJS} ${CFLAGS} -L ./libs/libft -lft -o ${NAME}
+			@${CC} ${OBJS} ${CFLAGS} -L ./libs/libft -lft -L -o ${NAME}
 			@echo "\033[1;32m┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐"
 			@echo "└─┐│ ││  │  ├┤ └─┐└─┐"
 			@echo "└─┘└─┘└─┘└─┘└─┘└─┘└─┘"

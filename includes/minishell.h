@@ -8,6 +8,7 @@
 #include "structures.h"
 #include "defines.h"
 #include "libft.h"
+#include "printf.h"
 
 int		parse_line(t_data *data);
 t_data	*init_struct(char **env);

@@ -35,9 +35,7 @@ int		get_cd(t_data *data)
 		return (fnr(args, 0));
 	if (chdir(args[0]) == -1)
 	{
-		ft_putstr("No such file or directory : ");
-		ft_putstr(args[0]);
-		ft_putchar('\n');
+		ft_printf("No such file or directory : %s\n", args[0]);
 		return (fnr(args, 0));
 	}
 	return (fnr(args, 1));
