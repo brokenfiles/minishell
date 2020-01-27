@@ -11,19 +11,33 @@ int		get_split_len(char **split)
 	return (i);
 }
 
+int		check_args_cd(char *arg, char **str)
+{
+	int i;
+
+	i = 0;
+	while (arg[i] && !(arg[i] == ' ' || arg[i] == ';' || arg[i] == '|'))
+		i++;
+
+	*str = ft_substr(arg, 0, i);
+	printf("%s\n", *str);
+	return (1);
+}
+
 int		get_cd(t_data *data)
 {
-	char	**arguments;
+//	char	**arguments;
+//
+//	arguments = ft_split(data->arguments, ' ');
+//	if (get_split_len(arguments) != 1)
+//		return (0);
+	char *str;
 
-	arguments = ft_split(data->arguments, ' ');
-	if (get_split_len(arguments) != 1)
+	check_args_cd(data->arguments, &str);
+
+	if (chdir("..") == -1)
 	{
-		ft_putstr("too many arguments.\n");
-		return (0);
-	}
-	if (chdir(arguments[0]) == -1)
-	{
-		ft_putstr("this directory does not exists.\n");
+		printf("KOOOOO");
 		return (0);
 	}
 	return (1);
