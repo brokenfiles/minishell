@@ -6,12 +6,14 @@
 #    By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/27 14:21:29 by llaurent          #+#    #+#              #
-#    Updated: 2020/01/27 13:24:12 by llaurent         ###   ########.fr        #
+#    Updated: 2020/01/27 14:07:28 by llaurent         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCSC		=	libs/get_next_line/get_next_line.c\
 				libs/get_next_line/get_next_line_utils.c\
+				srcs/parsing/parse_line.c\
+				srcs/structures/init_struct.c\
 				srcs/minishell.c
 OBJS		= $(SRCSC:%.c=%.o)
 NAME		= minishell

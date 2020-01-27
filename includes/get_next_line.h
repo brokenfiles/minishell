@@ -6,7 +6,7 @@
 /*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 19:32:03 by llaurent          #+#    #+#             */
-/*   Updated: 2020/01/27 13:11:56 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/01/27 13:12:01 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <errno.h>
 
 int		free_string(char **str, int value);
 int		ft_read_fd(int fd, char **str);
