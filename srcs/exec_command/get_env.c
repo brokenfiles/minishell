@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbrignol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/04 15:04:03 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/27 15:03:41 by mbrignol         ###   ########.fr       */
+/*   Created: 2020/01/27 14:54:09 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/01/27 15:09:02 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "../../includes/minishell.h"
 
-void	ft_putchar(char c)
+int		get_env(t_data *data)
 {
-	write(1, &c, 1);
+	int i;
+
+	i = 0;
+	while (data->env[i])
+	{
+		ft_putstr(data->env[i++]);
+		ft_putchar('\n');
+	}
+	return (1);
 }

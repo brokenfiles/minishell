@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   get_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbrignol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/04 15:04:03 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/27 15:03:41 by mbrignol         ###   ########.fr       */
+/*   Created: 2020/01/27 15:17:11 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/01/27 15:18:52 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "../../includes/minishell.h"
 
-void	ft_putchar(char c)
+int		get_pwd(t_data *data)
 {
-	write(1, &c, 1);
+	if (!(getcwd(data->cwd, sizeof(data->cwd))))
+		return (0);
+	ft_putstr(data->cwd);
+	ft_putchar('\n');
+	return (1);
 }

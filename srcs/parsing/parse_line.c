@@ -6,7 +6,7 @@
 /*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:04:08 by llaurent          #+#    #+#             */
-/*   Updated: 2020/01/27 14:39:05 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/01/27 15:08:14 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ int	exec_command(t_data *data)
 {
 	if (ft_strcmp(data->command, "exit") == 0)
 		exit(EXIT_SUCCESS);
+	if (ft_strcmp(data->command, "env") == 0)
+		get_env(data);
+	if (ft_strcmp(data->command, "pwd") == 0)
+		get_pwd(data);
+
 	return (1);
 }
 

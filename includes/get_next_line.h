@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbrignol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/20 19:32:03 by llaurent          #+#    #+#             */
-/*   Updated: 2020/01/27 13:12:01 by llaurent         ###   ########.fr       */
+/*   Created: 2019/11/12 10:50:45 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/01/27 15:03:41 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# include <errno.h>
+# include "libft.h"
 
 int		free_string(char **str, int value);
 int		ft_read_fd(int fd, char **str);

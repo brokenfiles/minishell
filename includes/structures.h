@@ -6,7 +6,7 @@
 /*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 13:28:08 by llaurent          #+#    #+#             */
-/*   Updated: 2020/01/27 14:43:31 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/01/27 15:03:41 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 typedef struct	s_data
 {
+	char	**env;
 	char	*line;
 	char	*command;
 	char	*arguments;

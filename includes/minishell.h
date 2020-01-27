@@ -6,7 +6,7 @@
 /*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 12:34:32 by llaurent          #+#    #+#             */
-/*   Updated: 2020/01/27 13:33:07 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/01/27 15:06:32 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,7 @@
 #include "libft.h"
 
 int		parse_line(t_data *data);
-t_data	*init_struct();
+t_data	*init_struct(char **env);
+int		get_env(t_data *data);
+int		get_pwd(t_data *data);
 #endif
