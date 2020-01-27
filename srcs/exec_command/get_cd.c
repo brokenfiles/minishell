@@ -3,8 +3,8 @@
 
 int		get_cd(t_data *data)
 {
-	int i;
+	int index;
 
-	i = 0;
+	index = 0;
 	return (1);
 }
