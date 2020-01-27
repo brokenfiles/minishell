@@ -20,7 +20,8 @@ CFLAGS		= -Wall -Wextra -Werror
 
 $(NAME):	${OBJS} ${SRCSH}
 			@make -C libs/libft
-			@${CC} ${OBJS} ${CFLAGS} -L ./libs/libft -lft -L -o ${NAME}
+			@make -C libs/ft_printf
+			@${CC} ${OBJS} ${CFLAGS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
 			@echo "\033[1;32m┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐"
 			@echo "└─┐│ ││  │  ├┤ └─┐└─┐"
 			@echo "└─┘└─┘└─┘└─┘└─┘└─┘└─┘"
@@ -30,11 +31,13 @@ all:		${NAME}
 
 clean:
 			@make clean -C libs/libft
+			@make clean -C libs/ft_printf
 			@echo "\033[1;31mMinishell > Removing ${OBJS}\033[0;0m"
 			@${RM} ${OBJS}
 
 fclean:		clean
 			@make fclean -C libs/libft
+			@make fclean -C libs/ft_printf
 			@echo "\033[1;34mMinishell > Removing ${NAME}\033[0;0m"
 			@${RM} ${NAME}
 
