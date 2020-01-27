@@ -3,9 +3,7 @@
 
 int		get_echo(t_data *data)
 {
-	int i;
-
-	ft_putstr("echo\n");
-	i = 0;
+	ft_putstr(data->arguments);
+	ft_putstr("\n");
 	return (1);
 }
