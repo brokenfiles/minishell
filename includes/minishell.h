@@ -6,7 +6,7 @@
 /*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 12:34:32 by llaurent          #+#    #+#             */
-/*   Updated: 2020/01/27 16:21:32 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/01/27 16:25:15 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,7 @@ int		parse_line(t_data *data);
 t_data	*init_struct(char **env);
 int		get_env(t_data *data);
 int		get_pwd(t_data *data);
+int		get_echo(t_data *data);
+int		get_cd(t_data *data);
+
 #endif
