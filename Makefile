@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/27 14:21:29 by llaurent          #+#    #+#              #
-#    Updated: 2020/01/27 18:04:08 by mbrignol         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 SRCSC		=	libs/get_next_line/get_next_line.c\
 				libs/get_next_line/get_next_line_utils.c\
@@ -55,7 +44,7 @@ rc:			re
 			@make clean
 
 %:
-	@:
+			@:
 
 args = `arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
 
