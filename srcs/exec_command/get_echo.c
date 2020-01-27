@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 16:08:11 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/27 16:08:11 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/01/27 16:21:32 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		get_echo(t_data *data)
 {
 	int i;
 
+	ft_putstr("echo\n");
 	i = 0;
 	return (1);
 }
