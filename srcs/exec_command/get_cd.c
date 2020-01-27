@@ -11,34 +11,34 @@ int		get_split_len(char **split)
 	return (i);
 }
 
-int		check_args_cd(char *arg, char **str)
+int		fnr(char **splitted, int code)
 {
 	int i;
 
 	i = 0;
-	while (arg[i] && !(arg[i] == ' ' || arg[i] == ';' || arg[i] == '|'))
+	while (splitted[i])
+	{
+		free(splitted[i]);
 		i++;
-
-	*str = ft_substr(arg, 0, i);
-	printf("%s\n", *str);
-	return (1);
+	}
+	free(splitted);
+	return (code);
 }
 
 int		get_cd(t_data *data)
 {
-//	char	**arguments;
-//
-//	arguments = ft_split(data->arguments, ' ');
-//	if (get_split_len(arguments) != 1)
-//		return (0);
-	char *str;
+	char **args;
 
-	check_args_cd(data->arguments, &str);
-
-	if (chdir("..") == -1)
+	if (!(args = ft_split(data->arguments, ' ')))
+		return (fnr(args, 0));
+	if (get_split_len(args) != 1)
+		return (fnr(args, 0));
+	if (chdir(args[0]) == -1)
 	{
-		printf("KOOOOO");
-		return (0);
+		ft_putstr("No such file or directory : ");
+		ft_putstr(args[0]);
+		ft_putchar('\n');
+		return (fnr(args, 0));
 	}
-	return (1);
+	return (fnr(args, 1));
 }
