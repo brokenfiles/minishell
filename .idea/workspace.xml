@@ -8,9 +8,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c88d6e95-f0ba-43a4-9c74-4ec036e49e77" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/defines.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/defines.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/get_next_line.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/get_next_line.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/libft.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/libft.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/minishell.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/minishell.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/structures.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/structures.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/exec_command/get_cd.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/exec_command/get_cd.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/exec_command/get_echo.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/exec_command/get_echo.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/exec_command/get_env.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/exec_command/get_env.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/exec_command/get_pwd.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/exec_command/get_pwd.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/minishell.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/minishell.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/parsing/parse_line.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/parsing/parse_line.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srcs/structures/init_struct.c" beforeDir="false" afterPath="$PROJECT_DIR$/srcs/structures/init_struct.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,9 +36,15 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1WykmlWQW8sd4bCNeikN9jMRkIb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/srcs/exec_command" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -53,7 +69,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
