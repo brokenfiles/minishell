@@ -31,7 +31,10 @@ int	get_arguments(t_data *data)
 	char	*arguments;
 	int		index;
 
-	index = ft_strlen(data->command);
+	index = 0;
+	while (data->line[index] == ' ')
+		index++;
+	index += ft_strlen(data->command);
 	arguments = data->line + index;
 	while (data->line[index++] == ' ')
 		arguments++;
@@ -56,9 +59,22 @@ int	exec_command(t_data *data)
 
 int	parse_line(t_data *data)
 {
-	if (get_command(data) == 0)
-		ft_putstr(COMMAND_NOT_FOUND);
-	get_arguments(data);
-	exec_command(data);
+	char	**commands;
+
+	commands = ft_split(data->line, ';');
+	while (*commands)
+	{
+		data->line = *commands;
+		if (get_command(data) == 0)
+		{
+			ft_putstr(COMMAND_NOT_FOUND);
+			return (0);
+		}
+		get_arguments(data);
+		exec_command(data);
+//		free(*commands);
+		commands++;
+	}
+//	free(commands);
 	return (1);
 }
