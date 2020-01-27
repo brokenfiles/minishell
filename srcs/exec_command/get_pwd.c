@@ -1,3 +1,4 @@
+
 #include "../../includes/minishell.h"
 
 int		get_pwd(t_data *data)

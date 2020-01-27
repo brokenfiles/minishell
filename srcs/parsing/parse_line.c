@@ -1,3 +1,4 @@
+
 #include "../../includes/minishell.h"
 
 int	command_exists(char *command)

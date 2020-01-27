@@ -1,3 +1,4 @@
+
 #include "../../includes/minishell.h"
 
 int		get_env(t_data *data)

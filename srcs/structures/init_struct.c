@@ -1,3 +1,4 @@
+
 #include "../../includes/minishell.h"
 
 t_data	*init_struct(char **env)
