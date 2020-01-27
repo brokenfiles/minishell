@@ -1,2 +1,0 @@
-# minishell
-L’existence des shells est intrinsèquement liée à l’existence de l’informatique. À l’époque, les developpeurs étaient tous d’accord pour dire que communiquer avec un ordinateur en utilisant des interrupteurs 1/0 était fortement irritant. La suite logique a été d’inventer un moyen de communiquer via des lignes de commandes interactives dans un langage jusqu’à un certain point proche de l’anglais. Avec Minishell, vous allez voyager dans le temps et rencontrer les problèmes que les gens croisaient alors que Windows n’existait pas encore.
