@@ -6,7 +6,7 @@
 #    By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/27 14:21:29 by llaurent          #+#    #+#              #
-#    Updated: 2020/01/27 15:06:42 by mbrignol         ###   ########.fr        #
+#    Updated: 2020/01/27 15:18:40 by mbrignol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/parsing/parse_line.c\
 				srcs/structures/init_struct.c\
 				srcs/exec_command/get_env.c\
-				srcs/exec_command/get_pwd.c
+				srcs/exec_command/get_pwd.c\
+				srcs/exec_command/get_echo.c
 OBJS		= $(SRCSC:%.c=%.o)
 NAME		= minishell
 CC			= gcc
