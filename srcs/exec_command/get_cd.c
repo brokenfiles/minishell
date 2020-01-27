@@ -6,5 +6,6 @@ int		get_cd(t_data *data)
 	int i;
 
 	i = 0;
+	ft_putstr("CDCD\n");
 	return (1);
 }
