@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/27 12:33:44 by llaurent          #+#    #+#             */
-/*   Updated: 2020/01/27 14:20:48 by llaurent         ###   ########.fr       */
+/*   Created: 2020/01/27 14:41:19 by llaurent          #+#    #+#             */
+/*   Updated: 2020/01/27 14:45:31 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	main(int ac, char **av, char **env)
+t_data	*init_struct()
 {
 	t_data	*data;
 
-	data = init_struct();
-	ft_putstr(PRE_LINE);
-	while (get_next_line(0, &(data->line)) > 0)
-	{
-		parse_line(data);
-		free(data->line);
-		ft_putstr(PRE_LINE);
-	}
-	free(data->line);
-	return (EXIT_SUCCESS);
+	if (!(data = malloc(sizeof(struct s_data))))
+		return (NULL);
+	if (!(getcwd(data->cwd, sizeof(data->cwd))))
+		return (NULL);
+	return (data);
 }

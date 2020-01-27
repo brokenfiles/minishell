@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structures.h                                       :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbrignol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/27 13:28:08 by llaurent          #+#    #+#             */
-/*   Updated: 2020/01/27 14:43:31 by llaurent         ###   ########.fr       */
+/*   Created: 2019/11/04 17:01:15 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/01/27 14:28:32 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTURES_H
-#define STRUCTURES_H
+#include "../../includes/libft.h"
 
-typedef struct	s_data
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	char	*line;
-	char	*command;
-	char	*arguments;
-	char	cwd[PATH_MAX];
-}				t_data;
-#endif
+	unsigned int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && (s1[i] == s2[i]))
+	{
+		i++;
+	}
+	return (s1[i] - s2[i]);
+}
