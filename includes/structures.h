@@ -4,6 +4,7 @@
 
 typedef struct	s_data
 {
+	int		last_return;
 	char	**env;
 	char	*line;
 	char	*command;
