@@ -7,7 +7,7 @@ int	exec_prog(t_data *data)
 	pid_t	pid;
 
 	arguments = ft_split(data->line, ' ');
-	path = data->command + 2;
+	path = data->command;
 	pid = fork();
 	if (pid == 0)
 		execve(path, arguments, data->env) == -1 \

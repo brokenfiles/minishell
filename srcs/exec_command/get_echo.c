@@ -13,6 +13,6 @@ int		get_echo(t_data *data)
 		index++;
 	}
 //	ft_putstr(data->arguments);
-//	ft_putstr("\n");
+	ft_putstr("\n");
 	return (1);
 }
