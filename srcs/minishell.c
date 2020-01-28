@@ -9,6 +9,7 @@ int	main(int ac, char **av, char **env)
 	ft_putstr(PRE_LINE);
 	while (get_next_line(0, &(data->line)) > 0)
 	{
+		replace_env(data);
 		parse_line(data);
 		free(data->line);
 		ft_putstr(PRE_LINE);

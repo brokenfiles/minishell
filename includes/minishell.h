@@ -11,6 +11,7 @@
 #include "printf.h"
 
 int		parse_line(t_data *data);
+int		replace_env(t_data *data);
 t_data	*init_struct(char **env);
 int		get_env(t_data *data);
 int		get_pwd(t_data *data);
