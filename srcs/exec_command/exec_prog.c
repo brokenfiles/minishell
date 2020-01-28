@@ -15,7 +15,7 @@ int	exec_prog(t_data *data)
 		execve(data->command, arguments, data->env) == -1 \
 			? quit("permission denied", EXIT_FAILURE) : 0;
 	else if (pid < 0)
-		quit("pailed to fork", EXIT_FAILURE);
+		quit("failed to fork", EXIT_FAILURE);
 	else
 		wait(&pid);
 	free(arguments);

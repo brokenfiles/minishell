@@ -27,6 +27,6 @@ int		replace_env(t_data *data)
 		}
 		i++;
 	}
-	printf("%s\n", env);
+//	printf("%s\n", env);
 	return (0);
 }
