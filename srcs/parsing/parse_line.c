@@ -79,14 +79,14 @@ int	parse_line(t_data *data)
 		if (get_command(data) == 0)
 		{
 			ft_putstr(COMMAND_NOT_FOUND);
-			free(data->line);
+//			free(data->line);
 			return (0);
 		}
 		get_arguments(data);
 		exec_command(data);
-		free(data->line);
+//		free(data->line);
 		index++;
 	}
-	fnr(commands, 0);
+//	fnr(commands, 0);
 	return (1);
 }

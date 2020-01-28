@@ -61,7 +61,8 @@ int		get_var_env(t_data *data, char *str, int *index)
 			fnr(split, 0);
 		(*index)++;
 	}
-	return (free_string_split(split, temp, 0));
+//	return (free_string_split(split, temp, 0));
+	return (0);
 }
 
 int		is_invalid_env(t_data *data, int x)
