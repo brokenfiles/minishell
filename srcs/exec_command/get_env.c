@@ -7,6 +7,6 @@ int		get_env(t_data *data)
 
 	i = 0;
 	while (data->env[i])
-		ft_printf("%s\n", data->env[i++]));
+		ft_printf("%s\n", data->env[i++]);
 	return (1);
 }

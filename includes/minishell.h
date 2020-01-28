@@ -16,5 +16,6 @@ int		get_env(t_data *data);
 int		get_pwd(t_data *data);
 int		get_echo(t_data *data);
 int		get_cd(t_data *data);
-
+int		exec_prog(t_data *data);
+int		quit(char *error, int code);
 #endif
