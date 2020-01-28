@@ -6,7 +6,7 @@ int	command_exists(char *command)
 	if ((ft_strcmp(command, "echo") == 0) || (ft_strcmp(command, "cd") == 0)
 	|| (ft_strcmp(command, "pwd") == 0) || (ft_strcmp(command, "export") == 0)
 	|| (ft_strcmp(command, "unset") == 0) || (ft_strcmp(command, "env") == 0)
-	|| (ft_strcmp(command, "exit") == 0))
+	|| (ft_strcmp(command, "exit") == 0) || (ft_strncmp(command, "./", 2) == 0))
 		return (1);
 	return (0);
 }
@@ -44,6 +44,8 @@ int	get_arguments(t_data *data)
 
 int	exec_command(t_data *data)
 {
+	if (ft_strncmp(data->command, "./", 2) == 0)
+		exec_prog(data);
 	if (ft_strcmp(data->command, "exit") == 0)
 		exit(EXIT_SUCCESS);
 	if (ft_strcmp(data->command, "env") == 0)
