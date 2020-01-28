@@ -28,7 +28,7 @@ int		get_var_env(t_data *data, char *str, int *index)
 	char *temp;
 
 	i = 0;
-	while (str[i] != '\0' && str[i] != '$' && str[i] != ' ' && str[i] != '"' && str[i] != '\'' && str[i] != '/')
+	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
 	temp = ft_substr(str, 0, i);
 	while (data->env[(*index)])
@@ -56,7 +56,7 @@ int		is_invalid_env(t_data *data, int x)
 
 	str = &data->line[x];
 	i = 0;
-	while (str[i] != '\0' && str[i] != '$' && str[i] != ' ' && str[i] != '"' && str[i] != '\'' && str[i] != '/')
+	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
 	if (!(new_line = ft_strnew(ft_strlen(data->line) - i)))
 		return (0);
