@@ -3,6 +3,13 @@
 
 int	command_exists(char *command)
 {
+	int	fd;
+
+	if ((fd = open(command, O_RDONLY)) != -1 && (ft_strchr(command, '/')))
+	{
+		close(fd);
+		return (1);
+	}
 	if ((ft_strcmp(command, "echo") == 0) || (ft_strcmp(command, "cd") == 0)
 	|| (ft_strcmp(command, "pwd") == 0) || (ft_strcmp(command, "export") == 0)
 	|| (ft_strcmp(command, "unset") == 0) || (ft_strcmp(command, "env") == 0)
@@ -44,8 +51,6 @@ int	get_arguments(t_data *data)
 
 int	exec_command(t_data *data)
 {
-	if (ft_strncmp(data->command, "./", 2) == 0)
-		data->last_return = exec_prog(data);
 	if (ft_strcmp(data->command, "exit") == 0)
 		exit(EXIT_SUCCESS);
 	if (ft_strcmp(data->command, "env") == 0)
@@ -56,7 +61,9 @@ int	exec_command(t_data *data)
 		data->last_return = get_cd(data);
 	if (ft_strcmp(data->command, "echo") == 0)
 		data->last_return = get_echo(data);
-	return (1);
+	if ((data->last_return = exec_prog(data)) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int	parse_line(t_data *data)
