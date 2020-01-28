@@ -5,22 +5,57 @@ int		get_new_line(t_data *data, char *env, int index, int size)
 {
 	char *new_line;
 	char **splitted;
+	char *temp;
 	int i;
 	int j;
 
 	i = 0;
 	splitted = ft_split(env, '=');
 	new_line = ft_strnew(ft_strlen(data->line) - size + ft_strlen(splitted[1]));
-
-	while (i < index && data->line[i])
-	{
-		new_line[i] = data->line[i];
-		i++;
-	}
+	new_line = ft_strncat(new_line, data->line, index);
 	new_line = ft_strncat(new_line, splitted[1], ft_strlen(splitted[1]));
-	new_line = ft_strncat(new_line, &data->line[i + ft_strlen(env)], ft_strlen(data->line) - i - ft_strlen(splitted[1]));
-	printf("%s\n", new_line);
+	new_line = ft_strncat(new_line, &data->line[index + size], ft_strlen(data->line) - index - size);
+	free(data->line);
+	data->line = new_line;
+	return (fnr(splitted, 0));
+}
+
+int		get_var_env(t_data *data, char *str, int *index)
+{
+	int i;
+	int len;
+	char **split;
+	char *temp;
+
+	i = 0;
+	while (str[i] != '\0' && str[i] != '$' && str[i] != ' ' && str[i] != '"' && str[i] != '\'')
+		i++;
+	temp = ft_substr(str, 0, i);
+	while (data->env[(*index)])
+	{
+		split = ft_split(data->env[(*index)], '=');
+		if (ft_strncmp(temp, split[0], ft_strlen(split[0])) == 0)
+		{
+			len = ft_strlen(split[0]);
+			if (len == ft_strlen(temp))
+				return (fnr(split, len));
+			else
+				fnr(split, 0);
+		}
+		(*index)++;
+	}
 	return (0);
+}
+
+int		is_invalid_env(t_data *data, char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0' && str[i] != '$' && str[i] != ' ' && str[i] != '"' && str[i] != '\'')
+		i++;
+	printf("%d\n", i);
+	return (1);
 }
 
 int		replace_env(t_data *data)
@@ -29,32 +64,27 @@ int		replace_env(t_data *data)
 	int index;
 	int temp;
 	char *env;
-	char **splited;
 	char *new_line;
 
-	temp = 0;
 	index = 0;
 	i = 0;
 	while (data->line[i])
 	{
+		temp = 0;
+		index = 0;
 		if (data->line[i] == '$')
 		{
-			while (data->line[i + temp] != ' ' && data->line[i + temp])
-				temp++;
-			env = ft_substr(data->line, i + 1, temp - 1);
-			while (data->env[index])
+			if ((temp = get_var_env(data, &data->line[i + 1], &index)) == 0)
 			{
-				if (ft_strnstr(data->env[index], env, ft_strlen(env)))
-				{
-					get_new_line(data, data->env[index], i, temp);
-					break;
-				}
-				index++;
+				is_invalid_env(data, &data->line[i + 1]);
+				i++;
+				continue;
 			}
-			i = i + ft_strlen(env);
+			env = ft_substr(data->line, i + 1, temp);
+			get_new_line(data, data->env[index], i, temp + 1);
 		}
 		i++;
 	}
-//	printf("%s\n", env);
+	printf("%s\n", data->line);
 	return (0);
 }

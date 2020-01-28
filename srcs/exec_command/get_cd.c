@@ -22,6 +22,7 @@ int		fnr(char **splitted, int code)
 		i++;
 	}
 	free(splitted);
+	*splitted = NULL;
 	return (code);
 }
 
