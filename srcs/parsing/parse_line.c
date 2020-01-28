@@ -45,17 +45,17 @@ int	get_arguments(t_data *data)
 int	exec_command(t_data *data)
 {
 	if (ft_strncmp(data->command, "./", 2) == 0)
-		exec_prog(data);
+		data->last_return = exec_prog(data);
 	if (ft_strcmp(data->command, "exit") == 0)
 		exit(EXIT_SUCCESS);
 	if (ft_strcmp(data->command, "env") == 0)
-		get_env(data);
+		data->last_return = get_env(data);
 	if (ft_strcmp(data->command, "pwd") == 0)
-		get_pwd(data);
+		data->last_return = get_pwd(data);
 	if (ft_strcmp(data->command, "cd") == 0)
-		get_cd(data);
+		data->last_return = get_cd(data);
 	if (ft_strcmp(data->command, "echo") == 0)
-		get_echo(data);
+		data->last_return = get_echo(data);
 	return (1);
 }
 
