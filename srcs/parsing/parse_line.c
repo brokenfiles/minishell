@@ -69,21 +69,24 @@ int	exec_command(t_data *data)
 int	parse_line(t_data *data)
 {
 	char	**commands;
+	int		index;
 
+	index = 0;
 	commands = ft_split(data->line, ';');
-	while (*commands)
+	while (commands[index])
 	{
-		data->line = *commands;
+		data->line = commands[index];
 		if (get_command(data) == 0)
 		{
 			ft_putstr(COMMAND_NOT_FOUND);
-			// free splitted
+			free(data->line);
 			return (0);
 		}
 		get_arguments(data);
 		exec_command(data);
-		commands++;
+		free(data->line);
+		index++;
 	}
-	// free splitted
+	fnr(commands, 0);
 	return (1);
 }
