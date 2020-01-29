@@ -1,13 +1,11 @@
-
 #include "../../includes/minishell.h"
 
-int		get_new_line(t_data *data, char *env, int index, int size)
+int get_new_line(t_data *data, char *env, int index, int size)
 {
 	char *new_line;
 	char **splitted;
 	int i;
 	int j;
-
 	i = 0;
 	splitted = ft_split(env, '=');
 	new_line = ft_strnew(ft_strlen(data->line) - size + ft_strlen(splitted[1]));
@@ -19,13 +17,12 @@ int		get_new_line(t_data *data, char *env, int index, int size)
 	return (free_splitted(splitted, 0));
 }
 
-int		get_var_env(t_data *data, char *str, int *index)
+int get_var_env(t_data *data, char *str, int *index)
 {
 	int i;
 	int len;
 	char **split;
 	char *temp;
-
 	i = 0;
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
@@ -39,8 +36,7 @@ int		get_var_env(t_data *data, char *str, int *index)
 			if (len == ft_strlen(temp))
 				return (fsp(split, temp, len, NULL));
 			free_splitted(split, 0);
-		}
-		else
+		} else
 			free_splitted(split, 0);
 		(*index)++;
 	}
@@ -48,39 +44,37 @@ int		get_var_env(t_data *data, char *str, int *index)
 	return (0);
 }
 
-int		is_invalid_env(t_data *data, int x)
+int is_invalid_env(t_data *data, int x)
 {
 	int i;
 	char *new_line;
 	char *str;
-//	int empty;
-//
-//	empty = 0;
+	int empty;
+
+	empty = 0;
 	str = &data->line[x];
 	i = 0;
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
-//	empty = i == 0 ? 1 : 0;
 	str = NULL;
-	if (!(new_line = ft_strnew(ft_strlen(data->line) - i)))
+	empty = i == 0 ? 1 : 0;
+	if (!(new_line = ft_strnew(ft_strlen(data->line) + empty - i)))
 		return (0);
-	new_line = ft_strncat(new_line, &data->line[x + i], ft_strlen(data->line) - x - i);
-//	if (empty)
-//		new_line = ft_strncat(new_line, "$", 1);
 	new_line = ft_strncat(new_line, data->line, x - 1);
+	if (empty)
+		new_line = ft_strncat(new_line, "$", 1);
+	new_line = ft_strncat(new_line, &data->line[x + i], ft_strlen(data->line) - x - i);
 	free(data->line);
 	data->line = new_line;
-	printf("%s\n", data->line);
 	return (1);
 }
 
-int		replace_env(t_data *data)
+int replace_env(t_data *data)
 {
 	int i;
 	int index;
 	int temp;
 	char *new_line;
-
 	i = 0;
 	while (data->line[i])
 	{
@@ -91,6 +85,7 @@ int		replace_env(t_data *data)
 			if ((temp = get_var_env(data, &data->line[i + 1], &index)) == 0)
 			{
 				is_invalid_env(data, i + 1);
+				i++;
 				continue;
 			}
 			get_new_line(data, data->env[index], i, temp + 1);
