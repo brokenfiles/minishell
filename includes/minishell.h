@@ -20,4 +20,5 @@ int		get_cd(t_data *data);
 int		exec_prog(t_data *data);
 int		fnr(char **splitted, int code);
 int		quit(char *error, int code);
+int		parse_arguments(t_data *data);
 #endif

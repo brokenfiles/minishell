@@ -46,7 +46,7 @@ int	get_arguments(t_data *data)
 	while (data->line[index++] == ' ')
 		arguments++;
 	data->arguments = arguments;
-	parse_arguments();
+	parse_arguments(data);
 	return (1);
 }
 
