@@ -9,6 +9,7 @@ t_data	*init_struct(char **env)
 		return (NULL);
 	if (!(getcwd(data->cwd, sizeof(data->cwd))))
 		return (NULL);
+	data->line = NULL;
 	data->env = env;
 	return (data);
 }

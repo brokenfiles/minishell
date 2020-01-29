@@ -13,7 +13,7 @@ int	command_exists(char *command)
 	if ((ft_strcmp(command, "echo") == 0) || (ft_strcmp(command, "cd") == 0)
 	|| (ft_strcmp(command, "pwd") == 0) || (ft_strcmp(command, "export") == 0)
 	|| (ft_strcmp(command, "unset") == 0) || (ft_strcmp(command, "env") == 0)
-	|| (ft_strcmp(command, "exit") == 0) || (ft_strncmp(command, "./", 2) == 0))
+	|| (ft_strcmp(command, "exit") == 0))
 		return (1);
 	return (0);
 }
@@ -46,6 +46,7 @@ int	get_arguments(t_data *data)
 	while (data->line[index++] == ' ')
 		arguments++;
 	data->arguments = arguments;
+	parse_arguments();
 	return (1);
 }
 
@@ -75,18 +76,27 @@ int	parse_line(t_data *data)
 	commands = ft_split(data->line, ';');
 	while (commands[index])
 	{
-		data->line = commands[index];
+		if (data->line)
+			free(data->line);
+		data->line = ft_strdup(commands[index]);
 		if (get_command(data) == 0)
 		{
+			free(data->command);
+			fnr(commands, 0);
 			ft_putstr(COMMAND_NOT_FOUND);
-//			free(data->line);
 			return (0);
 		}
-		get_arguments(data);
+		if (!get_arguments(data))
+		{
+			free(data->command);
+			fnr(commands, 0);
+			ft_putstr(COMMAND_NOT_FOUND);
+			return (0);
+		}
 		exec_command(data);
-//		free(data->line);
+		free(data->command);
 		index++;
 	}
-//	fnr(commands, 0);
+	fnr(commands, 0);
 	return (1);
 }

@@ -61,7 +61,7 @@ int		get_var_env(t_data *data, char *str, int *index)
 			fnr(split, 0);
 		(*index)++;
 	}
-//	return (free_string_split(split, temp, 0));
+	free(temp);
 	return (0);
 }
 
@@ -90,7 +90,6 @@ int		replace_env(t_data *data)
 	int i;
 	int index;
 	int temp;
-	char *env;
 	char *new_line;
 
 	i = 0;
@@ -105,7 +104,6 @@ int		replace_env(t_data *data)
 				is_invalid_env(data, i + 1);
 				continue;
 			}
-//			env = ft_substr(data->line, i + 1, temp);
 			get_new_line(data, data->env[index], i, temp + 1);
 		}
 		i++;
