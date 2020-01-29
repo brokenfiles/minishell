@@ -46,8 +46,7 @@ int	get_arguments(t_data *data)
 	while (data->line[index++] == ' ')
 		arguments++;
 	data->arguments = arguments;
-	parse_arguments(data);
-	return (1);
+	return (parse_arguments(data));
 }
 
 int	exec_command(t_data *data)
@@ -82,7 +81,7 @@ int	parse_line(t_data *data)
 		if (get_command(data) == 0)
 			return (fsp(commands, data->command, 0, COMMAND_NOT_FOUND));
 		if (!get_arguments(data))
-			return (fsp(commands, data->command, 0, COMMAND_NOT_FOUND));
+			return (fsp(commands, data->command, 0, ARGUMENTS_ERROR));
 		exec_command(data);
 		free(data->command);
 		index++;
