@@ -44,6 +44,26 @@ int get_var_env(t_data *data, char *str, int *index)
 	return (0);
 }
 
+int	is_interrogation(t_data *data, int x)
+{
+	char *str;
+	char *new_line;
+	char *itoa;
+	int len;
+
+	itoa = ft_itoa(data->last_return);
+	str = &data->line[x];
+	len = ft_strlen(itoa);
+	if (!(new_line = ft_strnew(ft_strlen(data->line) + ft_strlen(itoa) - 1)))
+		return (0);
+	new_line = ft_strncat(new_line, data->line, x - 1);
+	new_line = ft_strncat(new_line, itoa, len);
+	new_line = ft_strncat(new_line, &data->line[x + len], ft_strlen(data->line) - x - 1);
+	free(data->line);
+	data->line = new_line;
+	return (1);
+}
+
 int is_invalid_env(t_data *data, int x)
 {
 	int i;
@@ -56,6 +76,8 @@ int is_invalid_env(t_data *data, int x)
 	i = 0;
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
+	if (str[i] != '\0' && str[i] == '?')
+		return (is_interrogation(data, x));
 	str = NULL;
 	empty = i == 0 ? 1 : 0;
 	if (!(new_line = ft_strnew(ft_strlen(data->line) + empty - i)))
