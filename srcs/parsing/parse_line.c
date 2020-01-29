@@ -80,23 +80,13 @@ int	parse_line(t_data *data)
 			free(data->line);
 		data->line = ft_strdup(commands[index]);
 		if (get_command(data) == 0)
-		{
-			free(data->command);
-			fnr(commands, 0);
-			ft_putstr(COMMAND_NOT_FOUND);
-			return (0);
-		}
+			return (fsp(commands, data->command, 0, COMMAND_NOT_FOUND));
 		if (!get_arguments(data))
-		{
-			free(data->command);
-			fnr(commands, 0);
-			ft_putstr(COMMAND_NOT_FOUND);
-			return (0);
-		}
+			return (fsp(commands, data->command, 0, COMMAND_NOT_FOUND));
 		exec_command(data);
 		free(data->command);
 		index++;
 	}
-	fnr(commands, 0);
+	free_splitted(commands, 0);
 	return (1);
 }

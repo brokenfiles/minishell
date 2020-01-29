@@ -18,7 +18,9 @@ int		get_pwd(t_data *data);
 int		get_echo(t_data *data);
 int		get_cd(t_data *data);
 int		exec_prog(t_data *data);
-int		fnr(char **splitted, int code);
+int		fsp(char **splitted, char *str, int code, char *message);
+int		fnr(void (*f)(void *), void *mem, int code, char *message);
+int		free_splitted(char **splitted, int code);
 int		quit(char *error, int code);
 int		parse_arguments(t_data *data);
 #endif

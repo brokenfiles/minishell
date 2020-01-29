@@ -1,23 +1,6 @@
 
 #include "../../includes/minishell.h"
 
-int		free_string_split(char **splitted, char *str, int code)
-{
-	int i;
-
-	i = 0;
-	while (splitted[i])
-	{
-		free(splitted[i]);
-		i++;
-	}
-	free(splitted);
-	*splitted = NULL;
-	free(str);
-	str = NULL;
-	return (code);
-}
-
 int		get_new_line(t_data *data, char *env, int index, int size)
 {
 	char *new_line;
@@ -33,7 +16,7 @@ int		get_new_line(t_data *data, char *env, int index, int size)
 	new_line = ft_strncat(new_line, &data->line[index + size], ft_strlen(data->line) - index - size);
 	free(data->line);
 	data->line = new_line;
-	return (fnr(splitted, 0));
+	return (free_splitted(splitted, 0));
 }
 
 int		get_var_env(t_data *data, char *str, int *index)
@@ -54,11 +37,11 @@ int		get_var_env(t_data *data, char *str, int *index)
 		{
 			len = ft_strlen(split[0]);
 			if (len == ft_strlen(temp))
-				return (free_string_split(split, temp, len));
-			fnr(split, 0);
+				return (fsp(split, temp, len, NULL));
+			free_splitted(split, 0);
 		}
 		else
-			fnr(split, 0);
+			free_splitted(split, 0);
 		(*index)++;
 	}
 	free(temp);
