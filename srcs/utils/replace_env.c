@@ -60,6 +60,7 @@ int	is_interrogation(t_data *data, int x)
 	new_line = ft_strncat(new_line, itoa, len);
 	new_line = ft_strncat(new_line, &data->line[x + len], ft_strlen(data->line) - x - 1);
 	free(data->line);
+	free(itoa);
 	data->line = new_line;
 	return (1);
 }
