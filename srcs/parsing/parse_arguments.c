@@ -3,5 +3,5 @@
 
 int parse_arguments(t_data *data)
 {
-	return (0);
+	return (1);
 }
