@@ -5,13 +5,13 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/parsing/parse_line.c\
 				srcs/parsing/parse_arguments.c\
 				srcs/structures/init_struct.c\
-				srcs/exec_command/get_env.c\
-				srcs/exec_command/get_pwd.c\
-				srcs/exec_command/get_echo.c\
+				srcs/exec_command/command_env.c\
+				srcs/exec_command/command_pwd.c\
+				srcs/exec_command/command_echo.c\
+				srcs/exec_command/command_cd.c\
 				srcs/exec_command/exec_prog.c\
-				srcs/exec_command/get_cd.c\
 				srcs/utils/errors.c\
-				srcs/utils/remplace_env.c
+				srcs/utils/replace_env.c
 OBJS		= $(SRCSC:%.c=%.o)
 NAME		= minishell
 CC			= gcc
