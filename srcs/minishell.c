@@ -11,8 +11,8 @@ int	main(int ac, char **av, char **env)
 	{
 		replace_env(data);
 		parse_line(data);
-		free(data->line);
 		ft_putstr(PRE_LINE);
+		free(data->line);
 	}
 	free(data->line);
 	return (EXIT_SUCCESS);

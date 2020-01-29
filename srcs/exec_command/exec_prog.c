@@ -13,11 +13,11 @@ int	exec_prog(t_data *data)
 	pid = fork();
 	if (pid == 0)
 		execve(data->command, arguments, data->env) == -1 \
-			? quit("permission denied", EXIT_FAILURE) : 0;
+			? quit("permission denied", fnr(arguments, EXIT_FAILURE)) : 0;
 	else if (pid < 0)
-		quit("failed to fork", EXIT_FAILURE);
+		quit("failed to fork", fnr(arguments, EXIT_FAILURE));
 	else
 		wait(&pid);
-	free(arguments);
+	fnr(arguments, 0);
 	return (EXIT_SUCCESS);
 }
