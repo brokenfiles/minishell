@@ -15,8 +15,7 @@ int		get_cd(t_data *data)
 {
 	char **args;
 
-	if (!(args = ft_split(data->arguments, ' ')))
-		return (free_splitted(args, 0));
+	args = data->arguments;
 	if (get_split_len(args) != 1)
 		return (free_splitted(args, 0));
 	if (chdir(args[0]) == -1)

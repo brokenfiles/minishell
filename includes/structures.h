@@ -8,7 +8,8 @@ typedef struct	s_data
 	char	**env;
 	char	*line;
 	char	*command;
-	char	*arguments;
+	char	*arguments_line;
+	char	**arguments;
 	char	cwd[PATH_MAX];
 }				t_data;
 #endif
