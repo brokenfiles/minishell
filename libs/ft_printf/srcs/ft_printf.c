@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jchotel <jchotel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 12:31:31 by llaurent          #+#    #+#             */
-/*   Updated: 2019/11/26 13:38:26 by llaurent         ###   ########.fr       */
+/*   Created: 2019/11/25 12:31:31 by jchotel           #+#    #+#             */
+/*   Updated: 2020/01/30 17:44:38 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	ft_printf(const char *str, ...)
 	{
 		if (*str == '%')
 		{
-			reset_arg_param(&arg);
+			reset_arg(&arg);
 			str++;
-			while (set_arg_param(&arg, &*((char *)str), va) && *str)
+			while (set_arg(&arg, &*((char *)str), va) && *str)
 				str++;
-			handler_arg(va, &arg, &count);
+			set_buff(va, &arg, &count);
 		}
 		else
 			ft_putchar_count(*(str++), &count);

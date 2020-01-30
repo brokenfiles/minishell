@@ -10,19 +10,18 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCSC		= 	srcs/ft_handlers.c\
-				srcs/ft_handlers_2.c\
+SRCSC		= 	srcs/ft_put.c\
+				srcs/ft_put2.c\
 				srcs/ft_printf.c\
-				srcs/ft_strjoin_c.c\
+				srcs/handler_arg.c\
+				srcs/handler_buff.c\
 				srcs/handler_c.c\
 				srcs/handler_diu.c\
 				srcs/handler_o.c\
 				srcs/handler_px.c\
 				srcs/handler_s.c\
-				srcs/handler_struct.c\
-				srcs/handler_utils.c\
-				srcs/handler_utils_2.c
-SRCSH		= ../../includes/printf.h
+				srcs/utils.c\
+				srcs/ft_strjoin_c.c
 OBJS		= $(SRCSC:%.c=%.o)
 NAME		= libftprintf.a
 CC			= gcc

@@ -25,5 +25,7 @@ int		free_splitted(char **splitted, int code);
 char	**ft_split_spec(char const *s, char c);
 int		quit(char *error, int code);
 int		parse_arguments(t_data *data);
+int		get_last_char(char *str, char c);
 char	*get_env_str(t_data *data, char *temp);
+int		get_next_char(char *str, char c);
 #endif
