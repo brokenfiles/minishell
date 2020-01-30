@@ -50,6 +50,8 @@ int		get_unset(t_data *data)
 
 	index = 0;
 	i = 0;
+	if (ft_bigstrlen(data->arguments) < 1)
+		return (0);
 	while (data->env[i])
 	{
 		split = ft_split(data->env[i], '=');

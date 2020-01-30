@@ -44,7 +44,6 @@ int		free_splitted(char **splitted, int code)
 		i++;
 	}
 	free(splitted);
-	*splitted = NULL;
 	return (code);
 }
 
