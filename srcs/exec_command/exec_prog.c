@@ -37,10 +37,10 @@ int	exec_prog(t_data *data)
 	}
 	arguments = ft_split_spec(data->line, ' ');
 	index = 0;
-	while (data->arguments[index])
+	while (arguments[index])
 	{
-		tmp = data->arguments[index];
-		data->arguments[index] = ft_strtrim(data->arguments[index], "\"'");
+		tmp = arguments[index];
+		arguments[index] = ft_strtrim(arguments[index], "\"'");
 		free(tmp);
 		index++;
 	}
