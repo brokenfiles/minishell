@@ -35,7 +35,15 @@ int	exec_prog(t_data *data)
 		}
 		free_splitted(paths, 0);
 	}
-	arguments = ft_split(data->line, ' ');
+	arguments = ft_split_spec(data->line, ' ');
+	index = 0;
+	while (arguments[index])
+	{
+		tmp = arguments[index];
+		arguments[index] = ft_strtrim(arguments[index], "\"'");
+		free(tmp);
+		index++;
+	}
 	pid = fork();
 	if (pid == 0)
 		execve(data->command, arguments, data->env) == -1 \

@@ -75,7 +75,6 @@ int parse_arguments(t_data *data)
 	{
 		tmp = data->arguments[index];
 		data->arguments[index] = ft_strtrim(data->arguments[index], "\"'");
-//		ft_printf("argu -> %s\n", data->arguments[index]);
 		free(tmp);
 		index++;
 	}

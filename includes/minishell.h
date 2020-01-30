@@ -23,6 +23,7 @@ int		get_var_env(t_data *data, char *str, int *index);
 int		fsp(char **splitted, char *str, int code, char *message);
 int		fnr(void (*f)(void *), void *mem, int code, char *message);
 int		free_splitted(char **splitted, int code);
+char	**ft_split_spec(char const *s, char c);
 int		quit(char *error, int code);
 int		parse_arguments(t_data *data);
 char	*get_env_str(t_data *data, char *temp);
