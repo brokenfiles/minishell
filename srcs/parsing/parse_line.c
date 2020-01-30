@@ -82,8 +82,8 @@ int	exec_command(t_data *data)
 		data->last_return = get_cd(data);
 	else if (ft_strcmp(data->command, "echo") == 0)
 		data->last_return = get_echo(data);
-//	else if (ft-strcmp(data->command, "unset") == 0)
-//		data->last_return = get_unset(data);
+	else if (ft_strcmp(data->command, "unset") == 0)
+		data->last_return = get_unset(data);
 	else if ((data->last_return = exec_prog(data)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
