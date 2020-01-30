@@ -8,7 +8,8 @@ int		get_echo(t_data *data)
 	index = 0;
 	while (data->arguments[index])
 	{
-		ft_printf("%s ", data->arguments[index]);
+		ft_putstr(data->arguments[index]);
+		ft_putstr(" ");
 		index++;
 	}
 //	ft_putstr(data->arguments);

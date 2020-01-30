@@ -21,12 +21,16 @@ int	exec_prog(t_data *data)
 		while (paths[index])
 		{
 			joined = ft_strjoin(paths[index], "/");
+			tmp = joined;
 			stat((joined = ft_strjoin(joined, data->command)), &buff);
+			free(tmp);
 			if (S_ISREG(buff.st_mode))
 			{
+				free(data->command);
 				data->command = joined;
 				break;
 			}
+			free(joined);
 			index++;
 		}
 		free_splitted(paths, 0);

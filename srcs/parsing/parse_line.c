@@ -6,10 +6,16 @@ int	command_exists(t_data *data)
 	struct stat	buf;
 	char		**paths;
 	char		*joined;
+	char		*tmp;
 	int			index;
 	char		*command;
 
 	command = data->command;
+	if ((ft_strcmp(command, "echo") == 0) || (ft_strcmp(command, "cd") == 0)
+		|| (ft_strcmp(command, "pwd") == 0) || (ft_strcmp(command, "export") == 0)
+		|| (ft_strcmp(command, "unset") == 0) || (ft_strcmp(command, "env") == 0)
+		|| (ft_strcmp(command, "exit") == 0))
+		return (1);
 	index = 0;
 	stat(command, &buf);
 	if ((S_ISREG(buf.st_mode) && (ft_strchr(command, '/'))))
@@ -21,17 +27,15 @@ int	command_exists(t_data *data)
 	while (paths[index])
 	{
 		joined = ft_strjoin(paths[index], "/");
+		tmp = joined;
 		stat((joined = ft_strjoin(joined, command)), &buf);
+		free(tmp);
 		free(joined);
 		if ((S_ISREG(buf.st_mode)))
 			return (free_splitted(paths, 1));
 		index++;
 	}
-	if ((ft_strcmp(command, "echo") == 0) || (ft_strcmp(command, "cd") == 0)
-	|| (ft_strcmp(command, "pwd") == 0) || (ft_strcmp(command, "export") == 0)
-	|| (ft_strcmp(command, "unset") == 0) || (ft_strcmp(command, "env") == 0)
-	|| (ft_strcmp(command, "exit") == 0))
-		return (1);
+	free_splitted(paths, 1);
 	return (0);
 }
 
@@ -101,6 +105,7 @@ int	parse_line(t_data *data)
 			return (fsp(commands, data->command, 0, ARGUMENTS_ERROR));
 		exec_command(data);
 		free(data->command);
+		free_splitted(data->arguments, 0);
 		index++;
 	}
 	free_splitted(commands, 0);

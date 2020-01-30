@@ -17,13 +17,13 @@ int		get_cd(t_data *data)
 
 	args = data->arguments;
 	if (get_split_len(args) != 1)
-		return (free_splitted(args, 0));
+		return (0);
 	if (chdir(args[0]) == -1)
 	{
 		ft_printf("No such file or directory : %s\n", args[0]);
-		return (free_splitted(args, 0));
+		return (0);
 	}
 	if (!(getcwd(data->cwd, sizeof(data->cwd))))
 		return (0);
-	return (free_splitted(args, 1));
+	return (1);
 }
