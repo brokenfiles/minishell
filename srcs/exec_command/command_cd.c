@@ -23,5 +23,7 @@ int		get_cd(t_data *data)
 		ft_printf("No such file or directory : %s\n", args[0]);
 		return (free_splitted(args, 0));
 	}
+	if (!(getcwd(data->cwd, sizeof(data->cwd))))
+		return (0);
 	return (free_splitted(args, 1));
 }

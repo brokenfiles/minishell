@@ -1,14 +1,28 @@
 
 #include "../../includes/minishell.h"
 
-int	command_exists(char *command)
+int	command_exists(t_data *data)
 {
-	int	fd;
+	struct stat	buf;
+	char		**paths;
+	char		*joined;
+	int			index;
+	char		*command;
 
-	if ((fd = open(command, O_RDONLY)) != -1 && (ft_strchr(command, '/')))
-	{
-		close(fd);
+	command = data->command;
+	index = 0;
+	stat(command, &buf);
+	if ((S_ISREG(buf.st_mode) && (ft_strchr(command, '/'))))
 		return (1);
+	paths = ft_split("/Users/llaurent/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public/:/usr/local/mongodb/bin:/usr/local/munki", ':'); // replace par la vrai valeur
+	while (paths[index])
+	{
+		joined = ft_strjoin(paths[index, "/"]);
+		stat((joined = ft_strjoin(joined, command)), &buf);
+		free(joined);
+		if ((S_ISREG(buf.st_mode)))
+			return (free_splitted(paths, 1));
+		index++;
 	}
 	if ((ft_strcmp(command, "echo") == 0) || (ft_strcmp(command, "cd") == 0)
 	|| (ft_strcmp(command, "pwd") == 0) || (ft_strcmp(command, "export") == 0)
@@ -30,7 +44,7 @@ int	get_command(t_data *data)
 	while (data->line[len + start] && data->line[len + start] != ' ')
 		len++;
 	data->command = ft_substr(data->line, start, len);
-	return (command_exists(data->command));
+	return (command_exists(data));
 }
 
 int	get_arguments(t_data *data)

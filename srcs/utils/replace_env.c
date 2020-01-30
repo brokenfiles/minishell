@@ -23,6 +23,7 @@ int get_var_env(t_data *data, char *str, int *index)
 	int len;
 	char **split;
 	char *temp;
+
 	i = 0;
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
