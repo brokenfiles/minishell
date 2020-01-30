@@ -17,7 +17,7 @@ int	command_exists(t_data *data)
 	paths = ft_split("/Users/llaurent/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public/:/usr/local/mongodb/bin:/usr/local/munki", ':'); // replace par la vrai valeur
 	while (paths[index])
 	{
-		joined = ft_strjoin(paths[index, "/"]);
+		joined = ft_strjoin(paths[index], "/");
 		stat((joined = ft_strjoin(joined, command)), &buf);
 		free(joined);
 		if ((S_ISREG(buf.st_mode)))
