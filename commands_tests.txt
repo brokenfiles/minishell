@@ -1,0 +1,2 @@
+unset LESS PAGER HOME USER PATH HOMEBREW HOMBREW SALUT PATH
+echo "$HOME$HOME$PATH$LESS   " ca va ; echo yo lekip
