@@ -11,7 +11,8 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/exec_command/command_cd.c\
 				srcs/exec_command/exec_prog.c\
 				srcs/utils/errors.c\
-				srcs/utils/replace_env.c
+				srcs/utils/replace_env.c\
+				srcs/utils/get_env.c
 OBJS		= $(SRCSC:%.c=%.o)
 NAME		= minishell
 CC			= gcc

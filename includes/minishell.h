@@ -24,4 +24,5 @@ int		fnr(void (*f)(void *), void *mem, int code, char *message);
 int		free_splitted(char **splitted, int code);
 int		quit(char *error, int code);
 int		parse_arguments(t_data *data);
+char	*get_env_str(t_data *data, char *temp);
 #endif
