@@ -2,14 +2,36 @@
 
 int	exec_prog(t_data *data)
 {
-	char	**arguments;
-	pid_t	pid;
-	int		fd;
+	struct stat	buff;
+	char		**arguments;
+	char		**paths;
+	char		*joined;
+	char		*tmp;
+	pid_t		pid;
+	int			index;
 
-	if ((fd = open(data->command, O_RDONLY)) == -1)
-		return (EXIT_FAILURE);
+	index = 0;
+	stat(data->command, &buff);
+	if (!S_ISREG(buff.st_mode))
+	{
+		if (!(joined = get_env_str(data, "PATH")))
+			return (0);
+		paths = ft_split(joined, ':');
+		free(joined);
+		while (paths[index])
+		{
+			joined = ft_strjoin(paths[index], "/");
+			stat((joined = ft_strjoin(joined, data->command)), &buff);
+			if (S_ISREG(buff.st_mode))
+			{
+				data->command = joined;
+				break;
+			}
+			index++;
+		}
+		free_splitted(paths, 0);
+	}
 	arguments = ft_split(data->line, ' ');
-	close(fd);
 	pid = fork();
 	if (pid == 0)
 		execve(data->command, arguments, data->env) == -1 \

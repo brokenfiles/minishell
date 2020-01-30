@@ -14,7 +14,10 @@ int	command_exists(t_data *data)
 	stat(command, &buf);
 	if ((S_ISREG(buf.st_mode) && (ft_strchr(command, '/'))))
 		return (1);
-	paths = ft_split("/Users/llaurent/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public/:/usr/local/mongodb/bin:/usr/local/munki", ':'); // replace par la vrai valeur
+	if (!(joined = get_env_str(data, "PATH")))
+		return (0);
+	paths = ft_split(joined, ':');
+	free(joined);
 	while (paths[index])
 	{
 		joined = ft_strjoin(paths[index], "/");
@@ -67,15 +70,15 @@ int	exec_command(t_data *data)
 {
 	if (ft_strcmp(data->command, "exit") == 0)
 		exit(EXIT_SUCCESS);
-	if (ft_strcmp(data->command, "env") == 0)
+	else if (ft_strcmp(data->command, "env") == 0)
 		data->last_return = get_env(data);
-	if (ft_strcmp(data->command, "pwd") == 0)
+	else if (ft_strcmp(data->command, "pwd") == 0)
 		data->last_return = get_pwd(data);
-	if (ft_strcmp(data->command, "cd") == 0)
+	else if (ft_strcmp(data->command, "cd") == 0)
 		data->last_return = get_cd(data);
-	if (ft_strcmp(data->command, "echo") == 0)
+	else if (ft_strcmp(data->command, "echo") == 0)
 		data->last_return = get_echo(data);
-	if ((data->last_return = exec_prog(data)) == EXIT_FAILURE)
+	else if ((data->last_return = exec_prog(data)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
