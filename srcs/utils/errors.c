@@ -13,7 +13,8 @@ int		fsp(char **splitted, char *str, int code, char *message)
 		ft_printf("%s\n", message);
 	while (splitted[i])
 	{
-		free(splitted[i]);
+		if (splitted[i])
+			free(splitted[i]);
 		i++;
 	}
 	free(splitted);
@@ -38,7 +39,8 @@ int		free_splitted(char **splitted, int code)
 	i = 0;
 	while (splitted[i])
 	{
-		free(splitted[i]);
+		if (splitted[i])
+			free(splitted[i]);
 		i++;
 	}
 	free(splitted);
@@ -48,7 +50,7 @@ int		free_splitted(char **splitted, int code)
 
 int	quit(char *error, int code)
 {
-	printf("minishell: %s\n", error);
+	ft_printf("minishell: %s\n", error);
 	exit(code);
 	return (code);
 }
