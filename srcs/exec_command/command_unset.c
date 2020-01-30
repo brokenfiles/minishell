@@ -52,7 +52,7 @@ int		get_unset(t_data *data)
 	i = 0;
 	if (ft_bigstrlen(data->arguments) < 1)
 		return (0);
-	while (data->env[i])
+	while (ft_bigstrlen(data->env) > i && data->env[i])
 	{
 		split = ft_split(data->env[i], '=');
 		if (ft_strcmp(split[0], data->arguments[index]) == 0)
@@ -68,9 +68,11 @@ int		get_unset(t_data *data)
 					continue;
 				}
 			}
+			//TODO : WHILE STILL BAD VAR
 		}
 		free_splitted(split, 0);
 		i++;
+		
 	}
 	return (1);
 }
