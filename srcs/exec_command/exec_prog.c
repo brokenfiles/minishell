@@ -36,6 +36,14 @@ int	exec_prog(t_data *data)
 		free_splitted(paths, 0);
 	}
 	arguments = ft_split_spec(data->line, ' ');
+	index = 0;
+	while (data->arguments[index])
+	{
+		tmp = data->arguments[index];
+		data->arguments[index] = ft_strtrim(data->arguments[index], "\"'");
+		free(tmp);
+		index++;
+	}
 	pid = fork();
 	if (pid == 0)
 		execve(data->command, arguments, data->env) == -1 \
