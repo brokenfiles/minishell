@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_handlers.c                                      :+:      :+:    :+:   */
+/*   ft_put.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jchotel <jchotel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 12:35:06 by llaurent          #+#    #+#             */
-/*   Updated: 2019/11/25 12:35:06 by llaurent         ###   ########.fr       */
+/*   Created: 2020/01/22 19:52:44 by jchotel           #+#    #+#             */
+/*   Updated: 2020/01/30 18:05:41 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	ft_putnbr_u_buff(char **buffer, unsigned int nb)
 
 void	ft_putstr_buff(char **buffer, char *str)
 {
-	int		index;
-	char	*tmp;
+	int index;
+	char *tmp;
 
 	tmp = NULL;
 	index = 0;
@@ -50,7 +50,7 @@ void	ft_putstr_buff(char **buffer, char *str)
 			index++;
 		}
 		free(tmp);
-		return ;
+		return;
 	}
 	while (str[index])
 		ft_strjoin_c(buffer, str[index++]);

@@ -6,7 +6,7 @@
 /*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:32:25 by llaurent          #+#    #+#             */
-/*   Updated: 2019/11/25 12:32:25 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/01/30 18:55:18 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PRINTF_H
 # include <stdarg.h>
 # include <stdio.h>
+# include "libft.h"
 
 typedef struct	s_arg
 {
@@ -21,9 +22,9 @@ typedef struct	s_arg
 	char	flag;
 	char	precision;
 	char	modi;
-	int		width1;
-	int		width2;
-	char	pchar;
+	char	pos;
+	int		w1;
+	int		w2;
 	int		flag_s;
 }				t_arg;
 
@@ -37,17 +38,17 @@ void			handle_x(char *buffer, t_arg *arg, int *count, int i);
 void			handle_s(char *buffer, t_arg *arg, int *count, int i);
 void			padding(char c, int len, int *count);
 void			handle_100(char *buffer, t_arg *arg, int *count, int i);
-void			handler_arg(va_list va, t_arg *arg, int *count);
-int				set_arg_param(t_arg *arg, char *handler, va_list va);
+void			set_buff(va_list va, t_arg *arg, int *count);
+int				set_arg(t_arg *arg, char *handler, va_list va);
 void			handler_buff(char *buffer, t_arg *arg, int *count);
-void			reset_arg_param(t_arg *arg);
+void			reset_arg(t_arg *arg);
 void			ft_putchar_count(char c, int *count);
 void			ft_putnbr_buff(char **buffer, int nb);
 void			ft_putnbr_u_buff(char **buffer, unsigned int nb);
 void			ft_putstr_count(char *str, int *count, int len);
 void			ft_putstr_buff(char **buffer, char *str);
 void			ft_puthexa_buff(char **buffer, long int nb, t_arg *arg,
-		int flag);
+								int flag);
 void			ft_putoctal_buff(char **buffer, int nb);
 void			ft_strjoin_c(char **s1, char s2);
 void			ft_putchar_buff(char **buffer, int c);
