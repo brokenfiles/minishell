@@ -10,6 +10,7 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/exec_command/command_echo.c\
 				srcs/exec_command/command_cd.c\
 				srcs/exec_command/command_unset.c\
+				srcs/exec_command/command_export.c\
 				srcs/exec_command/exec_prog.c\
 				srcs/utils/string_utils.c\
 				srcs/utils/errors.c\

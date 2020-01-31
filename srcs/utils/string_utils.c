@@ -40,3 +40,35 @@ void	write_preline(t_data *data)
 	&& ft_strlen(data->cwd) != 1) ?
 	data->cwd + get_last_char(data->cwd, '/') + 1 : data->cwd));
 }
+
+int		remove_quotes(char **str)
+{
+	int i;
+	int x;
+	char *new;
+
+	i = 0;
+	x = 0;
+	while ((*str)[i])
+	{
+		if (((*str)[i] && (*str)[i] != '\'' && (*str)[i] != '"'))
+			x++;
+		i++;
+	}
+	if (!(new = ft_strnew(x)))
+		return (-1);
+	i = 0;
+	x = 0;
+	while ((*str)[i])
+	{
+		if (((*str)[i] != '\'') && ((*str)[i] != '"'))
+		{
+			new[x] = (*str)[i];
+			x++;
+		}
+		i++;
+	}
+	free(*str);
+	*str = new;
+	return (1);
+}
