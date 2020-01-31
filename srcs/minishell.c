@@ -6,13 +6,13 @@ t_data	*g_data;
 void	cancel()
 {
 	ft_putchar('\n');
-	ft_printf(PRE_LINE, ((get_last_char(g_data->cwd, '/') != -1 && ft_strlen(g_data->cwd) != 1) ? g_data->cwd + get_last_char(g_data->cwd, '/') + 1 : g_data->cwd));
+	write_preline(g_data);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	g_data = init_struct(env);
-	ft_printf(PRE_LINE, ((get_last_char(g_data->cwd, '/') != -1 && ft_strlen(g_data->cwd) != 1) ? g_data->cwd + get_last_char(g_data->cwd, '/') + 1 : g_data->cwd));
+	write_preline(g_data);
 	signal(SIGINT, cancel);
 	while (get_next_line(0, &(g_data->line)) > 0)
 	{
@@ -21,7 +21,7 @@ int	main(int ac, char **av, char **env)
 		parse_line(g_data);
 		free(g_data->line);
 		g_data->line = NULL;
-		ft_printf(PRE_LINE, ((get_last_char(g_data->cwd, '/') != -1 && ft_strlen(g_data->cwd) != 1) ? g_data->cwd + get_last_char(g_data->cwd, '/') + 1 : g_data->cwd));
+		write_preline(g_data);
 	}
 	free(g_data->line);
 	return (EXIT_SUCCESS);
