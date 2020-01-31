@@ -1,13 +1,11 @@
 
 #include "../../includes/minishell.h"
 
-char	*get_only_export_var(char *str)
+char	*get_only_export_var(t_data *data, int x)
 {
 	int i;
-	int x;
 	char *new;
 
-	x = 0;
 	i = 0;
 	while (data->arguments[x][i] && ft_isalnum(data->arguments[x][i]))
 		i++;
@@ -17,22 +15,37 @@ char	*get_only_export_var(char *str)
 		return (NULL);
 	while (data->arguments[x][i] && ft_isprint(data->arguments[x][i]))
 		i++;
-	if (!(new = ft_substr(str, 0, i)))
+	if (!(new = ft_substr(data->arguments[x], 0, i)))
 		return (NULL);
 	return (new);
 }
 
-int		get_export(t_data *data)
+int		add_export(t_data *data, char *export)
 {
 	int i;
+	int len;
+	char **new_env;
+	len = ft_bigstrlen(data->env);
+	i = 0;
+
+	if (!(new_env = malloc(sizeof(char*) * (len + 2))))
+		return (0);
+	while (data->env[i])
+		new_env = ft_strdup(data->env[i++]);
+	return (1);
+}
+
+int		get_export(t_data *data)
+{
+	int x;
 	char *export;
 
 	x = 0;
 	while (data->arguments[x])
 	{
-		if ((export = get_only_export_var(data->arguments[x])) != NULL)
+		if ((export = get_only_export_var(data, x)) != NULL)
 		{
-			add_export(export);
+			add_export(data, export);
 
 		}
 		x++;
