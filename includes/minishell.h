@@ -18,6 +18,7 @@ int		get_pwd(t_data *data);
 int		get_echo(t_data *data);
 int		get_cd(t_data *data);
 int		get_unset(t_data *data);
+int		get_export(t_data *data);
 int		exec_prog(t_data *data);
 int		get_var_env(t_data *data, char *str, int *index);
 int		fsp(char **splitted, char *str, int code, char *message);

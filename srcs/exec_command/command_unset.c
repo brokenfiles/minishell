@@ -68,11 +68,14 @@ int		get_unset(t_data *data)
 					continue;
 				}
 			}
-			//TODO : WHILE STILL BAD VAR
 		}
 		free_splitted(split, 0);
 		i++;
-		
+		if (i >= ft_bigstrlen(data->env) && data->arguments[index + 1])
+		{
+			i = 0;
+			index++;
+		}
 	}
 	return (1);
 }
