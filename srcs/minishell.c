@@ -16,6 +16,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, cancel);
 	while (get_next_line(0, &(g_data->line)) > 0)
 	{
+		ft_printf("\033[0;0m");
 		replace_env(g_data);
 		parse_line(g_data);
 		free(g_data->line);
