@@ -30,4 +30,5 @@ int		parse_arguments(t_data *data);
 int		get_last_char(char *str, char c);
 char	*get_env_str(t_data *data, char *temp);
 int		get_next_char(char *str, char c);
+void	write_preline(t_data *data);
 #endif

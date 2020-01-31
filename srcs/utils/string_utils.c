@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	get_next_char(char *str, char c)
+int		get_next_char(char *str, char c)
 {
 	int	index;
 
@@ -16,7 +16,7 @@ int	get_next_char(char *str, char c)
 	return (-1);
 }
 
-int	get_last_char(char *str, char c)
+int		get_last_char(char *str, char c)
 {
 	int	index;
 	int	last_char;
@@ -32,4 +32,11 @@ int	get_last_char(char *str, char c)
 	if (str[index] == c)
 		last_char = index;
 	return (last_char);
+}
+
+void	write_preline(t_data *data)
+{
+	ft_printf(PRE_LINE, ((get_last_char(data->cwd, '/') != -1
+	&& ft_strlen(data->cwd) != 1) ?
+	data->cwd + get_last_char(data->cwd, '/') + 1 : data->cwd));
 }
