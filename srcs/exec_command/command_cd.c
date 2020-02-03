@@ -19,7 +19,11 @@ int		get_cd(t_data *data)
 	args = data->arguments;
 	if (get_split_len(args) == 0)
 	{
-		env = get_env_str(data, "HOME");
+		if ((env = get_env_str(data, "HOME")) == NULL)
+		{
+			ft_printf("$HOME variable does not exists.\n");
+			return (0);
+		}
 		if (chdir(env) == -1)
 		{
 			ft_printf("No such file or directory : %s\n", env);
