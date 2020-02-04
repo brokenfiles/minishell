@@ -72,11 +72,6 @@ int parse_arguments(t_data *data)
 	index = 0;
 	data->arguments = ft_split_spec(data->arguments_line, ' ');
 	while (data->arguments[index])
-	{
-		tmp = data->arguments[index];
-		data->arguments[index] = ft_strtrim(data->arguments[index], "\"'");
-		free(tmp);
-		index++;
-	}
+		remove_quotes(&data->arguments[index++]);
 	return (1);
 }

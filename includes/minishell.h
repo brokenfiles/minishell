@@ -5,8 +5,8 @@
 #include <libc.h>
 #include <errno.h>
 #include "get_next_line.h"
-#include "structures.h"
 #include "defines.h"
+#include "structures.h"
 #include "libft.h"
 #include "printf.h"
 

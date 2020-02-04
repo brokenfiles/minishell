@@ -7,7 +7,6 @@ typedef struct	s_redirect
 	int		pos;
 	int		type;
 	int		way;
-
 }				t_redirect;
 typedef struct	s_data
 {
