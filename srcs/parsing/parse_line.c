@@ -103,6 +103,7 @@ int	parse_line(t_data *data)
 		if (data->line)
 			free(data->line);
 		data->line = ft_strdup(commands[index]);
+		get_redirections(data);
 		if (get_command(data) == 0)
 			return (fsp(commands, data->command, 0, COMMAND_NOT_FOUND));
 		if (!get_arguments(data))
