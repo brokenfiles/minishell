@@ -14,8 +14,19 @@ int		get_split_len(char **split)
 int		get_cd(t_data *data)
 {
 	char **args;
+	char	*env;
 
 	args = data->arguments;
+	if (get_split_len(args) == 0)
+	{
+		if ((env = get_env_str(data, "HOME")) == NULL)
+			return (0);
+		if (chdir(env) == -1)
+			return (fnr(free, env, 0, NULL));
+		if (!(getcwd(data->cwd, sizeof(data->cwd))))
+			return (0);
+		free(env);
+	}
 	if (get_split_len(args) != 1)
 		return (0);
 	if (chdir(args[0]) == -1)
