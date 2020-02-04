@@ -5,8 +5,8 @@
 #include <libc.h>
 #include <errno.h>
 #include "get_next_line.h"
-#include "structures.h"
 #include "defines.h"
+#include "structures.h"
 #include "libft.h"
 #include "printf.h"
 
@@ -33,5 +33,5 @@ char	*get_env_str(t_data *data, char *temp);
 int		get_next_char(char *str, char c);
 void	write_preline(t_data *data);
 int		remove_quotes(char **str);
-int		parse_redirections(t_data *data);
+int		get_redirections(t_data *data);
 #endif
