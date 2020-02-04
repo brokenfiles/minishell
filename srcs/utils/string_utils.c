@@ -62,10 +62,7 @@ int		remove_quotes(char **str)
 	while ((*str)[i])
 	{
 		if (((*str)[i] != '\'') && ((*str)[i] != '"'))
-		{
-			new[x] = (*str)[i];
-			x++;
-		}
+			new[x++] = (*str)[i];
 		i++;
 	}
 	free(*str);

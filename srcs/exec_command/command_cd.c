@@ -1,23 +1,13 @@
 
 #include "../../includes/minishell.h"
 
-int		get_split_len(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split[i])
-		i++;
-	return (i);
-}
-
 int		get_cd(t_data *data)
 {
 	char **args;
 	char	*env;
 
 	args = data->arguments;
-	if (get_split_len(args) == 0)
+	if (ft_bigstrlen(args) == 0)
 	{
 		if ((env = get_env_str(data, "HOME")) == NULL)
 			return (0);
@@ -27,7 +17,7 @@ int		get_cd(t_data *data)
 			return (0);
 		free(env);
 	}
-	if (get_split_len(args) != 1)
+	if (ft_bigstrlen(args) != 1)
 		return (0);
 	if (chdir(args[0]) == -1)
 	{
