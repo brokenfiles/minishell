@@ -72,6 +72,14 @@ int	get_arguments(t_data *data)
 
 int	exec_command(t_data *data)
 {
+	int fd, fd2, redirect = 0;
+	if (data->redirects[0].type != -1)
+	{
+		redirect = 1;
+		fd = dup(1);
+		fd2 = open(data->redirects[0].file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		dup2(fd2, 1);
+	}
 	if (ft_strcmp(data->command, "exit") == 0)
 		exit(EXIT_SUCCESS);
 	else if (ft_strcmp(data->command, "env") == 0)
@@ -88,6 +96,12 @@ int	exec_command(t_data *data)
 		data->last_return = get_export(data);
 	else if ((data->last_return = exec_prog(data)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	if (redirect)
+	{
+		dup2(fd, 1);
+		close(fd);
+		close(fd2);
+	}
 	return (EXIT_SUCCESS);
 }
 

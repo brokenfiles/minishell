@@ -1,1 +1,16 @@
-xd plop izi je suis une s tt rrr iii nnn ggggg
+total 144
+drwxr-xr-x  15 mbrignol  2019_paris    510 Feb  5 17:53 .
+drwxr-xr-x  14 mbrignol  2019_paris    476 Feb  4 09:44 ..
+-rw-r--r--   1 mbrignol  2019_paris   6148 Feb  4 09:44 .DS_Store
+drwxr-xr-x  16 mbrignol  2019_paris    544 Feb  5 17:53 .git
+drwxr-xr-x   8 mbrignol  2019_paris    272 Jan 27 16:30 .idea
+-rw-r--r--   1 mbrignol  2019_paris   1858 Feb  4 18:44 Makefile
+-rw-r--r--   1 mbrignol  2019_paris      0 Feb  4 18:30 Todo
+-rw-r--r--   1 mbrignol  2019_paris    113 Jan 30 19:59 commands_tests.txt
+drwxr-xr-x   8 mbrignol  2019_paris    272 Feb  5 13:42 includes
+-rw-r--r--   1 mbrignol  2019_paris     58 Jan 30 19:59 leaks.sh
+drwxr-xr-x   6 mbrignol  2019_paris    204 Feb  4 09:44 libs
+-rwxr-xr-x   1 mbrignol  2019_paris  47888 Feb  5 17:53 minishell
+drwxr-xr-x   8 mbrignol  2019_paris    272 Feb  5 17:21 srcs
+-rw-r--r--   1 mbrignol  2019_paris      0 Feb  5 17:53 test
+-rw-r--r--   1 mbrignol  2019_paris    136 Jan 30 19:59 test.sh
