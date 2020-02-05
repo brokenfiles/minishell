@@ -24,13 +24,22 @@ int set_env(t_data *data, char **str)
 t_data	*init_struct(char **env)
 {
 	t_data	*data;
+	int		index;
 
+	index = 0;
 	if (!(data = malloc(sizeof(struct s_data))))
 		return (NULL);
 	if (!(getcwd(data->cwd, sizeof(data->cwd))))
 		return (NULL);
 	if (!(set_env(data, env)))
 		return (NULL);
+	while (index < REDIRECT_MAX)
+	{
+		data->redirects[index].pos = -1;
+		data->redirects[index].way = -1;
+		data->redirects[index].file = NULL;
+		data->redirects[index++].type = -1;
+	}
 	data->line = NULL;
 	return (data);
 }

@@ -70,16 +70,8 @@ int	get_arguments(t_data *data)
 	return (parse_arguments(data));
 }
 
-int	exec_command(t_data *data)
+int	run_command(t_data *data)
 {
-	int fd, fd2, redirect = 0;
-	if (data->redirects[0].type != -1)
-	{
-		redirect = 1;
-		fd = dup(1);
-		fd2 = open(data->redirects[0].file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-		dup2(fd2, 1);
-	}
 	if (ft_strcmp(data->command, "exit") == 0)
 		exit(EXIT_SUCCESS);
 	else if (ft_strcmp(data->command, "env") == 0)
@@ -96,12 +88,25 @@ int	exec_command(t_data *data)
 		data->last_return = get_export(data);
 	else if ((data->last_return = exec_prog(data)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (redirect)
+	return (EXIT_SUCCESS);
+}
+
+int	exec_command(t_data *data)
+{
+	int fd, fd2, index = 0;
+	while (data->redirects[index].type != -1)
 	{
+		fd = dup(1);
+		fd2 = open(data->redirects[index].file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		dup2(fd2, 1);
+		run_command(data);
 		dup2(fd, 1);
 		close(fd);
 		close(fd2);
+		index++;
 	}
+	if (data->redirects[0].type == -1)
+		run_command(data);
 	return (EXIT_SUCCESS);
 }
 
