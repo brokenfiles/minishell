@@ -4,9 +4,11 @@
 
 typedef struct	s_redirect
 {
+	int		start;
 	int		pos;
 	int		type;
 	int		way;
+	char	*file;
 }				t_redirect;
 typedef struct	s_data
 {
