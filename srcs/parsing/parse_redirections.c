@@ -88,20 +88,52 @@ int		is_redirect(t_data *data, int x, int *i, char *str)
 	{
 		data->redirects[x].way = LEFT;
 		data->redirects[x].type = SIMPLE_AQUOTE;
-		get_filename_reverse(data, x, (*i), str);
+		get_filename(data, x, (*i), str + 1);
 		return (1);
 	}
 	return (0);
 }
 
+int		get_len_jump(char *str, int temp)
+{
+	while (is_isspace(data->line[temp]))
+		temp++;
+	while (is_separator(data->line[temp]))
+		temp++;
+	temp += ft_strlen(data->redirects[x - 1].file);
+	return (temp);
+}
+
+int		get_redirections_len(t_data *data)
+{
+	int	index;
+
+	index = 0;
+	while (data->redirects[index].pos != -1)
+		index++;
+	return (index);
+}
+
 int		parse_redirect(t_data *data)
 {
-	int i;
+	int x;
+	int temp;
+	char *str;
+	char *dup;
+	char *join;
 
-	i = 0;
-	while (data->redirects[x].pos != -1)
+	x = get_redirections_len(data);
+	while (x-- > 0)
 	{
-
+		temp = data->redirects[x].pos;
+		str = ft_substr(data->line, 0, temp);
+		temp = get_len_jump(&data->line[temp], temp);
+		dup = ft_strdup(&data->line[temp]);
+		join = ft_strjoin(str, dup);
+		free(str);
+		free(dup);
+		free(data->line);
+		data->line = join;
 	}
 	return (0);
 }
