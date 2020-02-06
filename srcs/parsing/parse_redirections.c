@@ -94,16 +94,6 @@ int		is_redirect(t_data *data, int x, int *i, char *str)
 	return (0);
 }
 
-int		get_len_jump(char *str, int temp)
-{
-	while (is_isspace(data->line[temp]))
-		temp++;
-	while (is_separator(data->line[temp]))
-		temp++;
-	temp += ft_strlen(data->redirects[x - 1].file);
-	return (temp);
-}
-
 int		get_redirections_len(t_data *data)
 {
 	int	index;
@@ -112,6 +102,16 @@ int		get_redirections_len(t_data *data)
 	while (data->redirects[index].pos != -1)
 		index++;
 	return (index);
+}
+
+int		get_jump(t_data *data, int temp, int x)
+{
+	while (is_isspace(data->line[temp]))
+		temp++;
+	while (is_separator(data->line[temp]))
+		temp++;
+	temp += ft_strlen(data->redirects[x].file);
+	return (temp);
 }
 
 int		parse_redirect(t_data *data)
@@ -126,8 +126,10 @@ int		parse_redirect(t_data *data)
 	while (x-- > 0)
 	{
 		temp = data->redirects[x].pos;
-		str = ft_substr(data->line, 0, temp);
-		temp = get_len_jump(&data->line[temp], temp);
+		str = ft_substr(data->line, 0, temp - ((data->redirects[x].type == DOUBLE_AQUOTE) ? 1 : 0));
+		temp = get_jump(data, temp, x);
+		if (temp >= ft_strlen(data->line))
+			temp = ft_strlen(data->line);
 		dup = ft_strdup(&data->line[temp]);
 		join = ft_strjoin(str, dup);
 		free(str);
@@ -155,7 +157,6 @@ int		get_redirections(t_data *data)
 	data->redirects[x].type = -1;
 	data->redirects[x].way = -1;
 	parse_redirect(data);
-	debug(data);
-	printf("%s\n", data->line);
+//	debug(data);
 	return (1);
 }
