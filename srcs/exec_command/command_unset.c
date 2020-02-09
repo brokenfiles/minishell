@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-int		get_unset_tab(t_data *data, int i, char *unset)
+int		get_unset_tab(t_data *data, int i)
 {
 	char	**str;
 	int		j;
@@ -47,7 +47,7 @@ int		exec_unset(t_data *data)
 		{
 			if (ft_strlen(split[0]) == ft_strlen(data->arguments[index]))
 			{
-				get_unset_tab(data, i, split[0]);
+				get_unset_tab(data, i);
 				if (data->arguments[index + 1])
 				{
 					free_splitted(split, 0);

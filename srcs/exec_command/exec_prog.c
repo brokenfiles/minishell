@@ -45,6 +45,7 @@ int	exec_prog(t_data *data)
 	int			status;
 
 	index = 0;
+	status = 0;
 	get_path(data);
 	arguments = ft_split_spec(data->line, ' ');
 	index = 0;
@@ -64,5 +65,5 @@ int	exec_prog(t_data *data)
 	else
 		waitpid(pid, &status, 0);
 	free_splitted(arguments, 0);
-	return (EXIT_SUCCESS);
+	return (status == EXIT_SUCCESS ? EXIT_SUCCESS : EXIT_FAILURE);
 }

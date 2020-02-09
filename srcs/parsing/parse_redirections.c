@@ -50,7 +50,7 @@ int		get_filename(t_data *data, int x, int i, char *str)
 	return (1);
 }
 
-int		get_filename_reverse(t_data *data, int x, int i, char *str)
+int		get_filename_reverse(t_data *data, int x, int i)
 {
 	int j;
 	int stop;
@@ -128,7 +128,7 @@ int		parse_redirect(t_data *data)
 		temp = data->redirects[x].pos;
 		str = ft_substr(data->line, 0, temp - ((data->redirects[x].type == DOUBLE_AQUOTE) ? 1 : 0));
 		temp = get_jump(data, temp, x);
-		if (temp >= ft_strlen(data->line))
+		if (temp >= (int)ft_strlen(data->line))
 			temp = ft_strlen(data->line);
 		dup = ft_strdup(&data->line[temp]);
 		join = ft_strjoin(str, dup);
