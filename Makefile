@@ -28,7 +28,7 @@ CFLAGS		= -Wall -Wextra -Werror
 			@${CC} -c $< -o ${<:.c=.o}
 
 $(NAME):	${OBJS} ${SRCSH}
-			@make -C libs/libft
+			@make bonus -C libs/libft
 			@make -C libs/ft_printf
 			@${CC} ${OBJS} ${CFLAGS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
 			@echo "\033[1;32m┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐"

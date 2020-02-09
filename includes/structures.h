@@ -18,7 +18,8 @@ typedef struct	s_data
 	char		*command;
 	char		*arguments_line;
 	char		**arguments;
-	char		cwd[PATH_MAX];
+	t_list		*history;
+	char		cwd[PATH_MAX + 1];
 	t_redirect	redirects[REDIRECT_MAX];
 }				t_data;
 #endif

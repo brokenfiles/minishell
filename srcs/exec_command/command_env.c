@@ -1,12 +1,14 @@
 
 #include "../../includes/minishell.h"
 
-int		get_env(t_data *data)
+int		exec_env(t_data *data)
 {
-	int i;
+	char	**tmp;
 
-	i = 0;
-	while (data->env[i])
-		ft_printf("%s\n", data->env[i++]);
-	return (1);
+	tmp = data->env;
+	if (!tmp || !*tmp)
+		return (EXIT_FAILURE);
+	while (*tmp)
+		ft_printf("%s\n", *(tmp++));
+	return (EXIT_SUCCESS);
 }

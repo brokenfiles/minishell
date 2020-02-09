@@ -2,8 +2,8 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define OK 1
-# define KO -1
+# define SUCCESS 1
+# define FAILURE -1
 # define END 0
 # define BUFFER_SIZE 64
 
