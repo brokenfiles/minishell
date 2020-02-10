@@ -4,7 +4,7 @@ CC			= gcc
 RM			= rm -f
 OBJS_DIR	= ./objects/
 HEADERS		= ./includes/
-CFLAGS		= -I${HEADERS} -Wall -Wextra -Werror
+CFLAGS		= -I${HEADERS} -ltermcap -Wall -Wextra -Werror
 
 SRCSC		=	libs/get_next_line/get_next_line.c\
 				libs/get_next_line/get_next_line_utils.c\
