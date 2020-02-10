@@ -1,10 +1,10 @@
 
 #include "../../includes/minishell.h"
 
-int		get_pwd(t_data *data)
+int		exec_pwd(t_data *data)
 {
 	if (!(getcwd(data->cwd, sizeof(data->cwd))))
-		return (0);
+		return (EXIT_FAILURE);
 	ft_printf("%s\n", data->cwd);
-	return (1);
+	return (EXIT_SUCCESS);
 }

@@ -69,3 +69,15 @@ int		remove_quotes(char **str)
 	*str = new;
 	return (1);
 }
+
+int		tabsize(char **table)
+{
+	int	index;
+
+	index = 0;
+	if (!table)
+		return (0);
+	while (table[index])
+		index++;
+	return (index);
+}

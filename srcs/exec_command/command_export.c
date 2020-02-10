@@ -3,8 +3,8 @@
 
 char	*get_only_export_var(t_data *data, int x)
 {
-	int i;
-	char *new;
+	int		i;
+	char	*new;
 
 	i = 0;
 	while (data->arguments[x][i] && ft_isalnum(data->arguments[x][i]))
@@ -22,11 +22,11 @@ char	*get_only_export_var(t_data *data, int x)
 
 int		add_export(t_data *data, char *export)
 {
-	int i;
-	int len;
-	char **new_env;
+	int		i;
+	int		len;
+	char	**new_env;
 
-	len = ft_bigstrlen(data->env);
+	len = tabsize(data->env);
 	i = 0;
 	if (!(new_env = malloc(sizeof(char*) * (len + 2))))
 		return (0);
@@ -44,9 +44,9 @@ int		add_export(t_data *data, char *export)
 
 int		env_contains(t_data *data, char *str)
 {
-	int i;
-	char **split;
-	char **temp;
+	int		i;
+	char	**split;
+	char	**temp;
 
 	i = 0;
 	temp = ft_split(str, '=');
@@ -69,10 +69,10 @@ int		env_contains(t_data *data, char *str)
 	return (free_splitted(temp, 0));
 }
 
-int		get_export(t_data *data)
+int		exec_export(t_data *data)
 {
-	int x;
-	char *export;
+	int		x;
+	char	*export;
 
 	x = 0;
 	while (data->arguments[x])
@@ -80,11 +80,11 @@ int		get_export(t_data *data)
 		if ((export = get_only_export_var(data, x)) != NULL)
 		{
 			if (remove_quotes(&export) == -1)
-				return (0);
+				return (EXIT_FAILURE);
 			if (!(env_contains(data, export)))
 				add_export(data, export);
 		}
 		x++;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
