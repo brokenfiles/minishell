@@ -64,6 +64,10 @@ int	exec_prog(t_data *data)
 		quit("failed to fork", free_splitted(arguments, EXIT_FAILURE));
 	else
 		waitpid(pid, &status, 0);
+	if (status == 11 || status == 10)
+		status += 128;
+	if (status != 139 && status != 138)
+		status = status ? EXIT_FAILURE : EXIT_SUCCESS;
 	free_splitted(arguments, 0);
-	return (status == EXIT_SUCCESS ? EXIT_SUCCESS : EXIT_FAILURE);
+	return (status);
 }

@@ -9,6 +9,7 @@ typedef struct	s_redirect
 	int		type;
 	int		way;
 	char	*file;
+	char	*previous;
 }				t_redirect;
 typedef struct	s_data
 {

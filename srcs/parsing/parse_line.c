@@ -141,7 +141,10 @@ int	parse_line(t_data *data)
 		data->line = ft_strdup(commands[index]);
 		get_redirections(data);
 		if (get_command(data) == 0)
+		{
+			data->last_return = ERR_COMMAND_NOT_FOUND;
 			return (fsp(commands, data->command, 0, COMMAND_NOT_FOUND));
+		}
 		if (get_arguments(data) == 0)
 			return (fsp(commands, data->command, 0, ARGUMENTS_ERROR));
 		if (exec_command(data) == EXIT_FAILURE)
