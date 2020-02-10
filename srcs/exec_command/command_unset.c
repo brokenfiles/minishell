@@ -1,26 +1,14 @@
 
 #include "../../includes/minishell.h"
 
-int		ft_bigstrlen(char **str)
+int		get_unset_tab(t_data *data, int i)
 {
-	int i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int		get_unset_tab(t_data *data, int i, char *unset)
-{
-	char **str;
-	int j;
-	int x;
+	char	**str;
+	int		j;
+	int		x;
 
 	x = 0;
-	if (!(str = malloc(sizeof(char*) * (ft_bigstrlen(data->env)))))
+	if (!(str = malloc(sizeof(char*) * (tabsize(data->env)))))
 		return (0);
 	j = 0;
 	while (x < i)
@@ -42,24 +30,24 @@ int		get_unset_tab(t_data *data, int i, char *unset)
 	return (1);
 }
 
-int		get_unset(t_data *data)
+int		exec_unset(t_data *data)
 {
-	int i;
-	int index;
-	char **split;
+	int		i;
+	int		index;
+	char	**split;
 
 	index = 0;
 	i = 0;
-	if (ft_bigstrlen(data->arguments) < 1)
-		return (0);
-	while (ft_bigstrlen(data->env) > i && data->env[i])
+	if (tabsize(data->arguments) < 1)
+		return (EXIT_FAILURE);
+	while (tabsize(data->env) > i && data->env[i])
 	{
 		split = ft_split(data->env[i], '=');
 		if (ft_strcmp(split[0], data->arguments[index]) == 0)
 		{
 			if (ft_strlen(split[0]) == ft_strlen(data->arguments[index]))
 			{
-				get_unset_tab(data, i, split[0]);
+				get_unset_tab(data, i);
 				if (data->arguments[index + 1])
 				{
 					free_splitted(split, 0);
@@ -71,11 +59,11 @@ int		get_unset(t_data *data)
 		}
 		free_splitted(split, 0);
 		i++;
-		if (i >= ft_bigstrlen(data->env) && data->arguments[index + 1])
+		if (i >= tabsize(data->env) && data->arguments[index + 1])
 		{
 			i = 0;
 			index++;
 		}
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }

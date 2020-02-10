@@ -75,17 +75,17 @@ int	run_command(t_data *data)
 	if (ft_strcmp(data->command, "exit") == 0)
 		exit(EXIT_SUCCESS);
 	else if (ft_strcmp(data->command, "env") == 0)
-		data->last_return = get_env(data);
+		data->last_return = exec_env(data);
 	else if (ft_strcmp(data->command, "pwd") == 0)
-		data->last_return = get_pwd(data);
+		data->last_return = exec_pwd(data);
 	else if (ft_strcmp(data->command, "cd") == 0)
-		data->last_return = get_cd(data);
+		data->last_return = exec_cd(data);
 	else if (ft_strcmp(data->command, "echo") == 0)
-		data->last_return = get_echo(data);
+		data->last_return = exec_echo(data);
 	else if (ft_strcmp(data->command, "unset") == 0)
-		data->last_return = get_unset(data);
+		data->last_return = exec_unset(data);
 	else if (ft_strcmp(data->command, "export") == 0)
-		data->last_return = get_export(data);
+		data->last_return = exec_export(data);
 	else if ((data->last_return = exec_prog(data)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -123,6 +123,7 @@ int	exec_command(t_data *data)
 	}
 	if (data->redirects[0].type == -1)
 		run_command(data);
+	reset_redirections(data);
 	return (EXIT_SUCCESS);
 }
 
@@ -140,7 +141,10 @@ int	parse_line(t_data *data)
 		data->line = ft_strdup(commands[index]);
 		get_redirections(data);
 		if (get_command(data) == 0)
+		{
+			data->last_return = ERR_COMMAND_NOT_FOUND;
 			return (fsp(commands, data->command, 0, COMMAND_NOT_FOUND));
+		}
 		if (get_arguments(data) == 0)
 			return (fsp(commands, data->command, 0, ARGUMENTS_ERROR));
 		if (exec_command(data) == EXIT_FAILURE)

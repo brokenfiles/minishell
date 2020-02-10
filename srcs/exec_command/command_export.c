@@ -3,8 +3,8 @@
 
 char	*get_only_export_var(t_data *data, int x)
 {
-	int i;
-	char *new;
+	int		i;
+	char	*new;
 
 	i = 0;
 	while (data->arguments[x][i] && ft_isalnum(data->arguments[x][i]))
@@ -22,11 +22,11 @@ char	*get_only_export_var(t_data *data, int x)
 
 int		add_export(t_data *data, char *export)
 {
-	int i;
-	int len;
-	char **new_env;
+	int		i;
+	int		len;
+	char	**new_env;
 
-	len = ft_bigstrlen(data->env);
+	len = tabsize(data->env);
 	i = 0;
 	if (!(new_env = malloc(sizeof(char*) * (len + 2))))
 		return (0);
@@ -44,9 +44,9 @@ int		add_export(t_data *data, char *export)
 
 int		env_contains(t_data *data, char *str)
 {
-	int i;
-	char **split;
-	char **temp;
+	int		i;
+	char	**split;
+	char	**temp;
 
 	i = 0;
 	temp = ft_split(str, '=');
@@ -69,10 +69,42 @@ int		env_contains(t_data *data, char *str)
 	return (free_splitted(temp, 0));
 }
 
-int		get_export(t_data *data)
+int     sort_env_export(t_data *data)
 {
-	int x;
-	char *export;
+	int i;
+	char **temp;
+	char *str;
+	i = 0;
+	temp = malloc(sizeof(char*) * (tabsize(data->env) + 1));
+	temp[tabsize(data->env)] = 0;
+	while (i < tabsize(data->env))
+	{
+		temp[i] = ft_strdup(data->env[i]);
+		i++;
+	}
+	i = 0;
+	while (temp[i] && temp[i + 1])
+	{
+		if (ft_strcmp(temp[i], temp[i + 1]) > 0)
+		{
+			str = temp[i];
+			temp[i] = temp[i + 1];
+			temp[i + 1] = str;
+			i = 0;
+		}
+		else
+			i++;
+	}
+	i = 0;
+	while (i < tabsize(temp) && temp[i])
+		ft_printf("%s\n", temp[i++]);
+	return (free_splitted(temp, 0));
+}
+
+int		exec_export(t_data *data)
+{
+	int		x;
+	char	*export;
 
 	x = 0;
 	while (data->arguments[x])
@@ -80,11 +112,13 @@ int		get_export(t_data *data)
 		if ((export = get_only_export_var(data, x)) != NULL)
 		{
 			if (remove_quotes(&export) == -1)
-				return (0);
+				return (EXIT_FAILURE);
 			if (!(env_contains(data, export)))
 				add_export(data, export);
 		}
 		x++;
 	}
-	return (1);
+	if (x == 0)
+		sort_env_export(data);
+	return (EXIT_SUCCESS);
 }

@@ -1,4 +1,11 @@
 
+NAME		= minishell
+CC			= gcc
+RM			= rm -f
+OBJS_DIR	= ./objects/
+HEADERS		= ./includes/
+CFLAGS		= -I${HEADERS} -Wall -Wextra -Werror
+
 SRCSC		=	libs/get_next_line/get_next_line.c\
 				libs/get_next_line/get_next_line_utils.c\
 				srcs/minishell.c\
@@ -17,24 +24,26 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/utils/errors.c\
 				srcs/utils/replace_env.c\
 				srcs/utils/get_env.c
-OBJS		= $(SRCSC:%.c=%.o)
-NAME		= minishell
-CC			= gcc
-RM			= rm -f
-CFLAGS		= -Wall -Wextra -Werror
 
-.c.o:		${OBJS}
+OBJS		= ${SRCSC:%.c=${OBJS_DIR}/%.o}
+
+${OBJS_DIR}/%.o: %.c
+			@mkdir -p ${@D}
 			@echo "\033[1;32mMinishell > Generated \033[1;33m${<:.c=.o}\033[0;0m"
-			@${CC} -c $< -o ${<:.c=.o}
+			@${CC} ${CFLAGS} -c $< -o $@
 
-$(NAME):	${OBJS} ${SRCSH}
-			@make -C libs/libft
+${NAME}:	${OBJS}
+			@make bonus -C libs/libft
 			@make -C libs/ft_printf
-			@${CC} ${OBJS} ${CFLAGS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
+			@${CC} ${CFLAGS} ${OBJS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
 			@echo "\033[1;32m┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐"
 			@echo "└─┐│ ││  │  ├┤ └─┐└─┐"
 			@echo "└─┘└─┘└─┘└─┘└─┘└─┘└─┘"
 			@echo "${NAME} generated successfully.\033[0;0m"
+
+run:		${NAME}
+			@echo "\033[1;34mRunning ${NAME}...\033[0;0m"
+			@./${NAME}
 
 all:		${NAME}
 
@@ -55,15 +64,6 @@ re:			fclean all
 rc:			re
 			@make clean
 
-%:
-			@:
+bonus:		${NAME}
 
-args = `arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
-
-run: ${NAME}
-	@echo "\033[1;34mRunning ${NAME}...\033[0;0m"
-	@echo "to build..."
-
-bonus: ${NAME}
-
-.PHONY:		all clean fclean re
+.PHONY:		all clean fclean re bonus rc

@@ -1,13 +1,11 @@
 #include "../../includes/minishell.h"
 
-int	exec_prog(t_data *data)
+int	get_path(t_data *data)
 {
 	struct stat	buff;
-	char		**arguments;
 	char		**paths;
 	char		*joined;
 	char		*tmp;
-	pid_t		pid;
 	int			index;
 
 	index = 0;
@@ -35,6 +33,20 @@ int	exec_prog(t_data *data)
 		}
 		free_splitted(paths, 0);
 	}
+	return (EXIT_SUCCESS);
+}
+
+int	exec_prog(t_data *data)
+{
+	char		**arguments;
+	char		*tmp;
+	pid_t		pid;
+	int			index;
+	int			status;
+
+	index = 0;
+	status = 0;
+	get_path(data);
 	arguments = ft_split_spec(data->line, ' ');
 	index = 0;
 	while (arguments[index])
@@ -51,7 +63,11 @@ int	exec_prog(t_data *data)
 	else if (pid < 0)
 		quit("failed to fork", free_splitted(arguments, EXIT_FAILURE));
 	else
-		wait(&pid);
+		waitpid(pid, &status, 0);
+	if (status == 11 || status == 10)
+		status += 128;
+	if (status != 139 && status != 138)
+		status = status ? EXIT_FAILURE : EXIT_SUCCESS;
 	free_splitted(arguments, 0);
-	return (EXIT_SUCCESS);
+	return (status);
 }
