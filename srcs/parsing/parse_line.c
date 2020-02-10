@@ -157,9 +157,7 @@ int	exec_command(t_data *data)
 					if (data->redirects[index2].way == LEFT)
 					{
 						ret = stat(data->redirects[index2].file, &buff);
-						if (ret == -1)
-							return (EXIT_FAILURE);
-						if (S_ISDIR(buff.st_mode))
+						if (ret == -1 || S_ISDIR(buff.st_mode))
 							return (EXIT_FAILURE);
 						filedes[2] = dup(0);
 						filedes[3] = open(data->redirects[index2].file, O_RDONLY);
@@ -181,9 +179,7 @@ int	exec_command(t_data *data)
 		else if (!has_redirect(data, RIGHT) && data->redirects[index].way == LEFT)
 		{
 			ret = stat(data->redirects[index].file, &buff);
-			if (ret == -1)
-				return (EXIT_FAILURE);
-			if (S_ISDIR(buff.st_mode))
+			if (ret == -1 || S_ISDIR(buff.st_mode))
 				return (EXIT_FAILURE);
 			filedes[0] = dup(0);
 			filedes[1] = open(data->redirects[index].file, O_RDONLY);
