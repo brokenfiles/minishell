@@ -13,7 +13,6 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-
 	g_data = init_struct(env);
 	write_preline(g_data);
 	signal(SIGINT, sig_handler);
