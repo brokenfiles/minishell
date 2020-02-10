@@ -17,7 +17,7 @@
 
 int		parse_line(t_data *data);
 int		replace_env(t_data *data);
-void	reset_redirections(t_data *data);
+void	reset_redirections(t_data *data, int need_free);
 t_data	*init_struct(char **env);
 int		exec_env(t_data *data);
 int		exec_pwd(t_data *data);

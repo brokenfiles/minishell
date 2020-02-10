@@ -21,13 +21,15 @@ int set_env(t_data *data, char **str)
 	return (1);
 }
 
-void	reset_redirections(t_data *data)
+void	reset_redirections(t_data *data, int need_free)
 {
 	int	index;
 
 	index = 0;
 	while (index < REDIRECT_MAX)
 	{
+		if (data->redirects[index].pos != -1 && need_free)
+			free(data->redirects[index].file);
 		data->redirects[index].pos = -1;
 		data->redirects[index].way = -1;
 		data->redirects[index].file = NULL;
@@ -46,7 +48,7 @@ t_data	*init_struct(char **env)
 		return (NULL);
 	if (!(set_env(data, env)))
 		return (NULL);
-	reset_redirections(data);
+	reset_redirections(data, 0);
 	data->line = NULL;
 	return (data);
 }

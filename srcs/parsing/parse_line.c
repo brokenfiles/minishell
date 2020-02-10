@@ -123,7 +123,7 @@ int	exec_command(t_data *data)
 	}
 	if (data->redirects[0].type == -1)
 		run_command(data);
-	reset_redirections(data);
+	reset_redirections(data, 1);
 	return (EXIT_SUCCESS);
 }
 
