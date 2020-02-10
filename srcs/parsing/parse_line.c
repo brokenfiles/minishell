@@ -93,16 +93,32 @@ int	run_command(t_data *data)
 
 int	exec_command(t_data *data)
 {
-	int fd, fd2, index = 0;
+	struct stat	buff;
+	int		filedes[2];
+	int		index;
+	int		flag;
+	int		ret;
+
+	if (pipe(filedes) == -1)
+		return (EXIT_FAILURE);
+	index = 0;
 	while (data->redirects[index].type != -1)
 	{
-		fd = dup(1);
-		fd2 = open(data->redirects[index].file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-		dup2(fd2, 1);
-		run_command(data);
-		dup2(fd, 1);
-		close(fd);
-		close(fd2);
+		if (data->redirects[index].way == RIGHT)
+		{
+			ret = stat(data->redirects[index].file, &buff);
+			if (S_ISDIR(buff.st_mode))
+				return (EXIT_FAILURE);
+			flag = data->redirects[index].type == DOUBLE_AQUOTE ?
+					O_RDWR | O_CREAT | O_APPEND : O_RDWR | O_CREAT | O_TRUNC;
+			filedes[0] = dup(1);
+			filedes[1] = open(data->redirects[index].file, flag, 0644);
+			dup2(filedes[1], STDOUT_FILENO);
+			run_command(data);
+			dup2(filedes[0], STDOUT_FILENO);
+			close(filedes[0]);
+			close(filedes[1]);
+		}
 		index++;
 	}
 	if (data->redirects[0].type == -1)
@@ -125,9 +141,10 @@ int	parse_line(t_data *data)
 		get_redirections(data);
 		if (get_command(data) == 0)
 			return (fsp(commands, data->command, 0, COMMAND_NOT_FOUND));
-		if (!get_arguments(data))
+		if (get_arguments(data) == 0)
 			return (fsp(commands, data->command, 0, ARGUMENTS_ERROR));
-		exec_command(data);
+		if (exec_command(data) == EXIT_FAILURE)
+			return (fsp(commands, data->command, 0, DIR_ERROR));
 		free(data->command);
 		free_splitted(data->arguments, 0);
 		index++;
