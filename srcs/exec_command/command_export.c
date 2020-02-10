@@ -7,7 +7,7 @@ char	*get_only_export_var(t_data *data, int x)
 	char	*new;
 
 	i = 0;
-	while (data->arguments[x][i] && ft_isalnum(data->arguments[x][i]))
+	while (data->arguments[x][i] && (ft_isalnum(data->arguments[x][i]) || data->arguments[x][i] == '_'))
 		i++;
 	if (i > 0 && data->arguments[x][i] && data->arguments[x][i] == '=')
 		i++;
@@ -69,6 +69,38 @@ int		env_contains(t_data *data, char *str)
 	return (free_splitted(temp, 0));
 }
 
+int     sort_env_export(t_data *data)
+{
+	int i;
+	char **temp;
+	char *str;
+	i = 0;
+	temp = malloc(sizeof(char*) * (tabsize(data->env) + 1));
+	temp[tabsize(data->env)] = 0;
+	while (i < tabsize(data->env))
+	{
+		temp[i] = ft_strdup(data->env[i]);
+		i++;
+	}
+	i = 0;
+	while (temp[i] && temp[i + 1])
+	{
+		if (ft_strcmp(temp[i], temp[i + 1]) > 0)
+		{
+			str = temp[i];
+			temp[i] = temp[i + 1];
+			temp[i + 1] = str;
+			i = 0;
+		}
+		else
+			i++;
+	}
+	i = 0;
+	while (i < tabsize(temp) && temp[i])
+		ft_printf("%s\n", temp[i++]);
+	return (free_splitted(temp, 0));
+}
+
 int		exec_export(t_data *data)
 {
 	int		x;
@@ -86,5 +118,7 @@ int		exec_export(t_data *data)
 		}
 		x++;
 	}
+	if (x == 0)
+		sort_env_export(data);
 	return (EXIT_SUCCESS);
 }
