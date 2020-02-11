@@ -188,7 +188,7 @@ int		get_redirections(t_data *data)
 	data->redirects[x].type = -1;
 	data->redirects[x].way = -1;
 	parse_redirect(data);
-	printf("%s\n", data->line);
-	debug(data);
+//	printf("%s\n", data->line);
+//	debug(data);
 	return (1);
 }
