@@ -13,10 +13,11 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
+
 	g_data = init_struct(env);
 	write_preline(g_data);
 	signal(SIGINT, sig_handler);
-	while (get_next_line(0, &(g_data->line)) > 0)
+	while ((get_next_line(0, &(g_data->line)) > 0))
 	{
 		ft_printf("\033[0;0m");
 		replace_env(g_data);

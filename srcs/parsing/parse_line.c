@@ -91,11 +91,46 @@ int	run_command(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
+/*
+ *
+		else if (data->redirects[index].way == LEFT)
+		{
+			ret = stat(data->redirects[index].file, &buff);
+			if (ret == -1)
+				return (EXIT_FAILURE);
+			if (S_ISDIR(buff.st_mode))
+				return (EXIT_FAILURE);
+			filedes[0] = dup(0);
+			filedes[1] = open(data->redirects[index].file, O_RDONLY);
+			dup2(filedes[1], STDIN_FILENO);
+			run_command(data);
+			dup2(filedes[0], STDIN_FILENO);
+			close(filedes[0]);
+			close(filedes[1]);
+		}
+ *
+ */
+
+int	has_redirect(t_data *data, int way)
+{
+	int	index;
+
+	index = 0;
+	while (data->redirects[index].type != -1)
+	{
+		if (data->redirects[index].way == way)
+			return (1);
+		index++;
+	}
+	return (0);
+}
+
 int	exec_command(t_data *data)
 {
 	struct stat	buff;
-	int		filedes[2];
+	int		filedes[4];
 	int		index;
+	int		index2;
 	int		flag;
 	int		ret;
 
@@ -106,6 +141,7 @@ int	exec_command(t_data *data)
 	{
 		if (data->redirects[index].way == RIGHT)
 		{
+			index2 = 0;
 			ret = stat(data->redirects[index].file, &buff);
 			if (S_ISDIR(buff.st_mode))
 				return (EXIT_FAILURE);
@@ -114,8 +150,46 @@ int	exec_command(t_data *data)
 			filedes[0] = dup(1);
 			filedes[1] = open(data->redirects[index].file, flag, 0644);
 			dup2(filedes[1], STDOUT_FILENO);
-			run_command(data);
+			if (has_redirect(data, LEFT))
+			{
+				while (data->redirects[index2].type != -1)
+				{
+					if (data->redirects[index2].way == LEFT)
+					{
+						ret = stat(data->redirects[index2].file, &buff);
+						if (ret == -1)
+							return (EXIT_FAILURE);
+						if (S_ISDIR(buff.st_mode))
+							return (EXIT_FAILURE);
+						filedes[2] = dup(0);
+						filedes[3] = open(data->redirects[index2].file, O_RDONLY);
+						dup2(filedes[3], STDIN_FILENO);
+						run_command(data);
+						dup2(filedes[2], STDIN_FILENO);
+						close(filedes[2]);
+						close(filedes[3]);
+					}
+					index2++;
+				}
+			}
+			else
+				run_command(data);
 			dup2(filedes[0], STDOUT_FILENO);
+			close(filedes[0]);
+			close(filedes[1]);
+		}
+		else if (!has_redirect(data, RIGHT) && data->redirects[index].way == LEFT)
+		{
+			ret = stat(data->redirects[index].file, &buff);
+			if (ret == -1)
+				return (EXIT_FAILURE);
+			if (S_ISDIR(buff.st_mode))
+				return (EXIT_FAILURE);
+			filedes[0] = dup(0);
+			filedes[1] = open(data->redirects[index].file, O_RDONLY);
+			dup2(filedes[1], STDIN_FILENO);
+			run_command(data);
+			dup2(filedes[0], STDIN_FILENO);
 			close(filedes[0]);
 			close(filedes[1]);
 		}
@@ -146,9 +220,15 @@ int	parse_line(t_data *data)
 			return (fsp(commands, data->command, 0, COMMAND_NOT_FOUND));
 		}
 		if (get_arguments(data) == 0)
+		{
+			data->last_return = EXIT_FAILURE;
 			return (fsp(commands, data->command, 0, ARGUMENTS_ERROR));
+		}
 		if (exec_command(data) == EXIT_FAILURE)
-			return (fsp(commands, data->command, 0, DIR_ERROR));
+		{
+			data->last_return = EXIT_FAILURE;
+			return (fsp(commands, data->command, 0, INVALID_FILE));
+		}
 		free(data->command);
 		free_splitted(data->arguments, 0);
 		index++;

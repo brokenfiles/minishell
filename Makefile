@@ -35,7 +35,7 @@ ${OBJS_DIR}/%.o: %.c
 ${NAME}:	${OBJS}
 			@make bonus -C libs/libft
 			@make -C libs/ft_printf
-			@${CC} ${CFLAGS} ${OBJS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
+			@${CC} ${CFLAGS} ${OBJS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -ltermcap -o ${NAME}
 			@echo "\033[1;32m┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐"
 			@echo "└─┐│ ││  │  ├┤ └─┐└─┐"
 			@echo "└─┘└─┘└─┘└─┘└─┘└─┘└─┘"

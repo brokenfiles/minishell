@@ -91,6 +91,13 @@ int		is_redirect(t_data *data, int x, int *i, char *str)
 		get_filename(data, x, (*i), str + 1);
 		return (1);
 	}
+	if (str[0] && str[0] == '|')
+	{
+		data->redirects[x].way = NONE;
+		data->redirects[x].type = PIPE;
+		get_filename(data, x, (*i), str + 1);
+		return (1);
+	}
 	return (0);
 }
 
