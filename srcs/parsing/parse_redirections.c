@@ -143,17 +143,30 @@ int		parse_redirect(t_data *data)
 	x = get_redirections_len(data);
 	while (x-- > 0)
 	{
-		temp = data->redirects[x].pos;
-		str = ft_substr(data->line, 0, temp - ((data->redirects[x].type == DOUBLE_AQUOTE) ? 1 : 0));
-		temp = get_jump(data, temp, x);
-		if (temp >= (int)ft_strlen(data->line))
-			temp = ft_strlen(data->line);
-		dup = ft_strdup(&data->line[temp]);
-		join = ft_strjoin(str, dup);
-		free(str);
-		free(dup);
-		free(data->line);
-		data->line = join;
+		if (data->redirects[x].type != PIPE)
+		{
+			temp = data->redirects[x].pos;
+			str = ft_substr(data->line, 0, temp - ((data->redirects[x].type == DOUBLE_AQUOTE) ? 1 : 0));
+			temp = get_jump(data, temp, x);
+			if (temp >= (int) ft_strlen(data->line))
+				temp = ft_strlen(data->line);
+			dup = ft_strdup(&data->line[temp]);
+			join = ft_strjoin(str, dup);
+			free(str);
+			free(dup);
+			free(data->line);
+			data->line = join;
+		}
+		else if (data->redirects[x].type == PIPE)
+		{
+			dup = ft_strdup(&data->line[ft_strlen(data->redirects[x].file) + data->redirects[x].pos + 1]);
+			str = ft_substr(data->line, 0, data->redirects[x].pos);
+			join = ft_strjoin(str, dup);
+			free(str);
+			free(dup);
+			free(data->line);
+			data->line = join;
+		}
 	}
 	return (0);
 }
@@ -175,6 +188,7 @@ int		get_redirections(t_data *data)
 	data->redirects[x].type = -1;
 	data->redirects[x].way = -1;
 	parse_redirect(data);
+	printf("%s\n", data->line);
 	debug(data);
 	return (1);
 }

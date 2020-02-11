@@ -15,11 +15,11 @@ int main()
 	int line_count;
 	line_count = tgetnum("li");
 
-
-	printf(" Column = %d | Line = %d\n", column_count, line_count);
-	char* cm_cap = tgetstr("cm", NULL);
-	tputs(tgoto(cm_cap, 50, 50), 1, putchar);
-	while (1);
+	char *line;
+	printf(" Column = %d | Line = %d\n", column_count, line_count);;
+	tputs(tgetstr("cr", 0), STDIN_FILENO, &putchar);
+	printf("WOOOOOOOOOOOOOOOOOOOW\n");
+	get_next_line(0, &line);
 	char *reset_cmd = tgetstr("me", NULL);
 	tputs(reset_cmd, 1, putchar);
 }
