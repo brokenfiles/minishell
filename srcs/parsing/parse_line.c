@@ -204,6 +204,9 @@ int	exec_command(t_data *data)
 		}
 		else if (data->redirects[index].type == PIPE)
 		{
+			free(data->command);
+			data->command = ft_strdup(data->redirects[index].file);
+			parse_arguments(data);
 			run_command(data);
 		}
 		index++;
