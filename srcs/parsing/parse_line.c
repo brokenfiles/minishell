@@ -234,7 +234,7 @@ int	parse_line(t_data *data)
 			data->last_return = EXIT_FAILURE;
 			return (fsp(commands, data->command, 0, ARGUMENTS_ERROR));
 		}
-		if (exec_command2(data) == EXIT_FAILURE)
+		if (exec_command(data) == EXIT_FAILURE)
 		{
 			data->last_return = EXIT_FAILURE;
 			return (fsp(commands, data->command, 0, INVALID_FILE));
