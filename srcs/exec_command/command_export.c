@@ -7,7 +7,7 @@ char	*get_only_export_var(t_data *data, int x)
 	char	*new;
 
 	i = 0;
-	while (data->arguments[x][i] && ft_isalnum(data->arguments[x][i]))
+	while (data->arguments[x][i] && (ft_isalnum(data->arguments[x][i]) || data->arguments[x][i] == '_'))
 		i++;
 	if (i > 0 && data->arguments[x][i] && data->arguments[x][i] == '=')
 		i++;

@@ -1,3 +1,1 @@
-- Faire les pipes et les redirections <
-- [FAIT MAIS À VÉRIFIER] Mettre les bonnes valeurs de retour pour nos builtin
-- Faut-il faire la commande export sans argument ?
+- Pipes | doivent marcher comme dans bash

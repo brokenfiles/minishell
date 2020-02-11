@@ -50,6 +50,17 @@ int		get_filename(t_data *data, int x, int i, char *str)
 	return (1);
 }
 
+int		get_next_pipe(t_data *data, int x, char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && str[i] != '|')
+		i++;
+	data->redirects[x].file = ft_substr(str, 0, i);
+	return (1);
+}
+
 int		get_filename_reverse(t_data *data, int x, int i)
 {
 	int j;
@@ -95,7 +106,7 @@ int		is_redirect(t_data *data, int x, int *i, char *str)
 	{
 		data->redirects[x].way = NONE;
 		data->redirects[x].type = PIPE;
-		get_filename(data, x, (*i), str + 1);
+		get_next_pipe(data, x, str + 1);
 		return (1);
 	}
 	return (0);
@@ -164,6 +175,6 @@ int		get_redirections(t_data *data)
 	data->redirects[x].type = -1;
 	data->redirects[x].way = -1;
 	parse_redirect(data);
-//	debug(data);
+	debug(data);
 	return (1);
 }

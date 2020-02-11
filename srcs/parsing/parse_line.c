@@ -125,78 +125,88 @@ int	has_redirect(t_data *data, int way)
 	return (0);
 }
 
-int	exec_command(t_data *data)
+int		stop_redirect(int fd, int dup, int std)
+{
+	if ((dup2(dup, std)) < 1)
+		return (-1);
+	close(fd);
+	return (EXIT_SUCCESS);
+}
+
+int		redirect_output(t_redirect redirect)
+{
+	int	fd;
+
+	if (!(fd = open(redirect.file, redirect.type == DOUBLE_AQUOTE ? O_RDWR | O_CREAT | O_APPEND
+	: O_RDWR | O_CREAT | O_TRUNC, 0644)))
+		return (-1);
+	if (dup2(fd, STDOUT_FILENO) < 1)
+		return (-1);
+	return (fd);
+}
+
+int		redirect_input(t_redirect redirect)
 {
 	struct stat	buff;
-	int		filedes[4];
-	int		index;
-	int		index2;
-	int		flag;
-	int		ret;
+	int			fd;
+	int			ret;
 
-	if (pipe(filedes) == -1)
+	ret = stat(redirect.file, &buff);
+	if (ret == -1 || S_ISDIR(buff.st_mode))
 		return (EXIT_FAILURE);
+	if (!(fd = open(redirect.file, O_RDONLY)))
+		return (-1);
+	if (dup2(fd, STDIN_FILENO) < 1)
+		return (-1);
+	return (fd);
+}
+
+int	exec_command(t_data *data)
+{
+	int	index;
+	int	index2;
+	int	fd;
+	int	fd2;
+	int	stds[2];
+
 	index = 0;
+	stds[0] = dup(0);
+	stds[1] = dup(1);
 	while (data->redirects[index].type != -1)
 	{
 		if (data->redirects[index].way == RIGHT)
 		{
-			index2 = 0;
-			ret = stat(data->redirects[index].file, &buff);
-			if (S_ISDIR(buff.st_mode))
-				return (EXIT_FAILURE);
-			flag = data->redirects[index].type == DOUBLE_AQUOTE ?
-					O_RDWR | O_CREAT | O_APPEND : O_RDWR | O_CREAT | O_TRUNC;
-			filedes[0] = dup(1);
-			filedes[1] = open(data->redirects[index].file, flag, 0644);
-			dup2(filedes[1], STDOUT_FILENO);
+			fd = redirect_output(data->redirects[index]);
 			if (has_redirect(data, LEFT))
 			{
+				index2 = 0;
 				while (data->redirects[index2].type != -1)
 				{
 					if (data->redirects[index2].way == LEFT)
 					{
-						ret = stat(data->redirects[index2].file, &buff);
-						if (ret == -1)
-							return (EXIT_FAILURE);
-						if (S_ISDIR(buff.st_mode))
-							return (EXIT_FAILURE);
-						filedes[2] = dup(0);
-						filedes[3] = open(data->redirects[index2].file, O_RDONLY);
-						dup2(filedes[3], STDIN_FILENO);
+						fd2 = redirect_input(data->redirects[index2]);
 						run_command(data);
-						dup2(filedes[2], STDIN_FILENO);
-						close(filedes[2]);
-						close(filedes[3]);
+						stop_redirect(fd2, stds[0], STDIN_FILENO);
 					}
 					index2++;
 				}
 			}
 			else
 				run_command(data);
-			dup2(filedes[0], STDOUT_FILENO);
-			close(filedes[0]);
-			close(filedes[1]);
+			stop_redirect(fd, stds[1], STDOUT_FILENO);
 		}
-		else if (!has_redirect(data, RIGHT) && data->redirects[index].way == LEFT)
+		else if (data->redirects[index].way == LEFT && !has_redirect(data, RIGHT))
 		{
-			ret = stat(data->redirects[index].file, &buff);
-			if (ret == -1)
-				return (EXIT_FAILURE);
-			if (S_ISDIR(buff.st_mode))
-				return (EXIT_FAILURE);
-			filedes[0] = dup(0);
-			filedes[1] = open(data->redirects[index].file, O_RDONLY);
-			dup2(filedes[1], STDIN_FILENO);
+			fd = redirect_input(data->redirects[index]);
 			run_command(data);
-			dup2(filedes[0], STDIN_FILENO);
-			close(filedes[0]);
-			close(filedes[1]);
+			stop_redirect(fd, stds[0], STDIN_FILENO);
 		}
 		index++;
 	}
 	if (data->redirects[0].type == -1)
 		run_command(data);
+	close(stds[0]);
+	close(stds[1]);
 	reset_redirections(data, 1);
 	return (EXIT_SUCCESS);
 }
@@ -224,7 +234,7 @@ int	parse_line(t_data *data)
 			data->last_return = EXIT_FAILURE;
 			return (fsp(commands, data->command, 0, ARGUMENTS_ERROR));
 		}
-		if (exec_command(data) == EXIT_FAILURE)
+		if (exec_command2(data) == EXIT_FAILURE)
 		{
 			data->last_return = EXIT_FAILURE;
 			return (fsp(commands, data->command, 0, INVALID_FILE));
