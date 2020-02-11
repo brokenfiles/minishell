@@ -172,6 +172,7 @@ int	exec_command(t_data *data)
 	index = 0;
 	stds[0] = dup(0);
 	stds[1] = dup(1);
+	pipe(stds);
 	while (data->redirects[index].type != -1)
 	{
 		if (data->redirects[index].way == RIGHT)
@@ -200,6 +201,10 @@ int	exec_command(t_data *data)
 			fd = redirect_input(data->redirects[index]);
 			run_command(data);
 			stop_redirect(fd, stds[0], STDIN_FILENO);
+		}
+		else if (data->redirects[index].type == PIPE)
+		{
+			run_command(data);
 		}
 		index++;
 	}
