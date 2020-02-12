@@ -70,7 +70,7 @@ int	get_arguments(t_data *data)
 	return (parse_arguments(data));
 }
 
-int	run_command(t_data *data)
+int	run_command(t_data *data, int (f)(t_data *data))
 {
 	if (ft_strcmp(data->command, "exit") == 0)
 		exit(EXIT_SUCCESS);
@@ -86,30 +86,10 @@ int	run_command(t_data *data)
 		data->last_return = exec_unset(data);
 	else if (ft_strcmp(data->command, "export") == 0)
 		data->last_return = exec_export(data);
-	else if ((data->last_return = exec_prog(data)) == EXIT_FAILURE)
+	else if ((data->last_return = f(data)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-
-/*
- *
-		else if (data->redirects[index].way == LEFT)
-		{
-			ret = stat(data->redirects[index].file, &buff);
-			if (ret == -1)
-				return (EXIT_FAILURE);
-			if (S_ISDIR(buff.st_mode))
-				return (EXIT_FAILURE);
-			filedes[0] = dup(0);
-			filedes[1] = open(data->redirects[index].file, O_RDONLY);
-			dup2(filedes[1], STDIN_FILENO);
-			run_command(data);
-			dup2(filedes[0], STDIN_FILENO);
-			close(filedes[0]);
-			close(filedes[1]);
-		}
- *
- */
 
 int	has_redirect(t_data *data, int way)
 {
@@ -119,6 +99,20 @@ int	has_redirect(t_data *data, int way)
 	while (data->redirects[index].type != -1)
 	{
 		if (data->redirects[index].way == way)
+			return (1);
+		index++;
+	}
+	return (0);
+}
+
+int	has_pipe(t_data *data)
+{
+	int	index;
+
+	index = 0;
+	while (data->redirects[index].type != -1)
+	{
+		if (data->redirects[index].type == PIPE)
 			return (1);
 		index++;
 	}
@@ -170,9 +164,29 @@ int	exec_command(t_data *data)
 	int	stds[2];
 
 	index = 0;
-	stds[0] = dup(0);
-	stds[1] = dup(1);
-	pipe(stds);
+	if (has_pipe(data))
+	{
+		char **split = ft_split(data->line, '|');
+		int i = 0, ac = tabsize(split);
+		char	***commands;
+		while (split[i])
+		{
+			int		y;
+
+			y = -1;
+			if (!(commands = (char***)malloc(sizeof(char**) * ac)))
+				return (0);
+			commands[ac] = NULL;
+			while (++y < ac)
+			{
+				ft_putstr_fd(split[i], 2);
+				commands[y] = ft_split(split[i], ' ');
+				ft_putstr_fd("yo\n", 2);
+			}
+			i++;
+		}
+		exec_pipeline(commands, data->env, 0, STDIN_FILENO);
+	}
 	while (data->redirects[index].type != -1)
 	{
 		if (data->redirects[index].way == RIGHT)
@@ -188,39 +202,28 @@ int	exec_command(t_data *data)
 					{
 						stds[0] = dup(0);
 						fd2 = redirect_input(data->redirects[index2]);
-						run_command(data);
+						run_command(data, exec_prog);
 						stop_redirect(fd2, stds[0], STDIN_FILENO);
 					}
 					index2++;
 				}
 			}
 			else
-				run_command(data);
+				run_command(data, exec_prog);
 			stop_redirect(fd, stds[1], STDOUT_FILENO);
 		}
 		else if (data->redirects[index].way == LEFT && !has_redirect(data, RIGHT))
 		{
 			stds[0] = dup(0);
 			fd = redirect_input(data->redirects[index]);
-			run_command(data);
+			run_command(data, exec_prog);
 			stop_redirect(fd, stds[0], STDIN_FILENO);
-		}
-		else if (data->redirects[index].type == PIPE)
-		{
-			free(data->line);
-			data->line = ft_strdup(data->redirects[index].file);
-			free(data->command);
-			get_command(data);
-			free_splitted(data->arguments, 0);
-			get_arguments(data);
-			run_command(data);
+			close(stds[0]);
 		}
 		index++;
 	}
 	if (data->redirects[0].type == -1)
-		run_command(data);
-	close(stds[0]);
-	close(stds[1]);
+		run_command(data, exec_prog);
 	reset_redirections(data, 1);
 	return (EXIT_SUCCESS);
 }

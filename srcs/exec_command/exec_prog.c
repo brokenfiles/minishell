@@ -36,6 +36,56 @@ int	get_path(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
+void    redirect(int oldfd, int newfd)
+{
+	if (oldfd != newfd)
+	{
+		if (dup2(oldfd, newfd) != -1)
+			close(oldfd);
+	}
+}
+
+void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd)
+{
+	pid_t   process;
+	int     fd[2];
+	int     status;
+
+	if (cmds[pos + 1] == NULL)
+	{
+
+			ft_putstr_fd(cmds[pos][0], 2);
+		redirect(in_fd, STDIN_FILENO);
+		execve(cmds[pos][0], cmds[pos], env);
+	}
+	else
+	{
+		pipe(fd);
+		process = fork();
+//		ft_putstr("[Process : "); ft_putnbr_fd(process, 1); ft_putstr("]\n");
+		if (process == 0)
+		{
+//			ft_putstr("[Processus Fils]\n");
+			close(fd[0]);
+			redirect(in_fd, STDIN_FILENO);
+			redirect(fd[1], STDOUT_FILENO); // entree tunnel = fd 1
+			ft_putstr_fd(cmds[pos][0], 2);
+			execve(cmds[pos][0], cmds[pos], env);
+		}
+		else
+		{
+//			ft_putstr("[Processus Père]\n");
+			waitpid(process, &status, 0);
+//			ft_putstr("[After waitpid]\n");
+			close(fd[1]);
+			close(in_fd);
+			ft_putstr_fd(cmds[pos][0], 2);
+			exec_pipeline(cmds, env, pos + 1, fd[0]);
+		}
+	}
+}
+
+
 int	exec_prog(t_data *data)
 {
 	char		**arguments;
