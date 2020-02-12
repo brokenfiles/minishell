@@ -159,13 +159,13 @@ int		parse_redirect(t_data *data)
 		}
 		else if (data->redirects[x].type == PIPE)
 		{
-			dup = ft_strdup(&data->line[ft_strlen(data->redirects[x].file) + data->redirects[x].pos + 1]);
-			str = ft_substr(data->line, 0, data->redirects[x].pos);
-			join = ft_strjoin(str, dup);
-			free(str);
-			free(dup);
-			free(data->line);
-			data->line = join;
+//			dup = ft_strdup(&data->line[ft_strlen(data->redirects[x].file) + data->redirects[x].pos + 1]);
+//			str = ft_substr(data->line, 0, data->redirects[x].pos);
+//			join = ft_strjoin(str, dup);
+//			free(str);
+//			free(dup);
+//			free(data->line);
+//			data->line = join;
 		}
 	}
 	return (0);

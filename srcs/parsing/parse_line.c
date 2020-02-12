@@ -70,7 +70,7 @@ int	get_arguments(t_data *data)
 	return (parse_arguments(data));
 }
 
-int	run_command(t_data *data)
+int	run_command(t_data *data, int (f)(t_data *data))
 {
 	if (ft_strcmp(data->command, "exit") == 0)
 		exit(EXIT_SUCCESS);
@@ -86,140 +86,8 @@ int	run_command(t_data *data)
 		data->last_return = exec_unset(data);
 	else if (ft_strcmp(data->command, "export") == 0)
 		data->last_return = exec_export(data);
-	else if ((data->last_return = exec_prog(data)) == EXIT_FAILURE)
+	else if ((data->last_return = f(data)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
-/*
- *
-		else if (data->redirects[index].way == LEFT)
-		{
-			ret = stat(data->redirects[index].file, &buff);
-			if (ret == -1)
-				return (EXIT_FAILURE);
-			if (S_ISDIR(buff.st_mode))
-				return (EXIT_FAILURE);
-			filedes[0] = dup(0);
-			filedes[1] = open(data->redirects[index].file, O_RDONLY);
-			dup2(filedes[1], STDIN_FILENO);
-			run_command(data);
-			dup2(filedes[0], STDIN_FILENO);
-			close(filedes[0]);
-			close(filedes[1]);
-		}
- *
- */
-
-int	has_redirect(t_data *data, int way)
-{
-	int	index;
-
-	index = 0;
-	while (data->redirects[index].type != -1)
-	{
-		if (data->redirects[index].way == way)
-			return (1);
-		index++;
-	}
-	return (0);
-}
-
-int		stop_redirect(int fd, int dup, int std)
-{
-	if ((dup2(dup, std)) < 1)
-		return (-1);
-	close(fd);
-	return (EXIT_SUCCESS);
-}
-
-int		redirect_output(t_redirect redirect)
-{
-	int	fd;
-
-	if (!(fd = open(redirect.file, redirect.type == DOUBLE_AQUOTE ? O_RDWR | O_CREAT | O_APPEND
-	: O_RDWR | O_CREAT | O_TRUNC, 0644)))
-		return (-1);
-	if (dup2(fd, STDOUT_FILENO) < 1)
-		return (-1);
-	return (fd);
-}
-
-int		redirect_input(t_redirect redirect)
-{
-	struct stat	buff;
-	int			fd;
-	int			ret;
-
-	ret = stat(redirect.file, &buff);
-	if (ret == -1 || S_ISDIR(buff.st_mode))
-		return (EXIT_FAILURE);
-	if (!(fd = open(redirect.file, O_RDONLY)))
-		return (-1);
-	if (dup2(fd, STDIN_FILENO) < 1)
-		return (-1);
-	return (fd);
-}
-
-int	exec_command(t_data *data)
-{
-	int	index;
-	int	index2;
-	int	fd;
-	int	fd2;
-	int	stds[2];
-
-	index = 0;
-	pipe(stds);
-	while (data->redirects[index].type != -1)
-	{
-		if (data->redirects[index].way == RIGHT)
-		{
-			stds[1] = dup(1);
-			fd = redirect_output(data->redirects[index]);
-			if (has_redirect(data, LEFT))
-			{
-				index2 = 0;
-				while (data->redirects[index2].type != -1)
-				{
-					if (data->redirects[index2].way == LEFT)
-					{
-						stds[0] = dup(0);
-						fd2 = redirect_input(data->redirects[index2]);
-						run_command(data);
-						stop_redirect(fd2, stds[0], STDIN_FILENO);
-					}
-					index2++;
-				}
-			}
-			else
-				run_command(data);
-			stop_redirect(fd, stds[1], STDOUT_FILENO);
-		}
-		else if (data->redirects[index].way == LEFT && !has_redirect(data, RIGHT))
-		{
-			stds[0] = dup(0);
-			fd = redirect_input(data->redirects[index]);
-			run_command(data);
-			stop_redirect(fd, stds[0], STDIN_FILENO);
-		}
-		else if (data->redirects[index].type == PIPE)
-		{
-			free(data->line);
-			data->line = ft_strdup(data->redirects[index].file);
-			free(data->command);
-			get_command(data);
-			free_splitted(data->arguments, 0);
-			get_arguments(data);
-			run_command(data);
-		}
-		index++;
-	}
-	if (data->redirects[0].type == -1)
-		run_command(data);
-	close(stds[0]);
-	close(stds[1]);
-	reset_redirections(data, 1);
 	return (EXIT_SUCCESS);
 }
 
@@ -246,7 +114,7 @@ int	parse_line(t_data *data)
 			data->last_return = EXIT_FAILURE;
 			return (fsp(commands, data->command, 0, ARGUMENTS_ERROR));
 		}
-		if (exec_command(data) == EXIT_FAILURE)
+		if (exec_hub(data) == EXIT_FAILURE)
 		{
 			data->last_return = EXIT_FAILURE;
 			return (fsp(commands, data->command, 0, INVALID_FILE));
