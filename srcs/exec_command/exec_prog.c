@@ -45,7 +45,7 @@ void    redirect(int oldfd, int newfd)
 	}
 }
 
-void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd)
+void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd, t_data *data)
 {
 	pid_t   process;
 	int     fd[2];
@@ -53,36 +53,92 @@ void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd)
 
 	if (cmds[pos + 1] == NULL)
 	{
-
-			ft_putstr_fd(cmds[pos][0], 2);
 		redirect(in_fd, STDIN_FILENO);
-		execve(cmds[pos][0], cmds[pos], env);
+		process = fork();
+		if (process == 0)
+			exec_prog2(cmds[pos][0], cmds[pos], data);
+		else
+			waitpid(process, &status, 0);
 	}
 	else
 	{
 		pipe(fd);
 		process = fork();
-//		ft_putstr("[Process : "); ft_putnbr_fd(process, 1); ft_putstr("]\n");
 		if (process == 0)
 		{
-//			ft_putstr("[Processus Fils]\n");
 			close(fd[0]);
 			redirect(in_fd, STDIN_FILENO);
-			redirect(fd[1], STDOUT_FILENO); // entree tunnel = fd 1
-			ft_putstr_fd(cmds[pos][0], 2);
-			execve(cmds[pos][0], cmds[pos], env);
+			redirect(fd[1], STDOUT_FILENO);
+			exec_prog2(cmds[pos][0], cmds[pos], data);
 		}
 		else
 		{
-//			ft_putstr("[Processus Père]\n");
 			waitpid(process, &status, 0);
-//			ft_putstr("[After waitpid]\n");
 			close(fd[1]);
 			close(in_fd);
-			ft_putstr_fd(cmds[pos][0], 2);
-			exec_pipeline(cmds, env, pos + 1, fd[0]);
+			exec_pipeline(cmds, env, pos + 1, fd[0], data);
 		}
 	}
+}
+
+int	get_path2(char **command, t_data *data)
+{
+	struct stat	buff;
+	char		**paths;
+	char		*joined;
+	char		*tmp;
+	int			index;
+
+	index = 0;
+	stat(*command, &buff);
+	if (!S_ISREG(buff.st_mode))
+	{
+		if (!(joined = get_env_str(data, "PATH")))
+			return (0);
+		paths = ft_split(joined, ':');
+		free(joined);
+		while (paths[index])
+		{
+			joined = ft_strjoin(paths[index], "/");
+			tmp = joined;
+			stat((joined = ft_strjoin(joined, *command)), &buff);
+			free(tmp);
+			if (S_ISREG(buff.st_mode))
+			{
+//				free(command);
+				*command = joined;
+				break;
+			}
+			free(joined);
+			index++;
+		}
+		free_splitted(paths, 0);
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	exec_prog2(char *command, char **line, t_data *data)
+{
+	char		**arguments;
+	char		*tmp;
+	int			index;
+	int			status;
+
+	index = 0;
+	status = 0;
+	get_path2(&command, data);
+	arguments = line;
+	index = 0;
+	while (arguments[index])
+	{
+		tmp = arguments[index];
+		arguments[index] = ft_strtrim(arguments[index], "\"'");
+		free(tmp);
+		index++;
+	}
+	execve(command, arguments, data->env);
+	free_splitted(arguments, 0);
+	return (status);
 }
 
 

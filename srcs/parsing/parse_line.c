@@ -155,6 +155,17 @@ int		redirect_input(t_redirect redirect)
 	return (fd);
 }
 
+void		print_table_of_table_of_table(char ***commands)
+{
+	for (int i = 0; commands[i]; i++)
+	{
+		for(int y = 0; commands[i][y]; y++)
+		{
+			printf("commands[%d][%d] = %s\n", i, y, commands[i][y]);
+		}
+	}
+}
+
 int	exec_command(t_data *data)
 {
 	int	index;
@@ -174,18 +185,15 @@ int	exec_command(t_data *data)
 			int		y;
 
 			y = -1;
-			if (!(commands = (char***)malloc(sizeof(char**) * ac)))
+			if (!(commands = (char***)malloc(sizeof(char**) * (ac + 1))))
 				return (0);
-			commands[ac] = NULL;
 			while (++y < ac)
-			{
-				ft_putstr_fd(split[i], 2);
-				commands[y] = ft_split(split[i], ' ');
-				ft_putstr_fd("yo\n", 2);
-			}
+				commands[y] = ft_split(split[y], ' ');
+			commands[y] = NULL;
 			i++;
 		}
-		exec_pipeline(commands, data->env, 0, STDIN_FILENO);
+//		print_table_of_table_of_table(commands);
+		exec_pipeline(commands, data->env, 0, STDIN_FILENO,data);
 	}
 	while (data->redirects[index].type != -1)
 	{

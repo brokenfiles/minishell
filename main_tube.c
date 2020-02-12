@@ -46,6 +46,17 @@ void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd)
 	}
 }
 
+void		print_table_of_table_of_table(char ***commands)
+{
+	for (int i = 0; commands[i]; i++)
+	{
+		for(int y = 0; commands[i][y]; y++)
+		{
+			printf("commands[%d][%d] = %s\n", i, y, commands[i][y]);
+		}
+	}
+}
+
 int     main(int ac, char **av, char **env)
 {
 	char    ***commands;
@@ -58,6 +69,7 @@ int     main(int ac, char **av, char **env)
 	commands[ac - 1] = NULL;
 	while (++i < ac - 1)
 		commands[i] = ft_split(av[i + 1], ' ');
+	print_table_of_table_of_table(commands);
 	exec_pipeline(commands, env, 0, STDIN_FILENO);
 	return (0);
 }
