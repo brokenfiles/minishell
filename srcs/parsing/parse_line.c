@@ -170,8 +170,6 @@ int	exec_command(t_data *data)
 	int	stds[2];
 
 	index = 0;
-	stds[0] = dup(0);
-	stds[1] = dup(1);
 	pipe(stds);
 	while (data->redirects[index].type != -1)
 	{
