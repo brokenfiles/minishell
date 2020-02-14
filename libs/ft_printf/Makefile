@@ -6,23 +6,22 @@
 #    By: llaurent <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/04 11:15:39 by llaurent          #+#    #+#              #
-#    Updated: 2020/01/27 17:42:22 by llaurent         ###   ########.fr        #
+#    Updated: 2020/02/12 16:03:33 by mbrignol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCSC		= 	srcs/ft_handlers.c\
-				srcs/ft_handlers_2.c\
+SRCSC		= 	srcs/ft_put.c\
+				srcs/ft_put2.c\
 				srcs/ft_printf.c\
-				srcs/ft_strjoin_c.c\
+				srcs/handler_arg.c\
+				srcs/handler_buff.c\
 				srcs/handler_c.c\
 				srcs/handler_diu.c\
 				srcs/handler_o.c\
 				srcs/handler_px.c\
 				srcs/handler_s.c\
-				srcs/handler_struct.c\
-				srcs/handler_utils.c\
-				srcs/handler_utils_2.c
-SRCSH		= ../../includes/printf.h
+				srcs/utils.c\
+				srcs/ft_strjoin_c.c
 OBJS		= $(SRCSC:%.c=%.o)
 NAME		= libftprintf.a
 CC			= gcc
@@ -32,7 +31,7 @@ CFLAGS		= -Wall -Wextra -Werror
 
 .c.o: ${OBJS}
 			@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
-			@echo "\033[1;32mft_printf > Generated \033[1;33m${<:.c=.o}\033[0;0m"
+			@printf "\033[2K\033[1;32mft_printf > Generated \033[1;33m${<:.c=.o}\033[0;0m\r"
 
 $(NAME):	${OBJS}
 			@${AR} ${NAME} ${OBJS} ${SRCSH}

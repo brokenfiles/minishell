@@ -6,7 +6,7 @@
 /*   By: mbrignol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 10:50:27 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/01/27 16:30:26 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/02/12 16:03:33 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		ft_read_fd(int fd, char **str)
 	int		size_read;
 
 	if (!(buffer = ft_strnew(BUFFER_SIZE)))
-		return (KO);
+		return (FAILURE);
 	size_read = read(fd, buffer, BUFFER_SIZE);
 	if (size_read <= 0)
 		return (free_buffer(buffer, size_read));
@@ -41,7 +41,7 @@ int		ft_read_fd(int fd, char **str)
 		return (free_buffer(buffer, 0));
 	buffer[size_read] = '\0';
 	if (!(temp = ft_strnew(ft_strlen(*str) + size_read)))
-		return (KO);
+		return (FAILURE);
 	if (*str)
 	{
 		temp = ft_strncat(temp, *str, ft_strlen(*str));
@@ -51,7 +51,7 @@ int		ft_read_fd(int fd, char **str)
 	free(buffer);
 	if (!ft_is_line(*str))
 		return (ft_read_fd(fd, str));
-	return (OK);
+	return (SUCCESS);
 }
 
 int		ft_split_str(char **str, char **line)
@@ -65,7 +65,7 @@ int		ft_split_str(char **str, char **line)
 	while ((*str)[size_line] && (*str)[size_line] != '\n')
 		size_line++;
 	if (!(temp_line = ft_strnew(size_line)))
-		return (KO);
+		return (FAILURE);
 	*line = ft_strncat(temp_line, *str, size_line);
 	size_rest = ft_strlen(*str) - size_line;
 	if (size_rest == 0)
@@ -75,9 +75,9 @@ int		ft_split_str(char **str, char **line)
 		temp = ft_strncat(temp, &(*str)[size_line + 1], size_rest - 1);
 		free(*str);
 		*str = temp;
-		return (OK);
+		return (SUCCESS);
 	}
-	return (free_string(str, KO));
+	return (free_string(str, FAILURE));
 }
 
 int		get_next_line(int fd, char **line)
@@ -86,18 +86,18 @@ int		get_next_line(int fd, char **line)
 	int				cut;
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
-		return (KO);
+		return (FAILURE);
 	if (!ft_is_line(str))
 	{
-		if (ft_read_fd(fd, &str) == KO)
-			return (KO);
+		if (ft_read_fd(fd, &str) == FAILURE)
+			return (FAILURE);
 		if (!str)
 		{
 			*line = ft_strnew(0);
 			return (END);
 		}
 	}
-	if ((cut = ft_split_str(&str, line)) != OK)
+	if ((cut = ft_split_str(&str, line)) != SUCCESS)
 		return (free_string(&str, END));
-	return (OK);
+	return (SUCCESS);
 }

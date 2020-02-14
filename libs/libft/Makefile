@@ -21,7 +21,7 @@ SRCS		=	ft_atoi.c				\
 				ft_strlcpy.c			\
 				ft_strlen.c				\
 				ft_strncmp.c			\
-				ft_strcmp.c			\
+				ft_strcmp.c			    \
 				ft_strnstr.c			\
 				ft_strrchr.c			\
 				ft_tolower.c			\
@@ -66,7 +66,7 @@ RM			=	rm -f
 
 .c.o:
 				@$(CC) $(FLAGS) -c $< -o ${<:.c=.o}
-				@echo "\033[1;32mLibft > Generated \033[1;33m${<:.c=.o}\033[0;0m"
+				@printf "\033[2K\033[1;32mLibft > Generated \033[1;33m${<:.c=.o}\033[0;0m\r"
 
 $(NAME): ${OBJS}
 				@ar rcs $(NAME) ${OBJS}
@@ -76,12 +76,10 @@ all: $(NAME)
 clean:
 				@${RM} ${OBJS}
 				@${RM} ${BOBJS}
-				@echo "\033[1;31mLibft > Removing ${OBJS}\033[0;0m"
 
 fclean: clean
 				@${RM} $(NAME)
 				@${RM} ${BOBJS}
-				@echo "\033[1;34mLibft > Removing libft.a\033[0;0m"
 
 re:	fclean all
 

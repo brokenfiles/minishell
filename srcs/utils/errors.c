@@ -44,13 +44,14 @@ int		free_splitted(char **splitted, int code)
 		i++;
 	}
 	free(splitted);
-	*splitted = NULL;
 	return (code);
 }
 
 int	quit(char *error, int code)
 {
-	ft_printf("minishell: %s\n", error);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(error, 2);
+	ft_putstr_fd("\n", 2);
 	exit(code);
 	return (code);
 }
