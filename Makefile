@@ -12,6 +12,7 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/parsing/parse_line.c\
 				srcs/parsing/parse_redirections.c\
 				srcs/parsing/parse_arguments.c\
+				srcs/parsing/manage_redirection.c\
 				srcs/structures/init_struct.c\
 				srcs/exec_command/command_env.c\
 				srcs/exec_command/command_pwd.c\
@@ -29,13 +30,13 @@ OBJS		= ${SRCSC:%.c=${OBJS_DIR}/%.o}
 
 ${OBJS_DIR}/%.o: %.c
 			@mkdir -p ${@D}
-			@echo "\033[1;32mMinishell > Generated \033[1;33m${<:.c=.o}\033[0;0m"
+			@printf "\033[2K\033[1;32mMinishell > Generated \033[1;33m${<:.c=.o}\033[0;0m\r"
 			@${CC} ${CFLAGS} -c $< -o $@
 
 ${NAME}:	${OBJS}
 			@make bonus -C libs/libft
 			@make -C libs/ft_printf
-			@${CC} ${CFLAGS} ${OBJS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -ltermcap -o ${NAME}
+			@${CC} ${CFLAGS} ${OBJS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
 			@echo "\033[1;32m┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐"
 			@echo "└─┐│ ││  │  ├┤ └─┐└─┐"
 			@echo "└─┘└─┘└─┘└─┘└─┘└─┘└─┘"
@@ -50,13 +51,11 @@ all:		${NAME}
 clean:
 			@make clean -C libs/libft
 			@make clean -C libs/ft_printf
-			@echo "\033[1;31mMinishell > Removing ${OBJS}\033[0;0m"
 			@${RM} ${OBJS}
 
 fclean:		clean
 			@make fclean -C libs/libft
 			@make fclean -C libs/ft_printf
-			@echo "\033[1;34mMinishell > Removing ${NAME}\033[0;0m"
 			@${RM} ${NAME}
 
 re:			fclean all
