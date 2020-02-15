@@ -16,7 +16,7 @@
 #include "printf.h"
 
 int		exec_hub(t_data *data);
-int		run_command(t_data *data, int (f)(t_data *data));
+int		run_command(t_data *data, char **cmds);
 int		parse_line(t_data *data);
 int		replace_env(t_data *data);
 void	reset_redirections(t_data *data, int need_free);
@@ -28,7 +28,7 @@ int		exec_cd(t_data *data);
 int		exec_unset(t_data *data);
 void	redirect(int oldfd, int newfd);
 int		exec_export(t_data *data);
-int		exec_prog(t_data *data);
+int		exec_prog(t_data *data, char **cmds);
 void	exec_pipeline(char ***cmds, char **env, int pos, int in_fd);
 int		get_var_env(t_data *data, char *str, int *index);
 int		fsp(char **splitted, char *str, int code, char *message);

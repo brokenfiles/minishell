@@ -36,52 +36,8 @@ int	get_path(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-void    redirect(int oldfd, int newfd)
+int	exec_prog(t_data *data, char **cmds)
 {
-	if (oldfd != newfd)
-	{
-		if (dup2(oldfd, newfd) != -1)
-			close(oldfd);
-	}
-}
-
-void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd)
-{
-	pid_t   process;
-	int     fd[2];
-	int     status;
-
-	if (cmds[pos + 1] == NULL)
-	{
-		redirect(in_fd, STDIN_FILENO);
-		execve(cmds[pos][0], cmds[pos], env);
-	}
-	else
-	{
-		pipe(fd);
-		process = fork();
-		if (process == 0)
-		{
-			close(fd[0]);
-			redirect(in_fd, STDIN_FILENO);
-			redirect(fd[1], STDOUT_FILENO);
-			ft_putstr_fd(cmds[pos][0], 2);
-			execve(cmds[pos][0], cmds[pos], env);
-		}
-		else
-		{
-			waitpid(process, &status, 0);
-			close(fd[1]);
-			close(in_fd);
-			ft_putstr_fd(cmds[pos][0], 2);
-			exec_pipeline(cmds, env, pos + 1, fd[0]);
-		}
-	}
-}
-
-int	exec_prog(t_data *data)
-{
-	char		**arguments;
 	char		*tmp;
 	pid_t		pid;
 	int			index;
@@ -90,27 +46,27 @@ int	exec_prog(t_data *data)
 	index = 0;
 	status = 0;
 	get_path(data);
-	arguments = ft_split_spec(data->line, ' ');
 	index = 0;
-	while (arguments[index])
+	while (cmds[index])
 	{
-		tmp = arguments[index];
-		arguments[index] = ft_strtrim(arguments[index], "\"'");
+		tmp = cmds[index];
+		cmds[index] = ft_strtrim(cmds[index], "\"'");
 		free(tmp);
 		index++;
 	}
 	pid = fork();
 	if (pid == 0)
-		execve(data->command, arguments, data->env) == -1 \
-			? quit("permission denied", free_splitted(arguments, EXIT_FAILURE)) : 0;
+	{
+		if (execve(data->command, cmds, data->env) == -1)
+			quit("permission denied", free_splitted(cmds, EXIT_FAILURE));
+	}
 	else if (pid < 0)
-		quit("failed to fork", free_splitted(arguments, EXIT_FAILURE));
+		quit("failed to fork", free_splitted(cmds, EXIT_FAILURE));
 	else
 		waitpid(pid, &status, 0);
 	if (status == 11 || status == 10)
 		status += 128;
 	if (status != 139 && status != 138)
 		status = status ? EXIT_FAILURE : EXIT_SUCCESS;
-	free_splitted(arguments, 0);
 	return (status);
 }
