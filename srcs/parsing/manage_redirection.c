@@ -140,11 +140,11 @@ int		exec_hub(t_data *data)
 	char **split;
 
 	i = 0;
-	split = ft_split(data->line, '|');
+	split = ft_split_spec(data->line, '|');
 	commands = malloc(sizeof(char**) * (tabsize(split) + 1));
 	while (i < tabsize(split))
 	{
-		commands[i] = ft_split(split[i], ' ');
+		commands[i] = ft_split_spec(split[i], ' ');
 		i++;
 	}
 	commands[i] = NULL;

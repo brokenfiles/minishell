@@ -20,7 +20,7 @@ CFLAGS		= -Wall -Wextra -Werror
 
 .c.o: ${OBJS}
 			@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
-			@printf "\033[2K\033[1;32mft_printf > Generated \033[1;33m${<:.c=.o}\033[0;0m\r"
+			@printf "\033[2K\x1b[38;2;198;198;198mft_printf: compiling \x1b[38;2;255;179;172m${<:.c=.o}\033[0;0m\r"
 
 $(NAME):	${OBJS}
 			@${AR} ${NAME} ${OBJS} ${SRCSH}
@@ -28,11 +28,9 @@ $(NAME):	${OBJS}
 all:		${NAME}
 
 clean:
-			@echo "Deleting .o files.."
 			@${RM} ${OBJS}
 
 fclean:		clean
-			@echo "Deleting binary files.."
 			@${RM} ${NAME}
 
 re:			fclean all

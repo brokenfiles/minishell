@@ -30,20 +30,23 @@ OBJS		= ${SRCSC:%.c=${OBJS_DIR}/%.o}
 
 ${OBJS_DIR}/%.o: %.c
 			@mkdir -p ${@D}
-			@printf "\033[2K\033[1;32mMinishell > Generated \033[1;33m${<:.c=.o}\033[0;0m\r"
+			@printf "\033[2K\x1b[38;2;198;198;198mminishell: compiling \x1b[38;2;255;179;172m${<:.c=.o}\033[0;0m\r"
 			@${CC} ${CFLAGS} -c $< -o $@
 
 ${NAME}:	${OBJS}
+			@printf "\033[2K\x1b[38;2;198;198;198mminishell: \x1b[38;2;177;255;98m[generated]\033[0;0m\r\n"
 			@make bonus -C libs/libft
+			@printf "\033[2K\x1b[38;2;198;198;198mlibft: \x1b[38;2;177;255;98m[generated]\033[0;0m\r\n"
 			@make -C libs/ft_printf
+			@printf "\033[2K\x1b[38;2;198;198;198mft_printf: \x1b[38;2;177;255;98m[generated]\033[0;0m\r"
 			@${CC} ${CFLAGS} ${OBJS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
-			@echo "\033[1;32m┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐"
-			@echo "└─┐│ ││  │  ├┤ └─┐└─┐"
-			@echo "└─┘└─┘└─┘└─┘└─┘└─┘└─┘"
-			@echo "${NAME} generated successfully.\033[0;0m"
+			@printf "\n\033[0;32m┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐\n"
+			@printf "└─┐│ ││  │  ├┤ └─┐└─┐\n"
+			@printf "└─┘└─┘└─┘└─┘└─┘└─┘└─┘\n"
+			@printf "${NAME} generated successfully.\033[0;0m\n"
 
 run:		${NAME}
-			@echo "\033[1;34mRunning ${NAME}...\033[0;0m"
+			@echo "\033[0;34mRunning ${NAME}...\033[0;0m"
 			@./${NAME}
 
 all:		${NAME}
@@ -52,6 +55,7 @@ clean:
 			@make clean -C libs/libft
 			@make clean -C libs/ft_printf
 			@${RM} ${OBJS}
+			@printf "\x1b[38;2;198;198;198mproject: \x1b[38;2;177;255;98m[cleaned]\033[0;0m\n"
 
 fclean:		clean
 			@make fclean -C libs/libft
