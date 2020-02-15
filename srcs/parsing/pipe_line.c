@@ -9,9 +9,10 @@ void    redirect(int oldfd, int newfd)
 
 void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd)
 {
-	pid_t   process;
-	int     fd[2];
-	int     status;
+	pid_t	process;
+	int		fd[2];
+	int		status;
+
 
 	if (cmds[pos + 1] == NULL)
 	{

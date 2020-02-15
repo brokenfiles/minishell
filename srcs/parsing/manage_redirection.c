@@ -2,7 +2,7 @@
 
 int		exec_only_one(t_data *data, char **cmds)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	if ((pid = fork()) == -1)
 		return (0);
@@ -17,11 +17,11 @@ int		exec_only_one(t_data *data, char **cmds)
 
 int		exec_pipes(t_data *data, char **split, int x)
 {
-	pid_t pid;
-	pid_t pid2;
-	int pipefd[2];
-	int save[2];
-	char **cmds;
+	pid_t	pid;
+	pid_t	pid2;
+	int		pipefd[2];
+	int		save[2];
+	char	**cmds;
 
 	if (pipe(pipefd) == -1)
 		return(0);
@@ -56,7 +56,7 @@ int		exec_pipes(t_data *data, char **split, int x)
 	return (0);
 }
 
-void    redirect(int oldfd, int newfd)
+void	redirect(int oldfd, int newfd)
 {
 	if (oldfd != newfd)
 	{
@@ -67,8 +67,8 @@ void    redirect(int oldfd, int newfd)
 
 void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd, t_data *data)
 {
-	pid_t   process;
-	int     fd[2];
+	pid_t	process;
+	int		fd[2];
 
 	if (cmds[pos + 1] == NULL)
 	{
@@ -148,11 +148,16 @@ int		exec_hub(t_data *data)
 		i++;
 	}
 	commands[i] = NULL;
-	if ((pid = fork()) == -1)
-		return (0);
-	if (pid == 0)
-		exec_pipeline(commands, data->env, 0, STDIN_FILENO, data);
-	wait(NULL);
+//	if (tabsize(split) == 1) maybe ????
+//		run_command(data, commands[0]); maybe ???
+//	else maybe ???
+//	{ maybe ???
+		if ((pid = fork()) == -1)
+			return (0);
+		if (pid == 0)
+			exec_pipeline(commands, data->env, 0, STDIN_FILENO, data);
+		wait(NULL);
+//	} maybe ???
 	i = 0;
 	while (i < tabsize(split))
 	{

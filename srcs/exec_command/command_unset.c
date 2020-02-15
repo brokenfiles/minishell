@@ -7,23 +7,15 @@ int		get_unset_tab(t_data *data, int i)
 	int		j;
 	int		x;
 
-	x = 0;
 	if (!(str = malloc(sizeof(char*) * (tabsize(data->env)))))
 		return (0);
+	x = 0;
 	j = 0;
 	while (x < i)
-	{
-		str[x] = ft_strdup(data->env[j]);
-		x++;
-		j++;
-	}
+		str[x++] = ft_strdup(data->env[j++]);
 	j++;
 	while (data->env[j])
-	{
-		str[x] = ft_strdup(data->env[j]);
-		x++;
-		j++;
-	}
+		str[x++] = ft_strdup(data->env[j++]);
 	str[x] = 0;
 	free_splitted(data->env, 0);
 	data->env = str;

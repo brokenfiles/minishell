@@ -14,16 +14,19 @@ SRCSC		= 	srcs/ft_put.c\
 OBJS		= $(SRCSC:%.c=%.o)
 NAME		= libftprintf.a
 CC			= gcc
-AR			= ar rc
+AR			= ar rcs
 RM			= rm -f
 CFLAGS		= -Wall -Wextra -Werror
 
 .c.o: ${OBJS}
 			@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
-			@printf "\033[2K\x1b[38;2;198;198;198mft_printf: compiling \x1b[38;2;255;179;172m${<:.c=.o}\033[0;0m\r"
+			@printf "\033[2K\x1b[38;2;255;224;251mFT_PRINTF:    \x1b[38;2;250;255;175mCompilation...    \x1b[38;2;255;179;172m${<:.c=.o}\033[0;0m\r"
 
-$(NAME):	${OBJS}
+$(NAME):	${OBJS} | silent
 			@${AR} ${NAME} ${OBJS} ${SRCSH}
+
+silent:
+			@:
 
 all:		${NAME}
 
@@ -32,6 +35,8 @@ clean:
 
 fclean:		clean
 			@${RM} ${NAME}
+
+bonus:		${NAME}
 
 re:			fclean all
 

@@ -39,8 +39,8 @@ int	get_path(t_data *data, char **cmds)
 
 int	exec_prog(t_data *data, char **cmds)
 {
-	char		*tmp;
-	int			index;
+	char	*tmp;
+	int		index;
 
 	index = 0;
 	get_path(data, cmds);

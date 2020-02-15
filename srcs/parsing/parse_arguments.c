@@ -29,11 +29,11 @@ static size_t	count_words(char *s, char c)
 
 char			**ft_split_spec(char const *s, char c)
 {
-	size_t words;
-	int double_quote;
-	int simple_quote;
-	char *begin;
-	char **result;
+	size_t	words;
+	int		double_quote;
+	int		simple_quote;
+	char	*begin;
+	char	**result;
 
 	if (!s)
 		return (NULL);
