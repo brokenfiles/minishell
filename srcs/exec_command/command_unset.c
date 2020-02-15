@@ -30,7 +30,7 @@ int		get_unset_tab(t_data *data, int i)
 	return (1);
 }
 
-int		exec_unset(t_data *data)
+int		exec_unset(t_data *data, char **cmds)
 {
 	int		i;
 	int		index;
@@ -38,6 +38,7 @@ int		exec_unset(t_data *data)
 
 	index = 0;
 	i = 0;
+	data->arguments = cmds + 1;
 	if (tabsize(data->arguments) < 1)
 		return (EXIT_FAILURE);
 	while (tabsize(data->env) > i && data->env[i])

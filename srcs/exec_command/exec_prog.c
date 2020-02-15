@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	get_path(t_data *data)
+int	get_path(t_data *data, char **cmds)
 {
 	struct stat	buff;
 	char		**paths;
@@ -9,6 +9,7 @@ int	get_path(t_data *data)
 	int			index;
 
 	index = 0;
+	data->command = cmds[0];
 	stat(data->command, &buff);
 	if (!S_ISREG(buff.st_mode))
 	{
@@ -24,8 +25,8 @@ int	get_path(t_data *data)
 			free(tmp);
 			if (S_ISREG(buff.st_mode))
 			{
-				free(data->command);
-				data->command = joined;
+				free(cmds[0]);
+				cmds[0] = joined;
 				break;
 			}
 			free(joined);
@@ -39,13 +40,10 @@ int	get_path(t_data *data)
 int	exec_prog(t_data *data, char **cmds)
 {
 	char		*tmp;
-	pid_t		pid;
 	int			index;
-	int			status;
 
 	index = 0;
-	status = 0;
-	get_path(data);
+	get_path(data, cmds);
 	index = 0;
 	while (cmds[index])
 	{
@@ -54,19 +52,14 @@ int	exec_prog(t_data *data, char **cmds)
 		free(tmp);
 		index++;
 	}
-	pid = fork();
-	if (pid == 0)
+	if (execve(cmds[0], cmds, data->env) == -1)
 	{
-		if (execve(data->command, cmds, data->env) == -1)
-			quit("permission denied", free_splitted(cmds, EXIT_FAILURE));
+		ft_printf("minishell: command not found: %s\n", cmds[0]);
+		return (0);
 	}
-	else if (pid < 0)
-		quit("failed to fork", free_splitted(cmds, EXIT_FAILURE));
-	else
-		waitpid(pid, &status, 0);
-	if (status == 11 || status == 10)
+	return (1);
+	/*if (status == 11 || status == 10)
 		status += 128;
 	if (status != 139 && status != 138)
-		status = status ? EXIT_FAILURE : EXIT_SUCCESS;
-	return (status);
+		status = status ? EXIT_FAILURE : EXIT_SUCCESS;*/
 }

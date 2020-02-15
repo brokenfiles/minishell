@@ -101,11 +101,12 @@ int     sort_env_export(t_data *data)
 	return (free_splitted(temp, 0));
 }
 
-int		exec_export(t_data *data)
+int		exec_export(t_data *data, char **cmds)
 {
 	int		x;
 	char	*export;
 
+	data->arguments = cmds + 1;
 	x = 0;
 	while (data->arguments[x])
 	{
