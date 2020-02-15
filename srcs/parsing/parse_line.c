@@ -39,50 +39,23 @@ int	command_exists(t_data *data)
 	return (0);
 }
 
-int	get_command(t_data *data)
+int	run_command(t_data *data, char **cmds)
 {
-	int		start;
-	int		len;
-
-	start = 0;
-	while (data->line[start] == ' ')
-		start++;
-	len = 0;
-	while (data->line[len + start] && data->line[len + start] != ' ')
-		len++;
-	data->command = ft_substr(data->line, start, len);
-	return (command_exists(data));
-}
-
-int	get_arguments(t_data *data)
-{
-	char	*arguments;
-	int		index;
-
-	index = 0;
-	while (data->line[index] == ' ')
-		index++;
-	index += ft_strlen(data->command);
-	arguments = data->line + index;
-	while (data->line[index++] == ' ')
-		arguments++;
-	data->arguments_line = arguments;
-	return (parse_arguments(data));
-}
-
-int	exec_command(t_data *data)
-{
-	if (ft_strcmp(data->command, "exit") == 0)
+	if (ft_strcmp(cmds[0], "exit") == 0)
 		exit(EXIT_SUCCESS);
-	else if (ft_strcmp(data->command, "env") == 0)
-		data->last_return = get_env(data);
-	else if (ft_strcmp(data->command, "pwd") == 0)
-		data->last_return = get_pwd(data);
-	else if (ft_strcmp(data->command, "cd") == 0)
-		data->last_return = get_cd(data);
-	else if (ft_strcmp(data->command, "echo") == 0)
-		data->last_return = get_echo(data);
-	else if ((data->last_return = exec_prog(data)) == EXIT_FAILURE)
+	else if (ft_strcmp(cmds[0], "env") == 0)
+		data->last_return = exec_env(data);
+	else if (ft_strcmp(cmds[0], "pwd") == 0)
+		data->last_return = exec_pwd(data);
+	else if (ft_strcmp(cmds[0], "cd") == 0)
+		data->last_return = exec_cd(data, cmds);
+	else if (ft_strcmp(cmds[0], "echo") == 0)
+		data->last_return = exec_echo(data, cmds);
+	else if (ft_strcmp(cmds[0], "unset") == 0)
+		data->last_return = exec_unset(data, cmds);
+	else if (ft_strcmp(cmds[0], "export") == 0)
+		data->last_return = exec_export(data, cmds);
+	else if ((data->last_return = exec_prog(data, cmds)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -99,13 +72,12 @@ int	parse_line(t_data *data)
 		if (data->line)
 			free(data->line);
 		data->line = ft_strdup(commands[index]);
-		if (get_command(data) == 0)
-			return (fsp(commands, data->command, 0, COMMAND_NOT_FOUND));
-		if (!get_arguments(data))
-			return (fsp(commands, data->command, 0, ARGUMENTS_ERROR));
-		exec_command(data);
-		free(data->command);
-		free_splitted(data->arguments, 0);
+		get_redirections(data);
+		if (exec_hub(data) == EXIT_FAILURE)
+		{
+			data->last_return = EXIT_FAILURE;
+			return (fsp(commands, data->command, 0, INVALID_FILE));
+		}
 		index++;
 	}
 	free_splitted(commands, 0);

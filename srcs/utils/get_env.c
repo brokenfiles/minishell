@@ -10,7 +10,7 @@ char	*get_env_str(t_data *data, char *temp)
 	while (data->env[i])
 	{
 		split = ft_split(data->env[i], '=');
-		if (strcmp(temp, split[0]) == 0)
+		if (ft_strcmp(temp, split[0]) == 0)
 		{
 			if (ft_strlen(temp) == ft_strlen(split[0]))
 			{

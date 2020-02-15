@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler_struct.c                                   :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jchotel <jchotel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 12:32:01 by llaurent          #+#    #+#             */
-/*   Updated: 2019/11/26 10:25:20 by llaurent         ###   ########.fr       */
+/*   Created: 2020/01/22 19:54:38 by jchotel           #+#    #+#             */
+/*   Updated: 2020/02/14 22:18:44 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	reset_arg_param(t_arg *arg)
+void	padding(char c, int len, int *count)
 {
-	arg->conv = 0;
-	arg->flag = 0;
-	arg->precision = 0;
-	arg->modi = 0;
-	arg->width1 = 0;
-	arg->width2 = 0;
-	arg->flag_s = 0;
+	while (len-- > 0)
+		ft_putchar_count(c, count);
 }

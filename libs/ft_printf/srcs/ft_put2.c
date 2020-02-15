@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_handlers_2.c                                    :+:      :+:    :+:   */
+/*   ft_put2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jchotel <jchotel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 12:31:25 by llaurent          #+#    #+#             */
-/*   Updated: 2019/11/25 12:31:25 by llaurent         ###   ########.fr       */
+/*   Created: 2020/01/22 19:52:39 by jchotel           #+#    #+#             */
+/*   Updated: 2020/02/14 22:18:44 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ void	ft_puthexa_buff(char **buffer, long int nb, t_arg *arg, int flag)
 	char				*base;
 
 	base = (arg->conv == 'X') ? "0123456789ABCDEF" : "0123456789abcdef";
-	if (arg->flag == '#' || arg->conv == 'p')
+	if (arg->conv == 'p')
 	{
-		ft_putstr_buff(buffer, "0x");
 		arg->conv = (arg->conv == 'p') ? 'P' : arg->conv;
 	}
 	a = (nb < 0) ? -(nb + 1) : nb;

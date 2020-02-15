@@ -2,10 +2,10 @@
 
 int get_new_line(t_data *data, char *env, int index, int size)
 {
-	char *new_line;
-	char **splitted;
-	int i;
-	int j;
+	int		i;
+	char	*new_line;
+	char	**splitted;
+
 	i = 0;
 	splitted = ft_split(env, '=');
 	new_line = ft_strnew(ft_strlen(data->line) - size + ft_strlen(splitted[1]));
@@ -19,10 +19,10 @@ int get_new_line(t_data *data, char *env, int index, int size)
 
 int get_var_env(t_data *data, char *str, int *index)
 {
-	int i;
-	int len;
-	char **split;
-	char *temp;
+	int		i;
+	int		len;
+	char	**split;
+	char	*temp;
 
 	i = 0;
 	while (ft_isalnum(str[i]) || str[i] == '_')
@@ -34,7 +34,7 @@ int get_var_env(t_data *data, char *str, int *index)
 		if (ft_strncmp(temp, split[0], ft_strlen(split[0])) == 0)
 		{
 			len = ft_strlen(split[0]);
-			if (len == ft_strlen(temp))
+			if (len == (int)ft_strlen(temp))
 				return (fsp(split, temp, len, NULL));
 			free_splitted(split, 0);
 		} else
@@ -95,10 +95,10 @@ int is_invalid_env(t_data *data, int x)
 
 int replace_env(t_data *data)
 {
-	int i;
-	int index;
-	int temp;
-	char *new_line;
+	int	i;
+	int	index;
+	int	temp;
+
 	i = 0;
 	while (data->line[i])
 	{
@@ -109,7 +109,7 @@ int replace_env(t_data *data)
 			if ((temp = get_var_env(data, &data->line[i + 1], &index)) == 0)
 			{
 				is_invalid_env(data, i + 1);
-				i++;
+//				i++;
 				continue;
 			}
 			get_new_line(data, data->env[index], i, temp + 1);

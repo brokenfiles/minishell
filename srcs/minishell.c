@@ -1,22 +1,32 @@
 
 #include "../includes/minishell.h"
 
+t_data	*g_data;
+
+void	sig_handler()
+{
+	ft_putchar('\n');
+	write_preline(g_data);
+}
+
 int	main(int ac, char **av, char **env)
 {
-	t_data	*data;
+	(void)ac;
+	(void)av;
 
-	data = init_struct(env);
-	ft_printf("(\033[0;32m%s\033[0;0m) \033[0;33m➜ \033[0;0m", data->cwd);
-	while (get_next_line(0, &(data->line)) > 0)
+	g_data = init_struct(env);
+	write_preline(g_data);
+	signal(SIGINT, sig_handler);
+	while ((get_next_line(0, &(g_data->line)) > 0))
 	{
-		replace_env(data);
-		parse_line(data);
-		free(data->line);
-		data->line = NULL;
-		ft_printf("(\033[0;32m");
-		ft_putstr(data->cwd);
-		ft_printf("\033[0;0m) \033[0;33m➜ \033[0;0m");
+		ft_printf("\033[0;0m");
+		replace_env(g_data);
+		parse_line(g_data);
+//		ft_lstadd_front(&g_data->history, ft_lstnew((char *)ft_strdup(g_data->line)));
+		free(g_data->line);
+		g_data->line = NULL;
+		write_preline(g_data);
 	}
-	free(data->line);
+	free(g_data->line);
 	return (EXIT_SUCCESS);
 }
