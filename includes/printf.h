@@ -29,10 +29,10 @@ typedef struct	s_arg
 }				t_arg;
 
 int				ft_printf(const char *str, ...);
-void			handle_c(char *buffer, t_arg *arg, int *count, int i);
+void			handle_c(char *buffer, t_arg *arg, int *count);
 void			handle_u(char *buffer, t_arg *arg, int *count, int i);
 void			handle_di(char *buffer, t_arg *arg, int *count, int i);
-void			handle_o(char *buffer, t_arg *arg, int *count, int i);
+void			handle_o(char *buffer, t_arg *arg, int *count);
 void			handle_p(char *buffer, t_arg *arg, int *count, int i);
 void			handle_x(char *buffer, t_arg *arg, int *count, int i);
 void			handle_s(char *buffer, t_arg *arg, int *count, int i);

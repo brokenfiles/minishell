@@ -53,13 +53,13 @@ int		set_arg(t_arg *arg, char *handler, va_list va)
 		arg->flag = *handler;
 	else if (ft_isdigit(*handler) && !arg->w1 && !arg->precision &&
 		!arg->conv && !arg->w2 && !arg->modi)
-		arg->w1 = ft_atoi((const char *)handler);
+		arg->w1 = atoi((const char *)handler);
 	else if (ft_isdigit(*handler) && !arg->precision && !arg->conv)
 		return (1);
 	else if (ft_strchr(".*", *handler) && !arg->conv)
 		handle_precision(handler, arg, va);
 	else if (ft_isdigit(*handler) && !arg->w2 && !arg->modi && !arg->conv)
-		arg->w2 = ft_atoi((const char *)handler);
+		arg->w2 = atoi((const char *)handler);
 	else if (ft_isdigit(*handler) && !arg->modi && !arg->conv)
 		return (1);
 	else if (ft_strchr("hl", *handler) &&

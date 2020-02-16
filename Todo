@@ -1,1 +1,3 @@
 - Pipes | doivent marcher comme dans bash
+
+strace -e trace=open,close,dup,dup2,pipe,execve -f -p $(pgrep minishell)

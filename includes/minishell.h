@@ -9,6 +9,10 @@
 #include <curses.h>
 #include <term.h>
 #include <errno.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "get_next_line.h"
 #include "defines.h"
 #include "structures.h"
