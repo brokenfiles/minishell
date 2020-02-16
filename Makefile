@@ -4,6 +4,7 @@ CC			= gcc
 RM			= rm -f
 OBJS_DIR	= ./objects/
 HEADERS		= ./includes/
+START		= 1
 CFLAGS		= -I${HEADERS} -Wall -Wextra -Werror
 
 SRCSC		=	libs/get_next_line/get_next_line.c\
@@ -30,21 +31,25 @@ OBJS		= ${SRCSC:%.c=${OBJS_DIR}/%.o}
 
 ${OBJS_DIR}/%.o: %.c
 			@mkdir -p ${@D}
-			@printf "\033[2K\033[1;32mMinishell > Generated \033[1;33m${<:.c=.o}\033[0;0m\r"
+			@printf "\033[2KMINISHELL:    Compilation...    ${<:.c=.o}\033[0;0m\r"
 			@${CC} ${CFLAGS} -c $< -o $@
 
-${NAME}:	${OBJS}
+${NAME}:	header ${OBJS}
+			@printf "\033[2KMINISHELL\033[0;0m:    Completed         ----\033[0;0m\r\n"
 			@make bonus -C libs/libft
+			@printf "\033[2KLIBFT:        Completed         ----\033[0;0m\r\n"
 			@make -C libs/ft_printf
+			@printf "\033[2KFT_PRINTF:    Completed         ----\033[0;0m\r"
 			@${CC} ${CFLAGS} ${OBJS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
-			@echo "\033[1;32m┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐"
-			@echo "└─┐│ ││  │  ├┤ └─┐└─┐"
-			@echo "└─┘└─┘└─┘└─┘└─┘└─┘└─┘"
-			@echo "${NAME} generated successfully.\033[0;0m"
+			@printf "\n\033[0;0m⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\nMINISHELL:    Ready             ----\n\033[0;0m⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n"
 
 run:		${NAME}
-			@echo "\033[1;34mRunning ${NAME}...\033[0;0m"
+			@echo "\033[0;34mRunning ${NAME}...\033[0;0m"
 			@./${NAME}
+
+header:
+			@printf "\033[0;0m⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\nNAME          STATUS            FILE\n\033[0;0m⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n"
+
 
 all:		${NAME}
 
@@ -52,6 +57,7 @@ clean:
 			@make clean -C libs/libft
 			@make clean -C libs/ft_printf
 			@${RM} ${OBJS}
+			@printf "PROJECT:      Cleaned\033[0;0m\n"
 
 fclean:		clean
 			@make fclean -C libs/libft
@@ -59,9 +65,6 @@ fclean:		clean
 			@${RM} ${NAME}
 
 re:			fclean all
-
-rc:			re
-			@make clean
 
 bonus:		${NAME}
 

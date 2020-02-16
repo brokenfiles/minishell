@@ -17,7 +17,7 @@ int		is_separator(char c)
 
 void	debug(t_data *data)
 {
-	int x;
+	int	x;
 
 	x = 0;
 	while (data->redirects[x].pos != -1)
@@ -34,9 +34,9 @@ void	debug(t_data *data)
 
 int		get_filename(t_data *data, int x, int i, char *str)
 {
-	int j;
-	int stop;
-	char *file;
+	int		j;
+	int		stop;
+	char	*file;
 
 	j = 0;
 	stop = 0;
@@ -52,7 +52,7 @@ int		get_filename(t_data *data, int x, int i, char *str)
 
 int		get_next_pipe(t_data *data, int x, char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] && str[i] != '|')
@@ -63,9 +63,9 @@ int		get_next_pipe(t_data *data, int x, char *str)
 
 int		get_filename_reverse(t_data *data, int x, int i)
 {
-	int j;
-	int stop;
-	char *file;
+	int		j;
+	int		stop;
+	char	*file;
 
 	stop = 0;
 	j = i - 1;
@@ -134,11 +134,11 @@ int		get_jump(t_data *data, int temp, int x)
 
 int		parse_redirect(t_data *data)
 {
-	int x;
-	int temp;
-	char *str;
-	char *dup;
-	char *join;
+	int		x;
+	int		temp;
+	char	*str;
+	char	*dup;
+	char	*join;
 
 	x = get_redirections_len(data);
 	while (x-- > 0)
@@ -173,8 +173,8 @@ int		parse_redirect(t_data *data)
 
 int		get_redirections(t_data *data)
 {
-	int i;
-	int x;
+	int	i;
+	int	x;
 
 	x = 0;
 	i = 0;

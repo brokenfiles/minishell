@@ -1,1 +1,8 @@
 - Pipes | doivent marcher comme dans bash
+- Ajouter les redirections
+- Faire en sorte que les fichiers que l'on appelle en chemin relatif se lancent uniquement si on met un
+ ./ sinon c'est la mort si on crée un fichier qui s'appelle "ls" ou "cat"
+- J'ai mis le ft_split_spec MAIS il laisse les quotes, donc il va falloir ajouter un "removequotes"
+ (la fonction existe déjà) pour enlever les quotes en trop
+- Refaire fonctionner le "exit"
+- Normer

@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	get_path(t_data *data)
+int	get_path(t_data *data, char **cmds)
 {
 	struct stat	buff;
 	char		**paths;
@@ -9,6 +9,7 @@ int	get_path(t_data *data)
 	int			index;
 
 	index = 0;
+	data->command = cmds[0];
 	stat(data->command, &buff);
 	if (!S_ISREG(buff.st_mode))
 	{
@@ -24,8 +25,8 @@ int	get_path(t_data *data)
 			free(tmp);
 			if (S_ISREG(buff.st_mode))
 			{
-				free(data->command);
-				data->command = joined;
+				free(cmds[0]);
+				cmds[0] = joined;
 				break;
 			}
 			free(joined);
@@ -36,38 +37,29 @@ int	get_path(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-int	exec_prog(t_data *data)
+int	exec_prog(t_data *data, char **cmds)
 {
-	char		**arguments;
-	char		*tmp;
-	pid_t		pid;
-	int			index;
-	int			status;
+	char	*tmp;
+	int		index;
 
 	index = 0;
-	status = 0;
-	get_path(data);
-	arguments = ft_split_spec(data->line, ' ');
+	get_path(data, cmds);
 	index = 0;
-	while (arguments[index])
+	while (cmds[index])
 	{
-		tmp = arguments[index];
-		arguments[index] = ft_strtrim(arguments[index], "\"'");
+		tmp = cmds[index];
+		cmds[index] = ft_strtrim(cmds[index], "\"'");
 		free(tmp);
 		index++;
 	}
-	pid = fork();
-	if (pid == 0)
-		execve(data->command, arguments, data->env) == -1 \
-			? quit("permission denied", free_splitted(arguments, EXIT_FAILURE)) : 0;
-	else if (pid < 0)
-		quit("failed to fork", free_splitted(arguments, EXIT_FAILURE));
-	else
-		waitpid(pid, &status, 0);
-	if (status == 11 || status == 10)
+	if (execve(cmds[0], cmds, data->env) == -1)
+	{
+		ft_printf("minishell: command not found: %s\n", cmds[0]);
+		return (0);
+	}
+	return (1);
+	/*if (status == 11 || status == 10)
 		status += 128;
 	if (status != 139 && status != 138)
-		status = status ? EXIT_FAILURE : EXIT_SUCCESS;
-	free_splitted(arguments, 0);
-	return (status);
+		status = status ? EXIT_FAILURE : EXIT_SUCCESS;*/
 }

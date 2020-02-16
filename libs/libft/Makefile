@@ -1,3 +1,4 @@
+
 NAME		=	libft.a
 
 SRCS		=	ft_atoi.c				\
@@ -66,7 +67,7 @@ RM			=	rm -f
 
 .c.o:
 				@$(CC) $(FLAGS) -c $< -o ${<:.c=.o}
-				@printf "\033[2K\033[1;32mLibft > Generated \033[1;33m${<:.c=.o}\033[0;0m\r"
+				@printf "\033[2KLIBFT:        Compilation...    ${<:.c=.o}\033[0;0m\r"
 
 $(NAME): ${OBJS}
 				@ar rcs $(NAME) ${OBJS}
