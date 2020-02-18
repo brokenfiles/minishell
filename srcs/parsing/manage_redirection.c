@@ -20,6 +20,18 @@ int     is_built_in(char *str)
         return (0);
 }
 
+int		redirect_output(t_redirect redirect)
+{
+    int	fd;
+
+    if (!(fd = open(redirect.file, redirect.type == DOUBLE_AQUOTE ? O_RDWR | O_CREAT | O_APPEND
+                                                                  : O_RDWR | O_CREAT | O_TRUNC, 0644)))
+        return (-1);
+    if (dup2(fd, STDOUT_FILENO) < 1)
+        return (-1);
+    return (fd);
+}
+
 void    redirect(int oldfd, int newfd)
 {
 	if (oldfd != newfd)
@@ -33,9 +45,10 @@ void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd, t_data *data
 {
 	pid_t   process;
 	int     fd[2];
-	int tmp;
+	int     end;
+	int     file[2];
 
-	tmp = 1;
+	end = 0;
 	if (cmds[pos + 1] == NULL)
 	{
 	    if (is_built_in(cmds[pos][0]) == 0)
@@ -43,16 +56,30 @@ void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd, t_data *data
 	        process = fork();
 	        if (process == 0)
 	        {
-                redirect(in_fd, STDIN_FILENO);
+	            if (data->redirects[pos].type > 0)
+                    file[1] = redirect_output(data->redirects[pos]);
+	            else
+                    redirect(in_fd, STDIN_FILENO);
                 run_command(data, cmds[pos]);
                 exit(EXIT_SUCCESS);
             }
-	        while (tmp > 0)
-	            tmp = wait(NULL);
-//	        close(in_fd);
         }
 	    else
-	        run_command(data, cmds[pos]);
+	    {
+            if (data->redirects[pos].type > 0)
+            {
+                file[0] = dup(1);
+                file[1] = redirect_output(data->redirects[pos]);
+                run_command(data, cmds[pos]);
+                dup2(file[0], 1);
+                close(file[0]);
+                close(file[1]);
+            }
+            else
+                run_command(data, cmds[pos]);
+        }
+        while (end != -1)
+            end = wait(NULL);
 	}
 	else
 	{
@@ -62,15 +89,21 @@ void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd, t_data *data
 		{
 		    close(fd[0]);
 		    redirect(in_fd, STDIN_FILENO);
-		    redirect(fd[1], 1);
+		    if (data->redirects[pos].type > 0)
+		        file[1] = redirect_output(data->redirects[pos]);
+		    else
+		        redirect(fd[1], 1);
 		    run_command(data, cmds[pos]);
 		    close(fd[1]);
 		    exit(EXIT_FAILURE);
 		}
-		close(fd[1]);
-//		if (pos != 0)
-//		    close(in_fd);
-		exec_pipeline(cmds, env, pos + 1, fd[0], data);
+		else
+		{
+            close(fd[1]);
+//            if (ft_strcmp(cmds[pos][0], "cat") == 0)
+//		        close(fd[0]);
+            exec_pipeline(cmds, env, pos + 1, fd[0], data);
+        }
 	}
 }
 
@@ -87,6 +120,8 @@ int		exec_hub(t_data *data)
 	while (i < tabsize(split))
 	{
         x = 0;
+        if (redirection_hub(data, &split[i], i) == EXIT_FAILURE)
+            return (EXIT_FAILURE);
 		commands[i] = ft_split_spec(split[i], ' ');
 		while (commands[i][x])
         {

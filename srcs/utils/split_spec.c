@@ -62,15 +62,3 @@ char			**ft_split_spec(char const *s, char c)
 	*result = NULL;
 	return (result - words);
 }
-
-
-int parse_arguments(t_data *data)
-{
-	int		index;
-
-	index = 0;
-	data->arguments = ft_split_spec(data->arguments_line, ' ');
-	while (data->arguments[index])
-		remove_quotes(&data->arguments[index++]);
-	return (1);
-}

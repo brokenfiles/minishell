@@ -52,6 +52,7 @@ int	exec_prog(t_data *data, char **cmds)
 		free(tmp);
 		index++;
 	}
+//	redirection_hub(data, cmds);
 	if (execve(cmds[0], cmds, data->env) == -1)
 	{
 		ft_printf("minishell: command not found: %s\n", cmds[0]);

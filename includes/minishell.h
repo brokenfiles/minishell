@@ -25,8 +25,8 @@ int		parse_line(t_data *data);
 int		replace_env(t_data *data);
 void	reset_redirections(t_data *data, int need_free);
 t_data	*init_struct(char **env);
-int		exec_env(t_data *data);
-int		exec_pwd(t_data *data);
+int		exec_env(t_data *data, char **cmds);
+int		exec_pwd(t_data *data, char **cmds);
 int		exec_echo(t_data *data, char **cmds);
 int		exec_cd(t_data *data, char **cmds);
 int		exec_unset(t_data *data, char **cmds);
@@ -48,5 +48,8 @@ int		remove_quotes(char **str);
 int		get_redirections(t_data *data);
 void	redirect(int oldfd, int newfd);
 void	exec_pipeline(char ***cmds, char **env, int pos, int in_fd, t_data *data);
+int     redirection_hub(t_data *data, char **cmds, int pos);
+int		is_isspace(char c);
+int		is_separator(char c);
 
 #endif

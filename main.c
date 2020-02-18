@@ -1,50 +1,39 @@
 #include "includes/minishell.h"
 
-void	get_cursor_position(int *col, int *row)
+int main(int argc, char **argv, char **env)
 {
-	char	buff[16];
-	char	*term;
-	size_t	i;
-	ssize_t	size;
-	int		nb;
+    struct stat	buff;
+    int			fd;
+    int			ret;
+    pid_t       pid;
+    char **cmds;
+    int     stds[0];
 
-	*col = -1;
-	*row = 0;
-	nb = 0;
-	while (nb < 20 && (*col < 0 || *row < 0))
-	{
-		term = tgetstr("u7", NULL);
-		write(0, term, ft_strlen(term));
-		if ((size = read(0, buff, 15)) < 0)
-			size = 0;
-		buff[size] = '\0';
-		i = 2;
-		*row = ft_atoi(&buff[i]) - 1;
-		while (buff[i] >= '0' && buff[i] <= '9')
-			i++;
-		*col = ft_atoi(&buff[i + 1]) - 1;
-		nb++;
-	}
-}
+    if (argc != 2)
+        return (0);
+    cmds = ft_split(argv[1], ' ');
 
-int main()
-{
-	char *term_type;
-	term_type = getenv("TERM");
+    stds[0] = dup(0);
+    ret = stat("test", &buff);
+    if (ret == -1 || S_ISDIR(buff.st_mode))
+        return (EXIT_FAILURE);
+    if (!(fd = open("test", O_RDONLY)))
+        return (-1);
+    printf("slt\n");
+    if (dup2(fd, STDIN_FILENO) < 1)
+    {
+        printf("ko dup2\n");
+        return (-1);
+    }
+    pid = fork();
+    if (pid == 0)
+    {
+        execve(cmds[0], cmds, env);
+    }
+    wait(NULL);
 
-	if (tgetent(NULL, term_type) < 1)
-		return (1);
 
-	char *term;
-	int col = 20;
-	int row = 5;
-	int colone;
-	int ligne;
-//	get_cursor_position(&colone, &ligne);
-//	term = tgoto(tgetstr("cm", NULL), col, row);
-//	write(1, term, ft_strlen(term));
-	printf("Colone : %d\nLigne : %d\n", colone, ligne);
-	printf("ppppp");
-	write(0, "SALUT", 5);
-	while (1);
+    if ((dup2(stds[0], STDIN_FILENO)) < 1)
+        return (-1);
+    close(fd);
 }

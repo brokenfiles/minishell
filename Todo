@@ -1,3 +1,10 @@
 - Pipes | doivent marcher comme dans bash
 
 strace -e trace=open,close,dup,dup2,pipe,execve -f -p $(pgrep minishell)
+
+
+pour redirection :
+
+faire le parsing au moment du split sur '|'
+récupéré le file descriptor where il faut rediriger
+si au moment de l'exec (pos) il ya une redirection, alors ne pas rediriger sur pipe[1] rediriger sur le fd
