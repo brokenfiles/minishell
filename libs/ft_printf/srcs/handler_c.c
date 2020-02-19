@@ -12,9 +12,8 @@
 
 #include "../../../includes/minishell.h"
 
-void	handle_c(char *buffer, t_arg *arg, int *count, int i)
+void	handle_c(char *buffer, t_arg *arg, int *count)
 {
-	i = 0;
 	if (arg->w1 && arg->flag != '-')
 		padding(' ', arg->w1 - 1, count);
 	ft_putchar_count(buffer[0], count);

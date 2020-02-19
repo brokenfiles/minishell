@@ -44,9 +44,9 @@ int	run_command(t_data *data, char **cmds)
 	if (ft_strcmp(cmds[0], "exit") == 0)
 		exit(EXIT_SUCCESS);
 	else if (ft_strcmp(cmds[0], "env") == 0)
-		data->last_return = exec_env(data);
+		data->last_return = exec_env(data, cmds);
 	else if (ft_strcmp(cmds[0], "pwd") == 0)
-		data->last_return = exec_pwd(data);
+		data->last_return = exec_pwd(data, cmds);
 	else if (ft_strcmp(cmds[0], "cd") == 0)
 		data->last_return = exec_cd(data, cmds);
 	else if (ft_strcmp(cmds[0], "echo") == 0)
@@ -72,14 +72,14 @@ int	parse_line(t_data *data)
 		if (data->line)
 			free(data->line);
 		data->line = ft_strdup(commands[index]);
-		get_redirections(data);
 		if (exec_hub(data) == EXIT_FAILURE)
 		{
 			data->last_return = EXIT_FAILURE;
-			return (fsp(commands, data->command, 0, INVALID_FILE));
+//			return (fsp(commands, data->command, 0, INVALID_FILE));
+            return (free_splitted(commands, EXIT_FAILURE));
 		}
 		index++;
 	}
 	free_splitted(commands, 0);
-	return (1);
+	return (EXIT_SUCCESS);
 }

@@ -1,23 +1,9 @@
 
 #include "../../includes/minishell.h"
 
-int		is_isspace(char c)
-{
-	if ((c) && (c == '\f' || c == '\n' || c == '\v' || c == '\t' || c == '\r' || c == ' '))
-		return (1);
-	return (0);
-}
-
-int		is_separator(char c)
-{
-	if (is_isspace(c) ||  c == '>' || c == '<')
-		return (1);
-	return (0);
-}
-
 void	debug(t_data *data)
 {
-	int	x;
+	int x;
 
 	x = 0;
 	while (data->redirects[x].pos != -1)
@@ -34,9 +20,9 @@ void	debug(t_data *data)
 
 int		get_filename(t_data *data, int x, int i, char *str)
 {
-	int		j;
-	int		stop;
-	char	*file;
+	int j;
+	int stop;
+	char *file;
 
 	j = 0;
 	stop = 0;
@@ -52,7 +38,7 @@ int		get_filename(t_data *data, int x, int i, char *str)
 
 int		get_next_pipe(t_data *data, int x, char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (str[i] && str[i] != '|')
@@ -63,9 +49,9 @@ int		get_next_pipe(t_data *data, int x, char *str)
 
 int		get_filename_reverse(t_data *data, int x, int i)
 {
-	int		j;
-	int		stop;
-	char	*file;
+	int j;
+	int stop;
+	char *file;
 
 	stop = 0;
 	j = i - 1;
@@ -122,23 +108,13 @@ int		get_redirections_len(t_data *data)
 	return (index);
 }
 
-int		get_jump(t_data *data, int temp, int x)
-{
-	while (is_isspace(data->line[temp]))
-		temp++;
-	while (is_separator(data->line[temp]))
-		temp++;
-	temp += ft_strlen(data->redirects[x].file);
-	return (temp);
-}
-
 int		parse_redirect(t_data *data)
 {
-	int		x;
-	int		temp;
-	char	*str;
-	char	*dup;
-	char	*join;
+	int x;
+	int temp;
+	char *str;
+	char *dup;
+	char *join;
 
 	x = get_redirections_len(data);
 	while (x-- > 0)
@@ -147,7 +123,7 @@ int		parse_redirect(t_data *data)
 		{
 			temp = data->redirects[x].pos;
 			str = ft_substr(data->line, 0, temp - ((data->redirects[x].type == DOUBLE_AQUOTE) ? 1 : 0));
-			temp = get_jump(data, temp, x);
+//			temp = get_jump(data, temp, x);
 			if (temp >= (int) ft_strlen(data->line))
 				temp = ft_strlen(data->line);
 			dup = ft_strdup(&data->line[temp]);
@@ -157,24 +133,14 @@ int		parse_redirect(t_data *data)
 			free(data->line);
 			data->line = join;
 		}
-		else if (data->redirects[x].type == PIPE)
-		{
-//			dup = ft_strdup(&data->line[ft_strlen(data->redirects[x].file) + data->redirects[x].pos + 1]);
-//			str = ft_substr(data->line, 0, data->redirects[x].pos);
-//			join = ft_strjoin(str, dup);
-//			free(str);
-//			free(dup);
-//			free(data->line);
-//			data->line = join;
-		}
 	}
 	return (0);
 }
 
 int		get_redirections(t_data *data)
 {
-	int	i;
-	int	x;
+	int i;
+	int x;
 
 	x = 0;
 	i = 0;

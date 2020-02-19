@@ -29,11 +29,11 @@ static size_t	count_words(char *s, char c)
 
 char			**ft_split_spec(char const *s, char c)
 {
-	size_t	words;
-	int		double_quote;
-	int		simple_quote;
-	char	*begin;
-	char	**result;
+	size_t words;
+	int double_quote;
+	int simple_quote;
+	char *begin;
+	char **result;
 
 	if (!s)
 		return (NULL);
@@ -61,16 +61,4 @@ char			**ft_split_spec(char const *s, char c)
 		*(result++) = ft_substr(begin, 0, s - begin);
 	*result = NULL;
 	return (result - words);
-}
-
-
-int parse_arguments(t_data *data)
-{
-	int		index;
-
-	index = 0;
-	data->arguments = ft_split_spec(data->arguments_line, ' ');
-	while (data->arguments[index])
-		remove_quotes(&data->arguments[index++]);
-	return (1);
 }

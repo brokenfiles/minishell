@@ -106,8 +106,8 @@ int		exec_export(t_data *data, char **cmds)
 	int		x;
 	char	*export;
 
-	x = 0;
 	data->arguments = cmds + 1;
+	x = 0;
 	while (data->arguments[x])
 	{
 		if ((export = get_only_export_var(data, x)) != NULL)

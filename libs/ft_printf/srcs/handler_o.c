@@ -12,8 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-void	handle_o(char *buffer, t_arg *arg, int *count, int i)
+void	handle_o(char *buffer, t_arg *arg, int *count)
 {
-	i = 0;
 	ft_putstr_count(buffer, count, arg->w2);
 }
