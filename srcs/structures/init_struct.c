@@ -28,12 +28,9 @@ void	reset_redirections(t_data *data, int need_free)
 	index = 0;
 	while (index < REDIRECT_MAX)
 	{
-		if (data->redirects[index].pos != -1 && need_free)
+		if (data->redirects[index].file != NULL && need_free)
 			free(data->redirects[index].file);
-		data->redirects[index].pos = -1;
-		data->redirects[index].way = -1;
 		data->redirects[index].file = NULL;
-		data->redirects[index].previous = NULL;
 		data->redirects[index++].type = -1;
 	}
 }

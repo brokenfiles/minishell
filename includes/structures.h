@@ -4,12 +4,8 @@
 
 typedef struct	s_redirect
 {
-	int		start;
-	int		pos;
 	int		type;
-	int		way;
 	char	*file;
-	char	*previous;
 }				t_redirect;
 typedef struct	s_data
 {
@@ -22,5 +18,7 @@ typedef struct	s_data
 	t_list		*history;
 	char		cwd[PATH_MAX + 1];
 	t_redirect	redirects[REDIRECT_MAX];
+	int         fd[2];
+	int         pipe[2];
 }				t_data;
 #endif

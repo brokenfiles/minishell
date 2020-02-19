@@ -78,6 +78,7 @@ int	parse_line(t_data *data)
 //			return (fsp(commands, data->command, 0, INVALID_FILE));
             return (free_splitted(commands, EXIT_FAILURE));
 		}
+		reset_redirections(data, 1);
 		index++;
 	}
 	free_splitted(commands, 0);

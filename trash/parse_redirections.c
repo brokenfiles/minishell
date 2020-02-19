@@ -1,5 +1,5 @@
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
 void	debug(t_data *data)
 {
