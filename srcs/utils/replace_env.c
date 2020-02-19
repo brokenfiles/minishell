@@ -105,7 +105,7 @@ int replace_env(t_data *data)
 			if ((temp = get_var_env(data, &data->line[i + 1], &index)) == 0)
 			{
 				is_invalid_env(data, i + 1);
-//				i++;
+				i++;
 				continue;
 			}
 			get_new_line(data, data->env[index], i, temp + 1);
