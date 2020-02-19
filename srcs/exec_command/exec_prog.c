@@ -55,7 +55,7 @@ int	exec_prog(t_data *data, char **cmds)
 	if (execve(cmds[0], cmds, data->env) == -1)
 	{
 		ft_printf("minishell: command not found: %s\n", cmds[0]);
-		return (0);
+		return (1);
 	}
 	return (1);
 	/*if (status == 11 || status == 10)

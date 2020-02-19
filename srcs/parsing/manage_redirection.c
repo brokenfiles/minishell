@@ -1,5 +1,15 @@
 #include "../../includes/minishell.h"
 
+int     is_built_int(char *str)
+{
+	if (ft_strcmp(str, "exit") == 0)
+		return (1);
+	else if (ft_strcmp(str, "cd") == 0)
+		return (1);
+	else
+		return (0);
+}
+
 int		exec_only_one(t_data *data, char **cmds)
 {
 	pid_t	pid;
@@ -72,9 +82,19 @@ void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd, t_data *data
 
 	if (cmds[pos + 1] == NULL)
 	{
-		redirect(in_fd, STDIN_FILENO);
-		run_command(data, cmds[pos]);
-		exit(EXIT_FAILURE);
+		if (is_built_int(cmds[pos][0]) == 0)
+		{
+			process = fork();
+			if (process == 0)
+			{
+				redirect(in_fd, STDIN_FILENO);
+				run_command(data, cmds[pos]);
+				exit(EXIT_FAILURE);
+			}
+			wait(NULL);
+		}
+		else
+			run_command(data, cmds[pos]);
 	}
 	else
 	{
@@ -92,7 +112,8 @@ void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd, t_data *data
 		{
 			wait(NULL);
 			close(fd[1]);
-			close(in_fd);
+			if (pos != 0)
+				close(in_fd);
 			exec_pipeline(cmds, env, pos + 1, fd[0], data);
 		}
 	}
@@ -134,8 +155,9 @@ int		exec_hub(t_data *data)
 /*------------- V1 -----------*/
 /*------------- V2 -----------*/
 
-	pid_t pid;
+//	pid_t pid;
 	int i;
+	int x;
 	char ***commands;
 	char **split;
 
@@ -144,7 +166,10 @@ int		exec_hub(t_data *data)
 	commands = malloc(sizeof(char**) * (tabsize(split) + 1));
 	while (i < tabsize(split))
 	{
+		x = 0;
 		commands[i] = ft_split_spec(split[i], ' ');
+		while (commands[i][x])
+			remove_quotes(&commands[i][x++]);
 		i++;
 	}
 	commands[i] = NULL;
@@ -152,11 +177,11 @@ int		exec_hub(t_data *data)
 //		run_command(data, commands[0]); maybe ???
 //	else maybe ???
 //	{ maybe ???
-		if ((pid = fork()) == -1)
-			return (0);
-		if (pid == 0)
-			exec_pipeline(commands, data->env, 0, STDIN_FILENO, data);
-		wait(NULL);
+//		if ((pid = fork()) == -1)
+//			return (0);
+//		if (pid == 0)
+	exec_pipeline(commands, data->env, 0, STDIN_FILENO, data);
+//		wait(NULL);
 //	} maybe ???
 	i = 0;
 	while (i < tabsize(split))

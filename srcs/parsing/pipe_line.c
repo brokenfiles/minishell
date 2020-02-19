@@ -1,117 +1,85 @@
-void    redirect(int oldfd, int newfd)
+
+#include "../../includes/minishell.h"
+
+int	command_exists(t_data *data)
 {
-	if (oldfd != newfd)
+	struct stat	buf;
+	char		**paths;
+	char		*joined;
+	char		*tmp;
+	int			index;
+	char		*command;
+
+	command = data->command;
+	if ((ft_strcmp(command, "echo") == 0) || (ft_strcmp(command, "cd") == 0)
+		|| (ft_strcmp(command, "pwd") == 0) || (ft_strcmp(command, "export") == 0)
+		|| (ft_strcmp(command, "unset") == 0) || (ft_strcmp(command, "env") == 0)
+		|| (ft_strcmp(command, "exit") == 0))
+		return (1);
+	index = 0;
+	stat(command, &buf);
+	if ((S_ISREG(buf.st_mode) && (ft_strchr(command, '/'))))
+		return (1);
+	if (!(joined = get_env_str(data, "PATH")))
+		return (0);
+	paths = ft_split(joined, ':');
+	free(joined);
+	while (paths[index])
 	{
-		if (dup2(oldfd, newfd) != -1)
-			close(oldfd);
+		joined = ft_strjoin(paths[index], "/");
+		tmp = joined;
+		stat((joined = ft_strjoin(joined, command)), &buf);
+		free(tmp);
+		free(joined);
+		if ((S_ISREG(buf.st_mode)))
+			return (free_splitted(paths, 1));
+		index++;
 	}
+	free_splitted(paths, 1);
+	return (0);
 }
 
-void    exec_pipeline(char ***cmds, char **env, int pos, int in_fd)
+int	run_command(t_data *data, char **cmds)
 {
-	pid_t	process;
-	int		fd[2];
-	int		status;
+	if (ft_strcmp(cmds[0], "exit") == 0)
+		exit(EXIT_SUCCESS);
+	else if (ft_strcmp(cmds[0], "env") == 0)
+		data->last_return = exec_env(data);
+	else if (ft_strcmp(cmds[0], "pwd") == 0)
+		data->last_return = exec_pwd(data);
+	else if (ft_strcmp(cmds[0], "cd") == 0)
+		data->last_return = exec_cd(data, cmds);
+	else if (ft_strcmp(cmds[0], "echo") == 0)
+		data->last_return = exec_echo(data, cmds);
+	else if (ft_strcmp(cmds[0], "unset") == 0)
+		data->last_return = exec_unset(data, cmds);
+	else if (ft_strcmp(cmds[0], "export") == 0)
+		data->last_return = exec_export(data, cmds);
+	else if ((data->last_return = exec_prog(data, cmds)) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
 
+int	parse_line(t_data *data)
+{
+	char	**commands;
+	int		index;
 
-	if (cmds[pos + 1] == NULL)
+	index = 0;
+	commands = ft_split(data->line, ';');
+	while (commands[index])
 	{
-		redirect(in_fd, STDIN_FILENO);
-		execve(cmds[pos][0], cmds[pos], env);
-	}
-	else
-	{
-		pipe(fd);
-		process = fork();
-		if (process == 0)
+		if (data->line)
+			free(data->line);
+		data->line = ft_strdup(commands[index]);
+		get_redirections(data);
+		if (exec_hub(data) == EXIT_FAILURE)
 		{
-			close(fd[0]);
-			redirect(in_fd, STDIN_FILENO);
-			redirect(fd[1], STDOUT_FILENO);
-			ft_putstr_fd(cmds[pos][0], 2);
-			execve(cmds[pos][0], cmds[pos], env);
+			data->last_return = EXIT_FAILURE;
+			return (fsp(commands, data->command, 0, INVALID_FILE));
 		}
-		else
-		{
-			waitpid(process, &status, 0);
-			close(fd[1]);
-			close(in_fd);
-			ft_putstr_fd(cmds[pos][0], 2);
-			exec_pipeline(cmds, env, pos + 1, fd[0]);
-		}
+		index++;
 	}
+	free_splitted(commands, 0);
+	return (1);
 }
-
-int		stay(void)
-{
-	int pipefd[2];
-	int save[2];
-	char **cmds;
-	char **cmds2;
-	char **split;
-	split = ft_split(data->line, '|');
-	cmds = ft_split_spec(split[0], ' ');
-	cmds2 = ft_split(split[1], ' ');
-//	char buf[200] = {0};
-
-	pid_t pid;
-	pid_t pid2;
-	if (pipe(pipefd) == -1) //J'ouvre le pipe
-		printf("pipe error");
-	pid = fork();
-	if (pid == -1)
-		printf("fork error");
-	if (pid == 0) //Dans le child
-	{
-		dup2(pipefd[1], 1);
-		//Ici je veut que ls sois envoyer sur pipefd[0]. Vue que ls ecris
-		// sur STDOUT, je dois remplacer STDOUT par mon pipe de write
-		close(pipefd[0]); //Je ferme les deux, car je n'en ai plus besoin,
-		close(pipefd[1]); //Celui utile a deja ete dup.
-		run_command(data, cmds);
-		//Aucun code apres execve ne seras executé, sauf si
-		//celui-ci fail, du coup pas de code derriere sauf un return erreur
-		exit(EXIT_FAILURE);
-	}
-	//Dans le pere
-	close(pipefd[1]);	//Plus beosin ici donc on close
-	wait(NULL); //J'attend que mon ls se sois executer, sinon y a rien a lire... ^^'
-
-	pid2 = fork();
-	if (pid2 == -1)
-		printf("fork error");
-	if (pid2 == 0)
-	{
-		save[0] = dup(0);
-		dup2(pipefd[0], STDIN_FILENO);
-		run_command(data, cmds2);
-	}
-
-	wait(NULL);
-	dup2(save[0], 0);
-	close(pipefd[0]); // Je n'oublie pas de terminer de close mon pipe.
-//	read(pipefd[0], buf, 200); //Je lis pipedfd[0] qui contient le fd de sortis
-//	printf("buf=\n====\n%s\n====\n", buf);
-}
-
-//	char **split;
-//	char **cmds;
-//	int stds[1];
-//	int fd;
-//	int i;
-//
-//	i = 0;
-//	split = ft_split(data->line, '|');
-//	while (split[i])
-//	{
-//		cmds = ft_split_spec(split[i], ' ');
-//		data->command = ft_strdup(cmds[0]);
-//		stds[0] = dup(0);
-//		fd = redirect_input();
-//		run_command(data, cmds);
-//		stop_redirect(fd, stds[0], STDIN_FILENO);
-//		close(stds[0]);
-//		free_splitted(cmds, 0);
-//		free(data->command);
-//		i++;
-//	}

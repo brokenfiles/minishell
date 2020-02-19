@@ -20,7 +20,7 @@ CFLAGS		= -Wall -Wextra -Werror
 
 .c.o: ${OBJS}
 			@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
-			@printf "\033[2K\x1b[38;2;255;224;251mFT_PRINTF:    \x1b[38;2;250;255;175mCompilation...    \x1b[38;2;255;179;172m${<:.c=.o}\033[0;0m\r"
+			@printf "\033[2K\x1b[38;2;255;224;251mFT_PRINTF:    \x1b[38;2;250;255;175mCompilation...    \x1b[38;2;255;179;172m%-14.14s\033[0;0m│\r" $(notdir ${<})
 
 $(NAME):	${OBJS} | silent
 			@${AR} ${NAME} ${OBJS} ${SRCSH}

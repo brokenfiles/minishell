@@ -10,10 +10,8 @@ int		exec_echo(t_data *data, char **cmds)
 
 	is_n = 0;
 	x = 1;
-
 	if ((len = tabsize(cmds)) >= 2 && ft_strcmp(cmds[1], "-n") == 0)
 		is_n = 1;
-
 	if (is_n)
 		x++;
 	while (cmds[x])
