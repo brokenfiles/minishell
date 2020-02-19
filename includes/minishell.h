@@ -47,7 +47,7 @@ void	write_preline(t_data *data);
 int		remove_quotes(char **str);
 int		get_redirections(t_data *data);
 void	redirect(int oldfd, int newfd);
-void	exec_pipeline(char ***cmds, char **env, int pos, int in_fd, t_data *data);
+void	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data);
 int     redirection_hub(t_data *data, char **cmds, int pos);
 int		is_isspace(char c);
 int		is_separator(char c);
