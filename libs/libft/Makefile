@@ -72,6 +72,9 @@ RM			=	rm -f
 $(NAME): ${OBJS}
 				@ar rcs $(NAME) ${OBJS}
 
+silent:
+			@:
+
 all: $(NAME)
 
 clean:

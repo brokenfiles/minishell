@@ -65,6 +65,9 @@ fclean:		clean
 
 re:			fclean all
 
+silent:
+			@:
+
 bonus:		${NAME}
 
 .PHONY:		all clean fclean re bonus rc
