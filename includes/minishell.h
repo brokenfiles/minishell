@@ -57,5 +57,6 @@ void	ft_lstaddback_redirect(t_redirect **alst, t_redirect *new);
 t_redirect	*ft_lstlast_redirect(t_redirect *lst);
 t_redirect	*ft_lstnew_redirect();
 void	ft_lstclear_redirect(t_redirect **lst, void (*del)(void*));
+void	ft_lstaddfront_redirect(t_redirect **alst, t_redirect *new);
 
 #endif
