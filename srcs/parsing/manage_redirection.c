@@ -41,37 +41,7 @@ void redirect(int oldfd, int newfd)
 	}
 }
 
-int	handle_right_arrow(t_redirect *begin)
-{
-	t_redirect	*current;
-	int			fd;
-
-	while (begin)
-	{
-		if (begin->type == DOUBLE_AQUOTE || begin->type == SIMPLE_AQUOTE)
-		{
-			current = begin;
-			fd = open(current->file, O_CREAT, 0644);
-			close(fd);
-		}
-		begin = begin->next;
-	}
-	fd = redirect_output(current);
-	return (fd);
-}
-
-int		is_right_arrow(t_redirect *beggin)
-{
-	while (beggin)
-	{
-		if (beggin->type == SIMPLE_AQUOTE || beggin->type == DOUBLE_AQUOTE)
-			return (1);
-		beggin = beggin->next;
-	}
-	return (0);
-}
-
-void is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
+int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 {
 	pid_t		process;
 
@@ -80,8 +50,13 @@ void is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 		process = fork();
 		if (process == 0)
 		{
-			if (is_right_arrow(data->tPipe[pos].redirect))
+			if (is_right_arrow(data->tPipe[pos].redirect) == 1)
 				data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
+			else if (is_left_arrow(data->tPipe[pos].redirect))
+			{
+				if (handle_left_arrow(data->tPipe[pos].redirect) == 0)
+					return (EXIT_FAILURE);
+			}
 			else
 				redirect(in_fd, STDIN_FILENO);
 			if (pos > 0)
@@ -89,6 +64,7 @@ void is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 			run_command(data, cmds[pos]);
 			exit(EXIT_SUCCESS);
 		}
+
 	}
 	else
 	{
@@ -100,9 +76,11 @@ void is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 			dup2(data->fd[0], 1);
 			close(data->fd[0]);
 			close(data->fd[1]);
-		} else
+		}
+		else
 			run_command(data, cmds[pos]);
 	}
+	return (EXIT_SUCCESS);
 }
 
 void is_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
@@ -143,7 +121,7 @@ void exec_papa(char ***cmds, int pos, int in_fd, t_data *data)
 	exec_pipeline(cmds, pos + 1, data->pipe[0], data);
 }
 
-void exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
+int exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 {
 	pid_t process;
 	int end;
@@ -154,10 +132,14 @@ void exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 		if (pos > 0)
 			is_pipeline(cmds, pos, in_fd, data);
 		else
-			is_command_alone(cmds, pos, in_fd, data);
+		{
+			if (is_command_alone(cmds, pos, in_fd, data) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
 		while (end != -1)
 			end = wait(NULL);
-	} else
+	}
+	else
 	{
 		pipe(data->pipe);
 		process = fork();
@@ -166,6 +148,7 @@ void exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 		else
 			exec_papa(cmds, pos, in_fd, data);
 	}
+	return (EXIT_SUCCESS);
 }
 
 int exec_hub(t_data *data)
@@ -193,7 +176,8 @@ int exec_hub(t_data *data)
 		i++;
 	}
 	commands[i] = NULL;
-	exec_pipeline(commands, 0, STDIN_FILENO, data);
+	if (exec_pipeline(commands, 0, STDIN_FILENO, data) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	i = 0;
 	while (i < tabsize(split))
 		free_splitted(commands[i++], 0);

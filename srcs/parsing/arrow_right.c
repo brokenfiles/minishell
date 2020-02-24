@@ -25,10 +25,12 @@ void get_last_redirect(t_redirect **link, char *str)
 	x = ft_strlen(str);
 	while (--x >= 0)
 	{
-		if (str[x] == '>')
+		if (str[x] == '>' || str[x] == '<')
 		{
-			if (str[x - 1] && str[x - 1] == '>')
+			if (x - 1 >= 0 && str[x - 1] == '>' && str[x] == '>')
 				(*link)->type = DOUBLE_AQUOTE;
+			else if (str[x] == '<')
+				(*link)->type = LEFT_AQUOTE;
 			else
 				(*link)->type = SIMPLE_AQUOTE;
 			x += 1;
@@ -76,7 +78,7 @@ char *remove_arrow(char *str)
 	x = ft_strlen(str);
 	while (--x >= 0 && str[x])
 	{
-		if (tmp[x] && tmp[x] == '>')
+		if (tmp[x] && (tmp[x] == '>' || tmp[x] == '<'))
 		{
 			if (x - 1 >= 0 && str[x - 1] == '>')
 			{
@@ -86,6 +88,12 @@ char *remove_arrow(char *str)
 					free(tmp);
 					return (NULL);
 				}
+			}
+			else if (x - 1 >= 0 && str[x - 1] == '<')
+			{
+				ft_printf("minishell: parse error near '<'\n");
+				free(tmp);
+				return (NULL);
 			}
 			sub = ft_substr(tmp, 0, x <= 0 ? 0 : x - 1);
 			jump = get_jump(&tmp[x <= 0 ? 0 : x + 1]);
@@ -113,7 +121,7 @@ int get_nb_redirect(char *str)
 		if (str[i] && (str[i] == '<' || str[i] == '>'))
 		{
 			nb++;
-			while (str[i] && (str[i] == '>' || str[i] == '<'))
+			while (str[i] && (str[i] == '<' || str[i] == '>'))
 				i++;
 		} else
 			i++;

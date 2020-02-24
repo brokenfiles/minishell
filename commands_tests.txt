@@ -1,1 +1,7 @@
 echo salut > yo lekip > cat < Makefile
+
+CAS 1 :
+
+> avant < = SKIP LA '<'
+
+< au debut = redirige
