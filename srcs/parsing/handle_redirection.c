@@ -43,7 +43,7 @@ int		is_left_arrow(t_redirect *beggin)
 	return (0);
 }
 
-t_redirect		*hello_can_you_tell_me_if_it_has_a_right_arrow_after_left_arrow_thanks(t_redirect *save)
+t_redirect		*got_right_after_left_arrow(t_redirect *save)
 {
 	t_redirect *to_redirect;
 
@@ -74,17 +74,23 @@ int	handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
 			current = begin;
 		begin = begin->next;
 	}
+	if ((fd = open(current->file, O_RDONLY)) == -1)
+		return (EXIT_FAILURE);
 	save = dup(STDIN_FILENO);
-	if (!(fd = open(current->file, O_RDONLY)))
-		return (0);
 	if (dup2(fd, STDIN_FILENO) < 0)
-		return (0);
+		return (EXIT_FAILURE);
 	close (fd);
 	dup2(STDIN_FILENO, save);
 	close(save);
+<<<<<<< HEAD
 	if (hello_can_you_tell_me_if_it_has_a_right_arrow_after_left_arrow_thanks(first_link) != NULL)
 		handle_right_arrow(first_link);
 	else if (is_pipeline == 1)
 		redirect(data->pipe[1], 1);
 	return (1);
+=======
+	if (got_right_after_left_arrow(first_link))
+		handle_right_arrow(first_link);
+	return (EXIT_SUCCESS);
+>>>>>>> 7704b00f41245ef73732ef55f4fccea8bbdeb59d
 }
