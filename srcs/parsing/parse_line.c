@@ -1,14 +1,14 @@
 
 #include "../../includes/minishell.h"
 
-int	command_exists(t_data *data)
+int command_exists(t_data *data)
 {
-	struct stat	buf;
-	char		**paths;
-	char		*joined;
-	char		*tmp;
-	int			index;
-	char		*command;
+	struct stat buf;
+	char **paths;
+	char *joined;
+	char *tmp;
+	int index;
+	char *command;
 
 	command = data->command;
 	if ((ft_strcmp(command, "echo") == 0) || (ft_strcmp(command, "cd") == 0)
@@ -39,7 +39,7 @@ int	command_exists(t_data *data)
 	return (0);
 }
 
-int	run_command(t_data *data, char **cmds)
+int run_command(t_data *data, char **cmds)
 {
 	if (ft_strcmp(cmds[0], "exit") == 0)
 		exit(EXIT_SUCCESS);
@@ -60,10 +60,10 @@ int	run_command(t_data *data, char **cmds)
 	return (EXIT_SUCCESS);
 }
 
-int	parse_line(t_data *data)
+int parse_line(t_data *data)
 {
-	char	**commands;
-	int		index;
+	char **commands;
+	int index;
 
 	index = 0;
 	commands = ft_split(data->line, ';');
@@ -76,9 +76,9 @@ int	parse_line(t_data *data)
 		{
 			data->last_return = EXIT_FAILURE;
 //			return (fsp(commands, data->command, 0, INVALID_FILE));
-            return (free_splitted(commands, EXIT_FAILURE));
+			return (free_splitted(commands, EXIT_FAILURE));
 		}
-		reset_redirections(data, 1);
+//		reset_redirections(data);
 		index++;
 	}
 	free_splitted(commands, 0);

@@ -41,27 +41,46 @@ void	write_preline(t_data *data)
 	data->cwd + get_last_char(data->cwd, '/') + 1 : data->cwd));
 }
 
+int		count_char(char *str, char c)
+{
+	int	index;
+	int	counter;
+	int	quotes[2];
+
+	init_int(&index, &counter);
+	init_int(&quotes[0], &quotes[1]);
+	while (str[index])
+	{
+		if (str[index] == '"' && !quotes[0])
+			quotes[1] = !quotes[1];
+		if (str[index] == '\'' && !quotes[1])
+			quotes[0] = !quotes[0];
+		if (str[index] == c && (!quotes[0] && !quotes[1]))
+			counter++;
+		index++;
+	}
+	return (counter);
+}
+
 int		remove_quotes(char **str)
 {
-	int i;
-	int x;
-	char *new;
+	int		i;
+	int		x;
+	int		quotes[2];
+	char	*new;
 
-	i = 0;
-	x = 0;
-	while ((*str)[i])
-	{
-		if (((*str)[i] && (*str)[i] != '\'' && (*str)[i] != '"'))
-			x++;
-		i++;
-	}
+	x = ft_strlen(*str) - (count_char(*str, '\'') + count_char(*str, '"'));
 	if (!(new = ft_strnew(x)))
 		return (-1);
-	i = 0;
-	x = 0;
+	init_int(&i, &x);
+	init_int(&quotes[0], &quotes[1]);
 	while ((*str)[i])
 	{
-		if (((*str)[i] != '\'') && ((*str)[i] != '"'))
+		if ((*str)[i] == '"' && !quotes[0])
+			quotes[1] = !quotes[1];
+		if ((*str)[i] == '\'' && !quotes[1])
+			quotes[0] = !quotes[0];
+		if (((*str)[i] != '"' && (*str)[i] != '\'') || (quotes[1] && (*str)[i] == '\'') || (quotes[0] && (*str)[i] == '"'))
 			new[x++] = (*str)[i];
 		i++;
 	}

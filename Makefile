@@ -13,6 +13,7 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/parsing/parse_line.c\
 				srcs/parsing/arrow_right.c\
 				srcs/parsing/manage_redirection.c\
+				srcs/parsing/redirection_utils.c\
 				srcs/structures/init_struct.c\
 				srcs/exec_command/command_env.c\
 				srcs/exec_command/command_pwd.c\
@@ -25,30 +26,31 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/utils/string_utils.c\
 				srcs/utils/errors.c\
 				srcs/utils/replace_env.c\
+				srcs/utils/utils.c\
 				srcs/utils/get_env.c
 
 OBJS		= ${SRCSC:%.c=${OBJS_DIR}/%.o}
 
 ${OBJS_DIR}/%.o: %.c
 			@mkdir -p ${@D}
-			@printf "\033[2K\033[0;35mMINISHELL:    \033[0;33mCompilation...    \033[0;31m%-14.14s\033[0;0m│\r" $(notdir ${<})
+			@printf "\033[2K\033[0;35mMINISHELL\033[0;0m:    \033[0;33mCompilation...    \033[0;31m%-15.15s\033[0;0m\r" $(notdir ${<})
 			@${CC} ${CFLAGS} -c $< -o $@
 
 ${NAME}:	header ${OBJS}
-			@printf "\033[2K\033[0;35mMINISHELL\033[0;0m:    \033[0;32mCompleted         \033[0;31m----\033[0;0m          │\r\n"
+			@printf "\033[2K\033[0;35mMINISHELL\033[0;0m:    \033[0;32mCompleted         \033[0;31m----\033[0;0m          \r\n"
 			@make bonus -C libs/libft
-			@printf "\033[2K\033[0;35mLIBFT:        \033[0;32mCompleted         \033[0;31m----\033[0;0m          │\r\n"
+			@printf "\033[2K\033[0;35mLIBFT\033[0;0m:        \033[0;32mCompleted         \033[0;31m----\033[0;0m          \r\n"
 			@make -C libs/ft_printf
-			@printf "\033[2K\033[0;35mFT_PRINTF:    \033[0;32mCompleted         \033[0;31m----\033[0;0m          │\r"
+			@printf "\033[2K\033[0;35mFT_PRINTF\033[0;0m:    \033[0;32mCompleted         \033[0;31m----\033[0;0m          \r"
 			@${CC} ${CFLAGS} ${OBJS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
-			@printf "\n\033[0;0m⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n\033[0;35mMINISHELL:    \033[0;32mReady             \033[0;31m----          \033[0;0m│\n⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n"
+			@printf "\n\033[0;0m⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n\033[0;35mMINISHELL\033[0;0m:    \033[0;32mReady             \033[0;31m----          \033[0;0m\n⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n"
 
 run:		${NAME}
 			@echo "\033[0;34mRunning ${NAME}...\033[0;0m"
 			@./${NAME}
 
 header:
-			@printf "\033[0;0m⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n\033[0;35mNAME          \033[0;0mSTATUS            \033[0;31mFILE          \033[0;0m│\n⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n"
+			@printf "\033[0;0m⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n\033[0;35mNAME          \033[0;0mSTATUS            \033[0;31mFILE          \033[0;0m\n⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n"
 
 all:		${NAME}
 
@@ -56,7 +58,7 @@ clean:
 			@make clean -C libs/libft
 			@make clean -C libs/ft_printf
 			@${RM} ${OBJS}
-			@printf "\033[0;35mPROJECT:      \033[0;32mCleaned\033[0;0m\n"
+			@printf "\033[0;35mPROJECT\033[0;0m:      \033[0;32mCleaned\033[0;0m\n"
 
 fclean:		clean
 			@make fclean -C libs/libft

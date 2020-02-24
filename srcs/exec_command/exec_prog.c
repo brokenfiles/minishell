@@ -55,12 +55,10 @@ int	exec_prog(t_data *data, char **cmds)
 //	redirection_hub(data, cmds);
 	if (execve(cmds[0], cmds, data->env) == -1)
 	{
-		ft_printf("minishell: %s: command not found\n", cmds[0]);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmds[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		return (0);
 	}
 	return (1);
-	/*if (status == 11 || status == 10)
-		status += 128;
-	if (status != 139 && status != 138)
-		status = status ? EXIT_FAILURE : EXIT_SUCCESS;*/
 }
