@@ -20,11 +20,11 @@ int     is_built_in(char *str)
         return (0);
 }
 
-int		redirect_output(t_redirect redirect)
+int		redirect_output(t_pipe pipe_info)
 {
     int	fd;
 
-    if (!(fd = open(redirect.file, redirect.type == DOUBLE_AQUOTE ? O_RDWR | O_CREAT | O_APPEND
+    if (!(fd = open(pipe_info.file, pipe_info.type == DOUBLE_AQUOTE ? O_RDWR | O_CREAT | O_APPEND
                                                                   : O_RDWR | O_CREAT | O_TRUNC, 0644)))
         return (-1);
     if (dup2(fd, STDOUT_FILENO) < 1)
@@ -49,8 +49,8 @@ void    is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
     {
         process = fork();
         if (process == 0) {
-            if (data->redirects[pos].type > 0)
-                data->fd[1] = redirect_output(data->redirects[pos]);
+            if (data->tPipe[pos].type > 0)
+                data->fd[1] = redirect_output(data->tPipe[pos]);
             else
                 redirect(in_fd, STDIN_FILENO);
             if (pos > 0)
@@ -61,10 +61,10 @@ void    is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
     }
     else
     {
-        if (data->redirects[pos].type > 0)
+        if (data->tPipe[pos].type > 0)
         {
             data->fd[0] = dup(1);
-            data->fd[1] = redirect_output(data->redirects[pos]);
+            data->fd[1] = redirect_output(data->tPipe[pos]);
             run_command(data, cmds[pos]);
             dup2(data->fd[0], 1);
             close(data->fd[0]);
@@ -83,8 +83,8 @@ void    is_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
     if (process == 0)
     {
         redirect(in_fd, STDIN_FILENO);
-        if (data->redirects[pos].type > 0)
-            data->fd[1] = redirect_output(data->redirects[pos]);
+        if (data->tPipe[pos].type > 0)
+            data->fd[1] = redirect_output(data->tPipe[pos]);
         close(data->pipe[1]);
         run_command(data, cmds[pos]);
         exit(EXIT_SUCCESS);
@@ -96,8 +96,8 @@ void    exec_fils(char ***cmds, int pos, int in_fd, t_data *data)
 {
     close(data->pipe[0]);
     redirect(in_fd, STDIN_FILENO);
-    if (data->redirects[pos].type > 0)
-        data->fd[1] = redirect_output(data->redirects[pos]);
+    if (data->tPipe[pos].type > 0)
+        data->fd[1] = redirect_output(data->tPipe[pos]);
     else
         redirect(data->pipe[1], 1);
     close(data->pipe[1]);
@@ -156,20 +156,14 @@ int		exec_hub(t_data *data)
             return (EXIT_FAILURE);
 		commands[i] = ft_split_spec(split[i], ' ');
 		while (commands[i][x])
-        {
-		    remove_quotes(&commands[i][x]);
-		    x++;
-        }
+		    remove_quotes(&commands[i][x++]);
 		i++;
 	}
 	commands[i] = NULL;
 	exec_pipeline(commands, 0, STDIN_FILENO, data);
 	i = 0;
 	while (i < tabsize(split))
-	{
-		free_splitted(commands[i], 0);
-		i++;
-	}
+		free_splitted(commands[i++], 0);
 	free(commands);
 	free_splitted(split, 0);
 	return (EXIT_SUCCESS);

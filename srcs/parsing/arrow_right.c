@@ -28,9 +28,9 @@ char    *get_last_redirect(t_data *data, char *str, int pos)
         if (str[x] == '>')
         {
             if (str[x - 1] && str[x - 1] == '>')
-                data->redirects[pos].type = DOUBLE_AQUOTE;
+                data->tPipe[pos].type = DOUBLE_AQUOTE;
             else
-                data->redirects[pos].type = SIMPLE_AQUOTE;
+                data->tPipe[pos].type = SIMPLE_AQUOTE;
             x += 1;
             is_arrow = 1;
             break;
@@ -39,7 +39,7 @@ char    *get_last_redirect(t_data *data, char *str, int pos)
     i = 1;
     if (is_arrow == 0)
     {
-        data->redirects[pos].type = 0;
+        data->tPipe[pos].type = 0;
         return (ft_strdup(str));
     }
     while (str[x] && is_isspace(str[x]))
@@ -101,9 +101,9 @@ int     redirection_hub(t_data *data, char **cmds, int pos)
 {
     char *temp;
 
-    data->redirects[pos].file = get_last_redirect(data, (*cmds), pos);
+    data->tPipe[pos].file = get_last_redirect(data, (*cmds), pos);
     if ((temp = remove_arrow((*cmds))) == NULL)
-        return (EXIT_FAILURE);
+		return (EXIT_FAILURE);
     free((*cmds));
     (*cmds) = temp;
     return (EXIT_SUCCESS);

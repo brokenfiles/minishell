@@ -28,10 +28,10 @@ void	reset_redirections(t_data *data, int need_free)
 	index = 0;
 	while (index < REDIRECT_MAX)
 	{
-		if (data->redirects[index].file != NULL && need_free)
-			free(data->redirects[index].file);
-		data->redirects[index].file = NULL;
-		data->redirects[index++].type = -1;
+		if (data->tPipe[index].file != NULL && need_free)
+			free(data->tPipe[index].file);
+		data->tPipe[index].file = NULL;
+		data->tPipe[index++].type = -1;
 	}
 }
 
