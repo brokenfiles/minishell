@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: llaurent <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/04 11:15:39 by llaurent          #+#    #+#              #
-#    Updated: 2020/02/11 13:53:42 by llaurent         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 SRCSC		= 	srcs/ft_put.c\
 				srcs/ft_put2.c\
@@ -25,26 +14,29 @@ SRCSC		= 	srcs/ft_put.c\
 OBJS		= $(SRCSC:%.c=%.o)
 NAME		= libftprintf.a
 CC			= gcc
-AR			= ar rc
+AR			= ar rcs
 RM			= rm -f
 CFLAGS		= -Wall -Wextra -Werror
 
 .c.o: ${OBJS}
 			@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
-			@echo "\033[1;32mft_printf > Generated \033[1;33m${<:.c=.o}\033[0;0m"
+			@printf "\033[2K\033[0;35mFT_PRINTF\033[0;0m:    \033[0;33mCompilation...    \033[0;31m%-14.14s\033[0;0m│\r" $(notdir ${<})
 
-$(NAME):	${OBJS}
+$(NAME):	${OBJS} | silent
 			@${AR} ${NAME} ${OBJS} ${SRCSH}
+
+silent:
+			@:
 
 all:		${NAME}
 
 clean:
-			@echo "Deleting .o files.."
 			@${RM} ${OBJS}
 
 fclean:		clean
-			@echo "Deleting binary files.."
 			@${RM} ${NAME}
+
+bonus:		${NAME}
 
 re:			fclean all
 

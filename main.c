@@ -1,25 +1,38 @@
 #include "includes/minishell.h"
 
-int main()
-{
-	char *term_type;
-	term_type = getenv("TERM");
+int main(int argc, char **argv, char **env) {
+    /*struct stat	buff;
+    int			fd;
+    int			ret;
+    pid_t       pid;
+    char **cmds;
+    int     stds[0];
 
-	if (tgetent(NULL, term_type) < 1)
-	{
-		printf("Can't use tgetent\n");
-		return (1);
-	}
-	int column_count;
-	column_count = tgetnum("co");
-	int line_count;
-	line_count = tgetnum("li");
+    if (argc != 2)
+        return (0);
+    cmds = ft_split(argv[1], ' ');
 
-	char *line;
-	printf(" Column = %d | Line = %d\n", column_count, line_count);;
-	tputs(tgetstr("cr", 0), STDIN_FILENO, &putchar);
-	printf("WOOOOOOOOOOOOOOOOOOOW\n");
-	get_next_line(0, &line);
-	char *reset_cmd = tgetstr("me", NULL);
-	tputs(reset_cmd, 1, putchar);
+    stds[0] = dup(0);
+    ret = stat("test", &buff);
+    if (ret == -1 || S_ISDIR(buff.st_mode))
+        return (EXIT_FAILURE);
+    if (!(fd = open("test", O_RDONLY)))
+        return (-1);
+    printf("slt\n");
+    if (dup2(fd, STDIN_FILENO) < 1)
+    {
+        printf("ko dup2\n");
+        return (-1);
+    }
+    pid = fork();
+    if (pid == 0)
+    {
+        execve(cmds[0], cmds, env);
+    }
+    wait(NULL);
+
+
+    if ((dup2(stds[0], STDIN_FILENO)) < 1)
+        return (-1);
+    close(fd);*/
 }

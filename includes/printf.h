@@ -6,7 +6,7 @@
 /*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:32:25 by llaurent          #+#    #+#             */
-/*   Updated: 2020/01/30 19:49:19 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/02/24 10:05:20 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ typedef struct	s_arg
 }				t_arg;
 
 int				ft_printf(const char *str, ...);
-void			handle_c(char *buffer, t_arg *arg, int *count, int i);
+void			handle_c(char *buffer, t_arg *arg, int *count);
 void			handle_u(char *buffer, t_arg *arg, int *count, int i);
 void			handle_di(char *buffer, t_arg *arg, int *count, int i);
-void			handle_o(char *buffer, t_arg *arg, int *count, int i);
+void			handle_o(char *buffer, t_arg *arg, int *count);
 void			handle_p(char *buffer, t_arg *arg, int *count, int i);
 void			handle_x(char *buffer, t_arg *arg, int *count, int i);
 void			handle_s(char *buffer, t_arg *arg, int *count, int i);

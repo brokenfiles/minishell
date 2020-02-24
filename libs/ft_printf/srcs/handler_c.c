@@ -6,15 +6,14 @@
 /*   By: jchotel <jchotel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:31:44 by jchotel           #+#    #+#             */
-/*   Updated: 2020/02/11 13:53:42 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/02/24 10:05:20 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	handle_c(char *buffer, t_arg *arg, int *count, int i)
+void	handle_c(char *buffer, t_arg *arg, int *count)
 {
-	i = 0;
 	if (arg->w1 && arg->flag != '-')
 		padding(' ', arg->w1 - 1, count);
 	ft_putchar_count(buffer[0], count);

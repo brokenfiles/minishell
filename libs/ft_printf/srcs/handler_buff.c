@@ -6,7 +6,7 @@
 /*   By: jchotel <jchotel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:32:12 by jchotel           #+#    #+#             */
-/*   Updated: 2020/02/11 13:53:42 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/02/24 10:05:20 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	set_buff(va_list va, t_arg *arg, int *count)
 
 	if (!(buffer = (char *)malloc(sizeof(char) * 1)))
 		return ;
-	ft_bzero((void *)buffer, ft_strlen(buffer));
+	bzero((void *)buffer, ft_strlen(buffer));
 	if (arg->conv == 'c')
 		ft_strjoin_c(&buffer, (char)(va_arg(va, int)));
 	else if (arg->conv == '%')
@@ -45,7 +45,7 @@ void	handler_buff(char *buffer, t_arg *arg, int *count)
 
 	i = ft_strlen(buffer);
 	if (arg->conv == 'c')
-		handle_c(buffer, arg, count, i);
+		handle_c(buffer, arg, count);
 	else if (arg->conv == '%')
 		handle_100(buffer, arg, count, i);
 	else if (arg->conv == 'd' || arg->conv == 'i')
@@ -59,5 +59,5 @@ void	handler_buff(char *buffer, t_arg *arg, int *count)
 	else if (arg->conv == 'P')
 		handle_p(buffer, arg, count, i);
 	else if (arg->conv == 'o')
-		handle_o(buffer, arg, count, i);
+		handle_o(buffer, arg, count);
 }

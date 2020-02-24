@@ -1,1 +1,10 @@
-- Pipes | doivent marcher comme dans bash
+strace -e trace=open,close,dup,dup2,pipe,execve -f -p $(pgrep minishell)
+
+faire des tests pour casser les pipes;
+quand redirection '>' '>>', redirige que vers le dernier file, mais creer quand même les autres ;(
+
+
+faire redirection '<'
+
+
+MAYBE BONUS ?
