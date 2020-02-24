@@ -36,7 +36,7 @@ int		stop_redirect(int fd, int dup, int std)
 	return (EXIT_SUCCESS);
 }
 
-int		redirect_output(t_redirect redirect)
+int		redirect_output(t_redirect *redirect)
 {
 	int	fd;
 
