@@ -23,7 +23,7 @@ int		exec_hub(t_data *data);
 int		run_command(t_data *data, char **cmds);
 int		parse_line(t_data *data);
 int		replace_env(t_data *data);
-void	reset_redirections(t_data *data, int need_free);
+void	reset_redirections(t_data *data);
 t_data	*init_struct(char **env);
 int		exec_env(t_data *data, char **cmds);
 int		exec_pwd(t_data *data, char **cmds);
@@ -52,5 +52,10 @@ int     redirection_hub(t_data *data, char **cmds, int pos);
 int		is_isspace(char c);
 int		is_separator(char c);
 void	init_int(int *int1, int *int2);
+
+void	ft_lstaddback_redirect(t_redirect **alst, t_redirect *new);
+t_redirect	*ft_lstlast_redirect(t_redirect *lst);
+t_redirect	*ft_lstnew_redirect();
+void	ft_lstclear_redirect(t_redirect **lst, void (*del)(void*));
 
 #endif

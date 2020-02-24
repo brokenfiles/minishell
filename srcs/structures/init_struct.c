@@ -21,17 +21,29 @@ int set_env(t_data *data, char **str)
 	return (1);
 }
 
-void	reset_redirections(t_data *data, int need_free)
+void	init_pipe(t_data *data)
 {
 	int	index;
 
 	index = 0;
 	while (index < REDIRECT_MAX)
 	{
-		if (data->redirects[index].file != NULL && need_free)
-			free(data->redirects[index].file);
-		data->redirects[index].file = NULL;
-		data->redirects[index++].type = -1;
+		data->tPipe[index].redirect = NULL;
+		index++;
+	}
+}
+
+void	reset_redirections(t_data *data)
+{
+	int	index;
+	(void)data;
+	index = 0;
+	while (index < REDIRECT_MAX)
+	{
+		if (data->tPipe[index].redirect != NULL)
+			ft_lstclear_redirect(&data->tPipe[index].redirect, free);
+		data->tPipe[index].redirect = NULL;
+		index++;
 	}
 }
 
@@ -45,7 +57,7 @@ t_data	*init_struct(char **env)
 		return (NULL);
 	if (!(set_env(data, env)))
 		return (NULL);
-	reset_redirections(data, 0);
+	init_pipe(data);
 	data->line = NULL;
 	return (data);
 }
