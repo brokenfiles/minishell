@@ -53,10 +53,7 @@ int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 			if (is_right_arrow(data->tPipe[pos].redirect) == 1)
 				data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
 			else if (is_left_arrow(data->tPipe[pos].redirect))
-			{
-				if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == 0)
-					return (EXIT_FAILURE);
-			}
+				handle_left_arrow(data, data->tPipe[pos].redirect, 0);
 			else
 				redirect(in_fd, STDIN_FILENO);
 			if (pos > 0)
