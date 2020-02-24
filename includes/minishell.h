@@ -64,6 +64,6 @@ int redirect_output(t_redirect *redirect);
 int	handle_right_arrow(t_redirect *begin);
 int		is_right_arrow(t_redirect *beggin);
 int		is_left_arrow(t_redirect *beggin);
-int	handle_left_arrow(t_redirect *begin);
+int	handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline);
 
 #endif

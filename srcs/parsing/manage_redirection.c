@@ -54,7 +54,7 @@ int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 				data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
 			else if (is_left_arrow(data->tPipe[pos].redirect))
 			{
-				if (handle_left_arrow(data->tPipe[pos].redirect) == EXIT_FAILURE)
+				if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == 0)
 				{
 					ft_putstr_fd("minishell: no such file or directory\n", 2);
 					exit(0);
@@ -97,6 +97,8 @@ void is_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 		redirect(in_fd, STDIN_FILENO);
 		if (is_right_arrow(data->tPipe[pos].redirect))
 			data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
+		else if (is_left_arrow(data->tPipe[pos].redirect))
+			handle_left_arrow(data, data->tPipe[pos].redirect, 1);
 		close(data->pipe[1]);
 		run_command(data, cmds[pos]);
 		exit(EXIT_SUCCESS);
@@ -110,6 +112,8 @@ void exec_fils(char ***cmds, int pos, int in_fd, t_data *data)
 	redirect(in_fd, STDIN_FILENO);
 	if (is_right_arrow(data->tPipe[pos].redirect))
 		data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
+	else if (is_left_arrow(data->tPipe[pos].redirect))
+		handle_left_arrow(data, data->tPipe[pos].redirect, 1);
 	else
 		redirect(data->pipe[1], 1);
 	close(data->pipe[1]);
@@ -136,10 +140,7 @@ int exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 		if (pos > 0)
 			is_pipeline(cmds, pos, in_fd, data);
 		else
-		{
-			if (is_command_alone(cmds, pos, in_fd, data) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-		}
+			is_command_alone(cmds, pos, in_fd, data);
 		while (end != -1)
 			end = wait(NULL);
 	}

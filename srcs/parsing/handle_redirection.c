@@ -60,7 +60,7 @@ t_redirect		*got_right_after_left_arrow(t_redirect *save)
 		return (to_redirect);
 }
 
-int	handle_left_arrow(t_redirect *begin)
+int	handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
 {
 	int fd;
 	int save;
@@ -84,5 +84,7 @@ int	handle_left_arrow(t_redirect *begin)
 	close(save);
 	if (got_right_after_left_arrow(first_link))
 		handle_right_arrow(first_link);
+	else if (is_pipeline == 1)
+		redirect(data->pipe[1], 1);
 	return (EXIT_SUCCESS);
 }
