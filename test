@@ -14,6 +14,7 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/parsing/arrow_right.c\
 				srcs/parsing/manage_redirection.c\
 				srcs/parsing/redirection_utils.c\
+				srcs/parsing/handle_redirection.c\
 				srcs/structures/init_struct.c\
 				srcs/exec_command/command_env.c\
 				srcs/exec_command/command_pwd.c\

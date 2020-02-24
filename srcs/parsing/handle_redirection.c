@@ -43,7 +43,7 @@ int		is_left_arrow(t_redirect *beggin)
 	return (0);
 }
 
-t_redirect		*hello_can_you_tell_me_if_it_has_a_right_arrow_after_left_arrow_thanks(t_redirect *save)
+t_redirect		*got_right_after_left_arrow(t_redirect *save)
 {
 	t_redirect *to_redirect;
 
@@ -66,33 +66,23 @@ int	handle_left_arrow(t_redirect *begin)
 	int save;
 	t_redirect *current;
 	t_redirect *first_link;
-	struct stat	buff;
-	int ret;
 
 	first_link = begin;
 	while (begin)
 	{
 		if (begin->type == LEFT_AQUOTE)
-		{
 			current = begin;
-			ret = stat(current->file, &buff);
-			if (ret == -1 || S_ISREG(buff.st_mode))
-			{
-				ft_printf("minishell: %s: No such file or directory\n", current->file);
-				return (0);
-			}
-		}
 		begin = begin->next;
 	}
+	if ((fd = open(current->file, O_RDONLY)) == -1)
+		return (EXIT_FAILURE);
 	save = dup(STDIN_FILENO);
-	if (!(fd = open(current->file, O_RDONLY)))
-		return (0);
 	if (dup2(fd, STDIN_FILENO) < 0)
-		return (0);
+		return (EXIT_FAILURE);
 	close (fd);
 	dup2(STDIN_FILENO, save);
 	close(save);
-	if (hello_can_you_tell_me_if_it_has_a_right_arrow_after_left_arrow_thanks(first_link))
+	if (got_right_after_left_arrow(first_link))
 		handle_right_arrow(first_link);
-	return (1);
+	return (EXIT_SUCCESS);
 }
