@@ -66,22 +66,12 @@ int	handle_left_arrow(t_redirect *begin)
 	int save;
 	t_redirect *current;
 	t_redirect *first_link;
-	struct stat	buff;
-	int ret;
 
 	first_link = begin;
 	while (begin)
 	{
 		if (begin->type == LEFT_AQUOTE)
-		{
 			current = begin;
-			ret = stat(current->file, &buff);
-			if (ret == -1 || S_ISREG(buff.st_mode))
-			{
-				ft_printf("minishell: %s: No such file or directory\n", current->file);
-				return (0);
-			}
-		}
 		begin = begin->next;
 	}
 	save = dup(STDIN_FILENO);
