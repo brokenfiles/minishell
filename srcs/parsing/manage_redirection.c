@@ -54,12 +54,13 @@ int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 				data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
 			else if (is_left_arrow(data->tPipe[pos].redirect))
 			{
-				if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == 0)
+				if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == EXIT_FAILURE)
 				{
 					ft_putstr_fd("minishell: no such file or directory\n", 2);
 					exit(0);
 					return (EXIT_FAILURE);
 				}
+
 			}
 			else
 				redirect(in_fd, STDIN_FILENO);
