@@ -16,9 +16,9 @@ static size_t	count_words(char *s, char c)
 	words = (s[index] ? 1 : 0);
 	while (s[index])
 	{
-		if (s[index] == '"')
+		if (s[index] == '"' && !simple_quote)
 			double_quote = !double_quote;
-		if (s[index] == '\'')
+		if (s[index] == '\'' && !double_quote)
 			simple_quote = !simple_quote;
 		if (s[index] == c && (!double_quote && !simple_quote) && s[index + 1] && s[index + 1] != c)
 			words++;
@@ -45,9 +45,9 @@ char			**ft_split_spec(char const *s, char c)
 	begin = (char *)s;
 	while (*s)
 	{
-		if (*s == '"')
+		if (*s == '"' && !simple_quote)
 			double_quote = !double_quote;
-		if (*s == '\'')
+		if (*s == '\'' && !double_quote)
 			simple_quote = !simple_quote;
 		if (*s == c && (!double_quote && !simple_quote))
 		{

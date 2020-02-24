@@ -51,5 +51,6 @@ void	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data);
 int     redirection_hub(t_data *data, char **cmds, int pos);
 int		is_isspace(char c);
 int		is_separator(char c);
+void	init_int(int *int1, int *int2);
 
 #endif

@@ -67,7 +67,7 @@ RM			=	rm -f
 
 .c.o:
 				@$(CC) $(FLAGS) -c $< -o ${<:.c=.o}
-				@printf "\033[2K\033[0;35mLIBFT\033[0;0m:        \033[0;33mCompilation...    \033[0;31m%-14.14s\033[0;0m│\r" $(notdir ${<})
+				@printf "\033[2K\033[0;35mLIBFT\033[0;0m:        \033[0;33mCompilation...    \033[0;31m%-15.15s\033[0;0m\r" $(notdir ${<})
 
 $(NAME): ${OBJS}
 				@ar rcs $(NAME) ${OBJS}

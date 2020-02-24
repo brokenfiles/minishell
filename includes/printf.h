@@ -26,6 +26,7 @@ typedef struct	s_arg
 	int		w1;
 	int		w2;
 	int		flag_s;
+	int		fd;
 }				t_arg;
 
 int				ft_printf(const char *str, ...);
