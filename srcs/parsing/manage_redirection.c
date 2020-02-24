@@ -43,7 +43,7 @@ void redirect(int oldfd, int newfd)
 
 int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 {
-	pid_t		process;
+	pid_t       process;
 
 	if (is_built_in(cmds[pos][0]) == 0)
 	{
@@ -53,9 +53,8 @@ int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 			if (is_right_arrow(data->tPipe[pos].redirect) == 1)
 				data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
 			else if (is_left_arrow(data->tPipe[pos].redirect))
-				handle_left_arrow(data, data->tPipe[pos].redirect, 0);
 			{
-				if (handle_left_arrow(data->tPipe[pos].redirect) == EXIT_FAILURE)
+				if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == EXIT_FAILURE)
 				{
 					ft_putstr_fd("minishell: no such file or directory\n", 2);
 					exit(0);
@@ -88,7 +87,7 @@ int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-void is_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
+int is_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 {
 	pid_t process;
 
@@ -99,22 +98,37 @@ void is_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 		if (is_right_arrow(data->tPipe[pos].redirect))
 			data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
 		else if (is_left_arrow(data->tPipe[pos].redirect))
-			handle_left_arrow(data, data->tPipe[pos].redirect, 1);
+		{
+			if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == EXIT_FAILURE)
+			{
+				ft_putstr_fd("minishell: no such file or directory\n", 2);
+				exit(0);
+				return (EXIT_FAILURE);
+			}
+		}
 		close(data->pipe[1]);
 		run_command(data, cmds[pos]);
 		exit(EXIT_SUCCESS);
 	}
 	close(in_fd);
+	return (EXIT_SUCCESS);
 }
 
-void exec_fils(char ***cmds, int pos, int in_fd, t_data *data)
+int exec_fils(char ***cmds, int pos, int in_fd, t_data *data)
 {
 	close(data->pipe[0]);
 	redirect(in_fd, STDIN_FILENO);
 	if (is_right_arrow(data->tPipe[pos].redirect))
 		data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
 	else if (is_left_arrow(data->tPipe[pos].redirect))
-		handle_left_arrow(data, data->tPipe[pos].redirect, 1);
+	{
+		if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == EXIT_FAILURE)
+		{
+			ft_putstr_fd("minishell: no such file or directory\n", 2);
+			exit(0);
+			return (EXIT_FAILURE);
+		}
+	}
 	else
 		redirect(data->pipe[1], 1);
 	close(data->pipe[1]);
@@ -122,12 +136,13 @@ void exec_fils(char ***cmds, int pos, int in_fd, t_data *data)
 	exit(EXIT_FAILURE);
 }
 
-void exec_papa(char ***cmds, int pos, int in_fd, t_data *data)
+int exec_papa(char ***cmds, int pos, int in_fd, t_data *data)
 {
 	if (pos > 0)
 		close(in_fd);
 	close(data->pipe[1]);
 	exec_pipeline(cmds, pos + 1, data->pipe[0], data);
+	return (EXIT_SUCCESS);
 }
 
 int exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
@@ -139,9 +154,15 @@ int exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 	if (cmds[pos + 1] == NULL)
 	{
 		if (pos > 0)
-			is_pipeline(cmds, pos, in_fd, data);
+		{
+			if (is_pipeline(cmds, pos, in_fd, data) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
 		else
-			is_command_alone(cmds, pos, in_fd, data);
+		{
+			if (is_command_alone(cmds, pos, in_fd, data) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
 		while (end != -1)
 			end = wait(NULL);
 	}
@@ -150,9 +171,15 @@ int exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 		pipe(data->pipe);
 		process = fork();
 		if (process == 0)
-			exec_fils(cmds, pos, in_fd, data);
+		{
+			if (exec_fils(cmds, pos, in_fd, data) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
 		else
-			exec_papa(cmds, pos, in_fd, data);
+		{
+			if (exec_papa(cmds, pos, in_fd, data) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
 	}
 	return (EXIT_SUCCESS);
 }

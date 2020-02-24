@@ -1,9 +1,9 @@
 #include "../../includes/minishell.h"
 
-int	handle_right_arrow(t_redirect *begin)
+int handle_right_arrow(t_redirect *begin)
 {
-	t_redirect	*current;
-	int			fd;
+	t_redirect  *current;
+	int         fd;
 
 	while (begin)
 	{
@@ -19,7 +19,7 @@ int	handle_right_arrow(t_redirect *begin)
 	return (fd);
 }
 
-int		is_right_arrow(t_redirect *beggin)
+int     is_right_arrow(t_redirect *beggin)
 {
 	while (beggin)
 	{
@@ -32,7 +32,7 @@ int		is_right_arrow(t_redirect *beggin)
 	return (0);
 }
 
-int		is_left_arrow(t_redirect *beggin)
+int     is_left_arrow(t_redirect *beggin)
 {
 	while (beggin)
 	{
@@ -43,7 +43,7 @@ int		is_left_arrow(t_redirect *beggin)
 	return (0);
 }
 
-t_redirect		*got_right_after_left_arrow(t_redirect *save)
+t_redirect      *got_right_after_left_arrow(t_redirect *save)
 {
 	t_redirect *to_redirect;
 
@@ -60,18 +60,25 @@ t_redirect		*got_right_after_left_arrow(t_redirect *save)
 		return (to_redirect);
 }
 
-int	handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
+int handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
 {
 	int fd;
 	int save;
 	t_redirect *current;
 	t_redirect *first_link;
+	int ret;
+	struct stat	buff;
 
 	first_link = begin;
 	while (begin)
 	{
 		if (begin->type == LEFT_AQUOTE)
+		{
 			current = begin;
+			ret = stat(current->file, &buff);
+			if (ret == -1 || S_ISDIR(buff.st_mode))
+				return (EXIT_FAILURE);
+		}
 		begin = begin->next;
 	}
 	if ((fd = open(current->file, O_RDONLY)) == -1)
@@ -82,15 +89,9 @@ int	handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
 	close (fd);
 	dup2(STDIN_FILENO, save);
 	close(save);
-<<<<<<< HEAD
-	if (hello_can_you_tell_me_if_it_has_a_right_arrow_after_left_arrow_thanks(first_link) != NULL)
+	if (got_right_after_left_arrow(first_link))
 		handle_right_arrow(first_link);
 	else if (is_pipeline == 1)
 		redirect(data->pipe[1], 1);
-	return (1);
-=======
-	if (got_right_after_left_arrow(first_link))
-		handle_right_arrow(first_link);
 	return (EXIT_SUCCESS);
->>>>>>> 7704b00f41245ef73732ef55f4fccea8bbdeb59d
 }
