@@ -20,7 +20,7 @@ int command_exists(t_data *data)
 	stat(command, &buf);
 	if ((S_ISREG(buf.st_mode) && (ft_strchr(command, '/'))))
 		return (1);
-	if (!(joined = get_env_str(data, "PATH")))
+	if (!(joined = get_env(data, "PATH")))
 		return (0);
 	paths = ft_split(joined, ':');
 	free(joined);
@@ -46,11 +46,11 @@ int run_command(t_data *data, char **cmds)
 	else if (ft_strcmp(cmds[0], "env") == 0)
 		data->last_return = exec_env(data, cmds);
 	else if (ft_strcmp(cmds[0], "pwd") == 0)
-		data->last_return = exec_pwd(data, cmds);
+		data->last_return = exec_pwd(data);
 	else if (ft_strcmp(cmds[0], "cd") == 0)
 		data->last_return = exec_cd(data, cmds);
 	else if (ft_strcmp(cmds[0], "echo") == 0)
-		data->last_return = exec_echo(data, cmds);
+		data->last_return = exec_echo(cmds);
 	else if (ft_strcmp(cmds[0], "unset") == 0)
 		data->last_return = exec_unset(data, cmds);
 	else if (ft_strcmp(cmds[0], "export") == 0)
