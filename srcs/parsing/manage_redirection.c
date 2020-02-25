@@ -20,16 +20,16 @@ int is_built_in(char *str)
 		return (0);
 }
 
-int		redirect_output(t_redirect *redirect)
+int redirect_output(t_redirect *redirect)
 {
-    int	fd;
+	int fd;
 
-    if (!(fd = open(redirect->file, redirect->type == DOUBLE_AQUOTE ? O_RDWR | O_CREAT | O_APPEND
-                                                                  : O_RDWR | O_CREAT | O_TRUNC, 0644)))
-        return (-1);
-    if (dup2(fd, STDOUT_FILENO) < 1)
-        return (-1);
-    return (fd);
+	if (!(fd = open(redirect->file, redirect->type == DOUBLE_AQUOTE ? O_RDWR | O_CREAT | O_APPEND
+																	: O_RDWR | O_CREAT | O_TRUNC, 0644)))
+		return (-1);
+	if (dup2(fd, STDOUT_FILENO) < 1)
+		return (-1);
+	return (fd);
 }
 
 void    redirect(int oldfd, int newfd)

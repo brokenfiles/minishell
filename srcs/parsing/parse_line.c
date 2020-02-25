@@ -66,7 +66,7 @@ int	parse_line(t_data *data)
 	int		index;
 
 	index = 0;
-	commands = ft_split(data->line, ';');
+	commands = ft_split_spec(data->line, ';');
 	while (commands[index])
 	{
 		if (data->line)

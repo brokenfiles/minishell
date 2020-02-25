@@ -28,4 +28,5 @@ MAYBE BONUS ?
        bash.
 ==VÉRIFIER LES VALEURS DE REDIRECTION • $? doit marcher comme dans bash
 ==VÉRIFIER LES COMPORTEMENTS • ctrl-C, ctrl-D et ctrl-\ doivent afficher le même résultat que dans bash.
-==Régler le >
+
+ls -la | cat -e > test
