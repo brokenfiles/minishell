@@ -36,9 +36,12 @@ int		get_last_char(char *str, char c)
 
 void	write_preline(t_data *data)
 {
-	ft_printf(PRE_LINE, ((get_last_char(data->cwd, '/') != -1
-	&& ft_strlen(data->cwd) != 1) ?
-	data->cwd + get_last_char(data->cwd, '/') + 1 : data->cwd));
+	if (isatty(0))
+	{
+		ft_printf(PRE_LINE, ((get_last_char(data->cwd, '/') != -1
+		&& ft_strlen(data->cwd) != 1) ?
+		data->cwd + get_last_char(data->cwd, '/') + 1 : data->cwd));
+	}
 }
 
 int		count_char(char *str, char c)
