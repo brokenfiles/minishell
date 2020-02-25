@@ -72,16 +72,20 @@ char *remove_arrow(char *str)
 	char *sub;
 	char *dup;
 	int jump;
+	int remove;
 	char *tmp;
 
+	remove = -1;
 	tmp = ft_strdup(str);
 	x = ft_strlen(str);
 	while (--x >= 0 && str[x])
 	{
 		if (tmp[x] && (tmp[x] == '>' || tmp[x] == '<'))
 		{
+			remove++;
 			if (x - 1 >= 0 && str[x - 1] == '>')
 			{
+				remove++;
 				if (x - 2 >= 0 && str[x - 2] == '>')
 				{
 					ft_printf("minishell: parse error near '>'\n");
@@ -95,7 +99,7 @@ char *remove_arrow(char *str)
 				free(tmp);
 				return (NULL);
 			}
-			sub = ft_substr(tmp, 0, x <= 0 ? 0 : x);
+			sub = ft_substr(tmp, 0, x <= 0 ? 0 : x - remove);
 			jump = get_jump(&tmp[x <= 0 ? 0 : x + 1]);
 			dup = ft_strdup(&tmp[(x <= 0 ? 0 : x + 1) + jump]);
 			join = ft_strjoin(sub, dup);
