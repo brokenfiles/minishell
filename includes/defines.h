@@ -10,9 +10,6 @@
 # define DIR_ERROR "\033[0;31mminishell: is a directory\033[0;0m"
 # define REDIRECT_MAX 1096
 # define DOUBLE_AQUOTE 2
+# define LEFT_AQUOTE 3
 # define SIMPLE_AQUOTE 1
-# define PIPE 0
-# define LEFT 0
-# define RIGHT 1
-# define NONE -1
 #endif

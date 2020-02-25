@@ -13,6 +13,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h>
 #include "get_next_line.h"
 #include "defines.h"
 #include "structures.h"
@@ -47,7 +48,7 @@ void	write_preline(t_data *data);
 int		remove_quotes(char **str);
 int		get_redirections(t_data *data);
 void	redirect(int oldfd, int newfd);
-void	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data);
+int	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data);
 int     redirection_hub(t_data *data, char **cmds, int pos);
 int		is_isspace(char c);
 int		is_separator(char c);
@@ -57,5 +58,12 @@ void	ft_lstaddback_redirect(t_redirect **alst, t_redirect *new);
 t_redirect	*ft_lstlast_redirect(t_redirect *lst);
 t_redirect	*ft_lstnew_redirect();
 void	ft_lstclear_redirect(t_redirect **lst, void (*del)(void*));
+void	ft_lstaddfront_redirect(t_redirect **alst, t_redirect *new);
+
+int redirect_output(t_redirect *redirect);
+int	handle_right_arrow(t_redirect *begin);
+int		is_right_arrow(t_redirect *beggin);
+int		is_left_arrow(t_redirect *beggin);
+int	handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline);
 
 #endif

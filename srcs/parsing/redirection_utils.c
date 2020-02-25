@@ -40,6 +40,8 @@ t_redirect	*ft_lstnew_redirect(void)
 	if (!(new = (t_redirect*)malloc(sizeof(t_redirect))))
 		return (NULL);
 	new->next = NULL;
+	new->file = NULL;
+	new->type = -1;
 	return (new);
 }
 
@@ -68,3 +70,11 @@ void	ft_lstclear_redirect(t_redirect **lst, void (*del)(void*))
 	}
 }
 
+void	ft_lstaddfront_redirect(t_redirect **alst, t_redirect *new)
+{
+	if (alst && new)
+	{
+		new->next = *alst;
+		*alst = new;
+	}
+}

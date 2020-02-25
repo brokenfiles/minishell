@@ -11,8 +11,6 @@ typedef struct	s_redirect
 
 typedef struct	s_pipe
 {
-	int		type;
-	char	*file;
 	t_redirect *redirect;
 }				t_pipe;
 
