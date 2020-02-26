@@ -40,13 +40,10 @@ int	get_path(t_data *data, char **cmds)
 
 int	exec_prog(t_data *data, char **cmds)
 {
-	if (get_path(data, cmds) == EXIT_FAILURE)
+	if (get_path(data, cmds) == EXIT_FAILURE ||
+	execve(cmds[0], cmds, data->env) == -1)
 	{
-		error_command_nf(cmds[0]);
-		return (EXIT_FAILURE);
-	}
-	if (execve(cmds[0], cmds, data->env) == -1)
-	{
+		data->last_return = 127;
 		error_command_nf(cmds[0]);
 		return (EXIT_FAILURE);
 	}

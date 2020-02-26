@@ -2,9 +2,16 @@ rm -f path test_return test_return1 test test1 test2
 echo "Hello   world; It's me !   "
 export TEST="Hi, my name is louis."
 echo -n $TEST
+echo $?
 ls $HOME | cat -e
+echo $?
 echo -n $PATH > path | cat -e | wc -l
+echo $?
 cat < test.sh | cat -e > test_return < path < path > test_return1
+echo $?
+echo $?
+helps
+echo $?
 echo -n 'First Message' > test1
 echo This is a test named "Truffe Max"    > test > test1 >> test2
 echo This is a test named "Durian"    > test >> test1 >> test2
