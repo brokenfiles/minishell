@@ -1,1 +1,8 @@
+<<<<<<< HEAD
 echo salut > yo lekip > cat < Makefile
+=======
+rm -f test
+echo yo > test
+echo yoyo >> test
+cat -e < test
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7

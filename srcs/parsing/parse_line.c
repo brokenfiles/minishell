@@ -1,14 +1,14 @@
 
 #include "../../includes/minishell.h"
 
-int	command_exists(t_data *data)
+int command_exists(t_data *data)
 {
-	struct stat	buf;
-	char		**paths;
-	char		*joined;
-	char		*tmp;
-	int			index;
-	char		*command;
+	struct stat buf;
+	char **paths;
+	char *joined;
+	char *tmp;
+	int index;
+	char *command;
 
 	command = data->command;
 	if ((ft_strcmp(command, "echo") == 0) || (ft_strcmp(command, "cd") == 0)
@@ -20,7 +20,7 @@ int	command_exists(t_data *data)
 	stat(command, &buf);
 	if ((S_ISREG(buf.st_mode) && (ft_strchr(command, '/'))))
 		return (1);
-	if (!(joined = get_env_str(data, "PATH")))
+	if (!(joined = get_env(data, "PATH")))
 		return (0);
 	paths = ft_split(joined, ':');
 	free(joined);
@@ -39,18 +39,30 @@ int	command_exists(t_data *data)
 	return (0);
 }
 
+<<<<<<< HEAD
 int	run_command(t_data *data, char **cmds)
+=======
+int run_command(t_data *data, char **cmds)
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 {
 	if (ft_strcmp(cmds[0], "exit") == 0)
 		exit(EXIT_SUCCESS);
 	else if (ft_strcmp(cmds[0], "env") == 0)
+<<<<<<< HEAD
 		data->last_return = exec_env(data);
+=======
+		data->last_return = exec_env(data, cmds);
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 	else if (ft_strcmp(cmds[0], "pwd") == 0)
 		data->last_return = exec_pwd(data);
 	else if (ft_strcmp(cmds[0], "cd") == 0)
 		data->last_return = exec_cd(data, cmds);
 	else if (ft_strcmp(cmds[0], "echo") == 0)
+<<<<<<< HEAD
 		data->last_return = exec_echo(data, cmds);
+=======
+		data->last_return = exec_echo(cmds);
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 	else if (ft_strcmp(cmds[0], "unset") == 0)
 		data->last_return = exec_unset(data, cmds);
 	else if (ft_strcmp(cmds[0], "export") == 0)
@@ -60,26 +72,36 @@ int	run_command(t_data *data, char **cmds)
 	return (EXIT_SUCCESS);
 }
 
-int	parse_line(t_data *data)
+int parse_line(t_data *data)
 {
-	char	**commands;
-	int		index;
+	char **commands;
+	int index;
 
 	index = 0;
-	commands = ft_split(data->line, ';');
+	commands = ft_split_spec(data->line, ';');
 	while (commands[index])
 	{
 		if (data->line)
 			free(data->line);
 		data->line = ft_strdup(commands[index]);
+<<<<<<< HEAD
 		get_redirections(data);
 		if (exec_hub(data) == EXIT_FAILURE)
 		{
 			data->last_return = EXIT_FAILURE;
 			return (fsp(commands, data->command, 0, INVALID_FILE));
 		}
+=======
+		if (exec_hub(data) == EXIT_FAILURE)
+		{
+			data->last_return = EXIT_FAILURE;
+//			return (fsp(commands, data->command, 0, INVALID_FILE));
+			return (free_splitted(commands, EXIT_FAILURE));
+		}
+//		reset_redirections(data);
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 		index++;
 	}
 	free_splitted(commands, 0);
-	return (1);
+	return (EXIT_SUCCESS);
 }

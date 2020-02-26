@@ -16,9 +16,9 @@ static size_t	count_words(char *s, char c)
 	words = (s[index] ? 1 : 0);
 	while (s[index])
 	{
-		if (s[index] == '"')
+		if (s[index] == '"' && !simple_quote)
 			double_quote = !double_quote;
-		if (s[index] == '\'')
+		if (s[index] == '\'' && !double_quote)
 			simple_quote = !simple_quote;
 		if (s[index] == c && (!double_quote && !simple_quote) && s[index + 1] && s[index + 1] != c)
 			words++;
@@ -45,9 +45,9 @@ char			**ft_split_spec(char const *s, char c)
 	begin = (char *)s;
 	while (*s)
 	{
-		if (*s == '"')
+		if (*s == '"' && !simple_quote)
 			double_quote = !double_quote;
-		if (*s == '\'')
+		if (*s == '\'' && !double_quote)
 			simple_quote = !simple_quote;
 		if (*s == c && (!double_quote && !simple_quote))
 		{
@@ -62,6 +62,7 @@ char			**ft_split_spec(char const *s, char c)
 	*result = NULL;
 	return (result - words);
 }
+<<<<<<< HEAD:srcs/parsing/parse_arguments.c
 
 
 int parse_arguments(t_data *data)
@@ -74,3 +75,5 @@ int parse_arguments(t_data *data)
 		remove_quotes(&data->arguments[index++]);
 	return (1);
 }
+=======
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7:srcs/utils/split_spec.c

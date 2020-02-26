@@ -6,24 +6,33 @@ int	get_path(t_data *data, char **cmds)
 	char		**paths;
 	char		*joined;
 	char		*tmp;
+<<<<<<< HEAD
+=======
+	int			ret;
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 	int			index;
 
 	index = 0;
 	data->command = cmds[0];
+<<<<<<< HEAD
 	stat(data->command, &buff);
 	if (!S_ISREG(buff.st_mode))
+=======
+	ret = stat(data->command, &buff);
+	if (ret == -1 || !S_ISREG(buff.st_mode) || ft_strncmp(data->command, "./", 2))
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 	{
-		if (!(joined = get_env_str(data, "PATH")))
-			return (0);
+		if (!(joined = get_env(data, "PATH")))
+			return (EXIT_FAILURE);
 		paths = ft_split(joined, ':');
 		free(joined);
 		while (paths[index])
 		{
 			joined = ft_strjoin(paths[index], "/");
 			tmp = joined;
-			stat((joined = ft_strjoin(joined, data->command)), &buff);
+			ret = stat((joined = ft_strjoin(joined, data->command)), &buff);
 			free(tmp);
-			if (S_ISREG(buff.st_mode))
+			if (ret != -1 && S_ISREG(buff.st_mode))
 			{
 				free(cmds[0]);
 				cmds[0] = joined;
@@ -34,6 +43,27 @@ int	get_path(t_data *data, char **cmds)
 		}
 		free_splitted(paths, 0);
 	}
+<<<<<<< HEAD
+=======
+	return (EXIT_SUCCESS);
+}
+
+int	exec_prog(t_data *data, char **cmds)
+{
+	int			index;
+
+	index = 0;
+	if (get_path(data, cmds) == EXIT_FAILURE)
+	{
+		error_command_nf(cmds[0]);
+		return (EXIT_FAILURE);
+	}
+	if (execve(cmds[0], cmds, data->env) == -1)
+	{
+		error_command_nf(cmds[0]);
+		return (EXIT_FAILURE);
+	}
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 	return (EXIT_SUCCESS);
 }
 

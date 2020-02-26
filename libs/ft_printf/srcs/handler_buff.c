@@ -6,7 +6,11 @@
 /*   By: jchotel <jchotel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:32:12 by jchotel           #+#    #+#             */
-/*   Updated: 2020/02/14 22:18:44 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/02/26 11:28:13 by llaurent         ###   ########.fr       */
+ by mbrignol         ###   ########.fr       */
+=======
+/*   Updated: 2020/02/26 10:59:26 by mbrignol         ###   ########.fr       */
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7:libs/ft_printf/srcs/handler_buff.c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +49,7 @@ void	handler_buff(char *buffer, t_arg *arg, int *count)
 
 	i = ft_strlen(buffer);
 	if (arg->conv == 'c')
-		handle_c(buffer, arg, count, i);
+		handle_c(buffer, arg, count);
 	else if (arg->conv == '%')
 		handle_100(buffer, arg, count, i);
 	else if (arg->conv == 'd' || arg->conv == 'i')
@@ -59,5 +63,5 @@ void	handler_buff(char *buffer, t_arg *arg, int *count)
 	else if (arg->conv == 'P')
 		handle_p(buffer, arg, count, i);
 	else if (arg->conv == 'o')
-		handle_o(buffer, arg, count, i);
+		handle_o(buffer, arg, count);
 }

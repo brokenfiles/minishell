@@ -46,6 +46,7 @@ int		free_splitted(char **splitted, int code)
 	free(splitted);
 	return (code);
 }
+<<<<<<< HEAD
 
 int	quit(char *error, int code)
 {
@@ -55,3 +56,5 @@ int	quit(char *error, int code)
 	exit(code);
 	return (code);
 }
+=======
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7

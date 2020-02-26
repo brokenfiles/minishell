@@ -7,7 +7,12 @@ char	*get_only_export_var(t_data *data, int x)
 	char	*new;
 
 	i = 0;
+<<<<<<< HEAD
 	while (data->arguments[x][i] && (ft_isalnum(data->arguments[x][i]) || data->arguments[x][i] == '_'))
+=======
+	while (data->arguments[x][i] && (ft_isalnum(data->arguments[x][i]) ||
+	data->arguments[x][i] == '_'))
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 		i++;
 	if (i > 0 && data->arguments[x][i] && data->arguments[x][i] == '=')
 		i++;
@@ -69,6 +74,7 @@ int		env_contains(t_data *data, char *str)
 	return (free_splitted(temp, 0));
 }
 
+<<<<<<< HEAD
 int     sort_env_export(t_data *data)
 {
 	int i;
@@ -99,6 +105,34 @@ int     sort_env_export(t_data *data)
 	while (i < tabsize(temp) && temp[i])
 		ft_printf("%s\n", temp[i++]);
 	return (free_splitted(temp, 0));
+=======
+int		sort_env_export(t_data *data)
+{
+	int		index;
+	char	**temp;
+
+	if (!(temp = malloc(sizeof(char*) * (tabsize(data->env) + 1))))
+		return (EXIT_FAILURE);
+	temp[tabsize(data->env)] = 0;
+	index = 0;
+	while (index++ < tabsize(data->env))
+		temp[index - 1] = ft_strdup(data->env[index - 1]);
+	index = 0;
+	while (temp[index] && temp[index + 1])
+	{
+		if (ft_strcmp(temp[index], temp[index + 1]) > 0)
+		{
+			ft_swap((void **)&temp[index], (void **)&temp[index + 1]);
+			index = 0;
+		}
+		else
+			index++;
+	}
+	index = 0;
+	while (index < tabsize(temp) && temp[index])
+		ft_printf("%s\n", temp[index++]);
+	return (free_splitted(temp, EXIT_SUCCESS));
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 }
 
 int		exec_export(t_data *data, char **cmds)
@@ -122,4 +156,8 @@ int		exec_export(t_data *data, char **cmds)
 	if (x == 0)
 		sort_env_export(data);
 	return (EXIT_SUCCESS);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
