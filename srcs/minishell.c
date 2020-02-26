@@ -21,7 +21,6 @@ int	main(int ac, char **av, char **env)
 	{
 		replace_env(g_data);
 		parse_line(g_data);
-//		ft_lstadd_front(&g_data->history, ft_lstnew((char *)ft_strdup(g_data->line)));
 		free(g_data->line);
 		g_data->line = NULL;
 		write_preline(g_data);

@@ -193,8 +193,10 @@ int exec_hub(t_data *data)
 	char	**split;
 
 	i = 0;
-	split = ft_split_spec(data->line, '|');
-	commands = malloc(sizeof(char **) * (tabsize(split) + 1));
+	if (!(split = ft_split_spec(data->line, '|')))
+		return (EXIT_FAILURE);
+	if (!(commands = malloc(sizeof(char **) * (tabsize(split) + 1))))
+		return (free_splitted(split, EXIT_FAILURE));
 	while (i < tabsize(split))
 	{
 		x = 0;

@@ -4,6 +4,7 @@
 int		exec_env(t_data *data, char **cmds)
 {
 	char	**tmp;
+	char	*view;
 
 	tmp = data->env;
 	if (!tmp || !*tmp)
@@ -14,6 +15,10 @@ int		exec_env(t_data *data, char **cmds)
 		return (EXIT_FAILURE);
 	}
 	while (*tmp)
-		ft_printf("%s\n", *(tmp++));
+	{
+		view = get_without_quotes(*(tmp++));
+		ft_printf("%s\n", view);
+		free(view);
+	}
 	return (EXIT_SUCCESS);
 }

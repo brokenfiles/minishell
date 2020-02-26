@@ -1,3 +1,6 @@
+cd ../
+make > /dev/null
+cd tests
 ./../minishell < commands_tests.txt > user_output
 bash < commands_tests.txt > real_output
 if [ $? != 0 ]; then
@@ -12,7 +15,7 @@ if [ "$DIFF" != "" ]; then
 else
 	printf "======= \033[0;32mNo diff between files\033[0;0m =======\n"
 fi
-if [ $1 == "-rm" ]; then
+if [ "$1" == "-rm" ]; then
 	rm -f user_output
 	rm -f real_output
 fi

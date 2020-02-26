@@ -1,3 +1,20 @@
-pwd > test
-echo -n bonjour les amis " c  comment     allez ' vous" | cat -e | cat -e | wc -c < test > testo
-cat -e testo
+rm -f path test_return test_return1 test test1 test2
+echo "Hello   world; It's me !   "
+export TEST="Hi, my name is louis."
+echo -n $TEST
+ls $HOME | cat -e
+echo -n $PATH > path | cat -e | wc -l
+cat < test.sh | cat -e > test_return < path < path > test_return1
+echo -n 'First Message' > test1
+echo This is a test named "Truffe Max"    > test > test1 >> test2
+echo This is a test named "Durian"    > test >> test1 >> test2
+echo This is a test named "Master sword"    >> test >> test1 >> test2
+cat -e test test1 test2
+cat -e test_return1
+rm -f path test_return test_return1 test test1 test2
+pwd > pwd
+cat pwd
+pwd
+rm -f pwd
+cd
+pwd
