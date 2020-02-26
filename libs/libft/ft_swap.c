@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbrignol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/04 16:34:28 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/02/26 10:59:25 by mbrignol         ###   ########.fr       */
+/*   Created: 2020/02/25 16:38:06 by llaurent          #+#    #+#             */
+/*   Updated: 2020/02/25 16:40:04 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
-
-char	*ft_strrchr(const char *s, int c)
+void	ft_swap(void **a, void **b)
 {
-	int		i;
-	char	*d;
+	void	*tmp;
 
-	d = (char*)s;
-	i = ft_strlen(d);
-	while (i >= 0)
-	{
-		if (d[i] == (char)c)
-			return (&d[i]);
-		i--;
-	}
-	return (NULL);
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }

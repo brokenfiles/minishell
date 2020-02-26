@@ -6,24 +6,25 @@ int	get_path(t_data *data, char **cmds)
 	char		**paths;
 	char		*joined;
 	char		*tmp;
+	int			ret;
 	int			index;
 
 	index = 0;
 	data->command = cmds[0];
-	stat(data->command, &buff);
-	if (!S_ISREG(buff.st_mode))
+	ret = stat(data->command, &buff);
+	if (ret == -1 || !S_ISREG(buff.st_mode) || ft_strncmp(data->command, "./", 2))
 	{
-		if (!(joined = get_env_str(data, "PATH")))
-			return (0);
+		if (!(joined = get_env(data, "PATH")))
+			return (EXIT_FAILURE);
 		paths = ft_split(joined, ':');
 		free(joined);
 		while (paths[index])
 		{
 			joined = ft_strjoin(paths[index], "/");
 			tmp = joined;
-			stat((joined = ft_strjoin(joined, data->command)), &buff);
+			ret = stat((joined = ft_strjoin(joined, data->command)), &buff);
 			free(tmp);
-			if (S_ISREG(buff.st_mode))
+			if (ret != -1 && S_ISREG(buff.st_mode))
 			{
 				free(cmds[0]);
 				cmds[0] = joined;
@@ -39,26 +40,18 @@ int	get_path(t_data *data, char **cmds)
 
 int	exec_prog(t_data *data, char **cmds)
 {
-	char		*tmp;
 	int			index;
 
 	index = 0;
-	get_path(data, cmds);
-	index = 0;
-	while (cmds[index])
+	if (get_path(data, cmds) == EXIT_FAILURE)
 	{
-		tmp = cmds[index];
-		cmds[index] = ft_strtrim(cmds[index], "\"'");
-		free(tmp);
-		index++;
+		error_command_nf(cmds[0]);
+		return (EXIT_FAILURE);
 	}
-//	redirection_hub(data, cmds);
 	if (execve(cmds[0], cmds, data->env) == -1)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmds[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		return (0);
+		error_command_nf(cmds[0]);
+		return (EXIT_FAILURE);
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }

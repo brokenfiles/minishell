@@ -1,11 +1,8 @@
 strace -e trace=open,close,dup,dup2,pipe,execve -f -p $(pgrep minishell)
 
 faire des tests pour casser les pipes;
-quand redirection '>' '>>', redirige que vers le dernier file, mais creer quand même les autres ;(
 
-
-faire redirection '<'
-
+cat < Makefile > test < Makefile > testu < leaks.sh
 
 MAYBE BONUS ?
 
@@ -28,4 +25,5 @@ MAYBE BONUS ?
        bash.
 ==VÉRIFIER LES VALEURS DE REDIRECTION • $? doit marcher comme dans bash
 ==VÉRIFIER LES COMPORTEMENTS • ctrl-C, ctrl-D et ctrl-\ doivent afficher le même résultat que dans bash.
-==Régler le >
+
+ls -la | cat -e > test

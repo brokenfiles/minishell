@@ -1,24 +1,21 @@
 
 #include "../../includes/minishell.h"
 
-int set_env(t_data *data, char **str)
+int		set_env(t_data *data, char **str)
 {
-	int i;
-	int size;
-	char **new;
+	int		index;
+	int		size;
+	char	**new;
 
-	i = 0;
+	index = 0;
 	size = tabsize(str);
 	if (!(new = malloc(sizeof(char*) * (size + 1))))
-		return (0);
+		return (EXIT_FAILURE);
 	new[size] = 0;
-	while (i < size)
-	{
-		new[i] = ft_strdup(str[i]);
-		i++;
-	}
+	while (index++ < size)
+		new[index - 1] = ft_strdup(str[index - 1]);
 	data->env = new;
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 void	init_pipe(t_data *data)
@@ -27,23 +24,19 @@ void	init_pipe(t_data *data)
 
 	index = 0;
 	while (index < REDIRECT_MAX)
-	{
-		data->tPipe[index].redirect = NULL;
-		index++;
-	}
+		data->tPipe[index++].redirect = NULL;
 }
 
 void	reset_redirections(t_data *data)
 {
 	int	index;
-	(void)data;
+
 	index = 0;
 	while (index < REDIRECT_MAX)
 	{
 		if (data->tPipe[index].redirect != NULL)
 			ft_lstclear_redirect(&data->tPipe[index].redirect, free);
-		data->tPipe[index].redirect = NULL;
-		index++;
+		data->tPipe[index++].redirect = NULL;
 	}
 }
 
@@ -55,7 +48,7 @@ t_data	*init_struct(char **env)
 		return (NULL);
 	if (!(getcwd(data->cwd, sizeof(data->cwd))))
 		return (NULL);
-	if (!(set_env(data, env)))
+	if ((set_env(data, env)) == EXIT_FAILURE)
 		return (NULL);
 	init_pipe(data);
 	data->line = NULL;

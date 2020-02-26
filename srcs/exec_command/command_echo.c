@@ -1,9 +1,8 @@
 
 #include "../../includes/minishell.h"
 
-int		exec_echo(t_data *data, char **cmds)
+int		exec_echo(char **cmds)
 {
-	(void)data;
 	int	x;
 	int	is_n;
 	int	len;

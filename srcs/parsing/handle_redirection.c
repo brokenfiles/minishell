@@ -1,16 +1,16 @@
 #include "../../includes/minishell.h"
 
-int handle_right_arrow(t_redirect *begin)
+int		handle_right_arrow(t_redirect *begin)
 {
-	t_redirect  *current;
-	int         fd;
+	t_redirect	*current;
+	int			fd;
 
 	while (begin)
 	{
 		if (begin->type == DOUBLE_AQUOTE || begin->type == SIMPLE_AQUOTE)
 		{
 			current = begin;
-			fd = open(current->file, O_CREAT, 0644);
+			fd = open(current->file, begin->type == DOUBLE_AQUOTE ? O_CREAT : O_CREAT | O_TRUNC, 0644);
 			close(fd);
 		}
 		begin = begin->next;
@@ -19,31 +19,31 @@ int handle_right_arrow(t_redirect *begin)
 	return (fd);
 }
 
-int     is_right_arrow(t_redirect *beggin)
+int		is_right_arrow(t_redirect *begin)
 {
-	while (beggin)
+	while (begin)
 	{
-		if (beggin->type == SIMPLE_AQUOTE || beggin->type == DOUBLE_AQUOTE)
+		if (begin->type == SIMPLE_AQUOTE || begin->type == DOUBLE_AQUOTE)
 			return (1);
-		else if (beggin->type == LEFT_AQUOTE)
+		else if (begin->type == LEFT_AQUOTE)
 			return (0);
-		beggin = beggin->next;
+		begin = begin->next;
 	}
 	return (0);
 }
 
-int     is_left_arrow(t_redirect *beggin)
+int		is_left_arrow(t_redirect *begin)
 {
-	while (beggin)
+	while (begin)
 	{
-		if (beggin->type == LEFT_AQUOTE)
+		if (begin->type == LEFT_AQUOTE)
 			return (1);
-		beggin = beggin->next;
+		begin = begin->next;
 	}
 	return (0);
 }
 
-t_redirect      *got_right_after_left_arrow(t_redirect *save)
+t_redirect	*got_right_after_left_arrow(t_redirect *save)
 {
 	t_redirect *to_redirect;
 
@@ -60,13 +60,13 @@ t_redirect      *got_right_after_left_arrow(t_redirect *save)
 		return (to_redirect);
 }
 
-int handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
+int			handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
 {
-	int fd;
-	int save;
-	t_redirect *current;
-	t_redirect *first_link;
-	int ret;
+	int			fd;
+	int			save;
+	t_redirect	*current;
+	t_redirect	*first_link;
+	int			ret;
 	struct stat	buff;
 
 	first_link = begin;
@@ -86,7 +86,7 @@ int handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
 	save = dup(STDIN_FILENO);
 	if (dup2(fd, STDIN_FILENO) < 0)
 		return (EXIT_FAILURE);
-	close (fd);
+	close(fd);
 	dup2(STDIN_FILENO, save);
 	close(save);
 	if (got_right_after_left_arrow(first_link))

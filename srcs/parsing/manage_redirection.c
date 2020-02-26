@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int is_built_in(char *str)
+int		is_built_in(char *str)
 {
 	if (ft_strcmp(str, "exit") == 0)
 		return (1);
@@ -16,13 +16,12 @@ int is_built_in(char *str)
 		return (1);
 	else if (ft_strcmp(str, "export") == 0)
 		return (1);
-	else
-		return (0);
+	return (0);
 }
 
-int redirect_output(t_redirect *redirect)
+int		redirect_output(t_redirect *redirect)
 {
-	int fd;
+	int	fd;
 
 	if (!(fd = open(redirect->file, redirect->type == DOUBLE_AQUOTE ? O_RDWR | O_CREAT | O_APPEND
 																	: O_RDWR | O_CREAT | O_TRUNC, 0644)))
@@ -32,7 +31,7 @@ int redirect_output(t_redirect *redirect)
 	return (fd);
 }
 
-void redirect(int oldfd, int newfd)
+void	redirect(int oldfd, int newfd)
 {
 	if (oldfd != newfd)
 	{
@@ -43,7 +42,7 @@ void redirect(int oldfd, int newfd)
 
 int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 {
-	pid_t       process;
+	pid_t	process;
 
 	if (is_built_in(cmds[pos][0]) == 0)
 	{
@@ -52,7 +51,7 @@ int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 		{
 			if (is_right_arrow(data->tPipe[pos].redirect) == 1)
 				data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
-			else if (is_left_arrow(data->tPipe[pos].redirect))
+			if (is_left_arrow(data->tPipe[pos].redirect))
 			{
 				if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == EXIT_FAILURE)
 				{
@@ -61,7 +60,7 @@ int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 					return (EXIT_FAILURE);
 				}
 			}
-			else
+			if (!is_right_arrow(data->tPipe[pos].redirect) && !is_left_arrow(data->tPipe[pos].redirect))
 				redirect(in_fd, STDIN_FILENO);
 			if (pos > 0)
 				close(in_fd);
@@ -89,7 +88,7 @@ int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 
 int is_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 {
-	pid_t process;
+	pid_t	process;
 
 	process = fork();
 	if (process == 0)
@@ -97,9 +96,9 @@ int is_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 		redirect(in_fd, STDIN_FILENO);
 		if (is_right_arrow(data->tPipe[pos].redirect))
 			data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
-		else if (is_left_arrow(data->tPipe[pos].redirect))
+		if (is_left_arrow(data->tPipe[pos].redirect))
 		{
-			if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == EXIT_FAILURE)
+			if (handle_left_arrow(data, data->tPipe[pos].redirect, 1) == EXIT_FAILURE)
 			{
 				ft_putstr_fd("minishell: no such file or directory\n", 2);
 				exit(0);
@@ -114,29 +113,29 @@ int is_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-int exec_fils(char ***cmds, int pos, int in_fd, t_data *data)
+int	exec_fils(char ***cmds, int pos, int in_fd, t_data *data)
 {
 	close(data->pipe[0]);
 	redirect(in_fd, STDIN_FILENO);
 	if (is_right_arrow(data->tPipe[pos].redirect))
 		data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
-	else if (is_left_arrow(data->tPipe[pos].redirect))
+	if (is_left_arrow(data->tPipe[pos].redirect))
 	{
-		if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == EXIT_FAILURE)
+		if (handle_left_arrow(data, data->tPipe[pos].redirect, 1) == EXIT_FAILURE)
 		{
 			ft_putstr_fd("minishell: no such file or directory\n", 2);
 			exit(0);
 			return (EXIT_FAILURE);
 		}
 	}
-	else
+	if (!is_right_arrow(data->tPipe[pos].redirect) && !is_left_arrow(data->tPipe[pos].redirect))
 		redirect(data->pipe[1], 1);
 	close(data->pipe[1]);
 	run_command(data, cmds[pos]);
 	exit(EXIT_FAILURE);
 }
 
-int exec_papa(char ***cmds, int pos, int in_fd, t_data *data)
+int	exec_papa(char ***cmds, int pos, int in_fd, t_data *data)
 {
 	if (pos > 0)
 		close(in_fd);
@@ -145,10 +144,10 @@ int exec_papa(char ***cmds, int pos, int in_fd, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-int exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
+int	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 {
-	pid_t process;
-	int end;
+	pid_t	process;
+	int		end;
 
 	end = 0;
 	if (cmds[pos + 1] == NULL)
@@ -186,10 +185,10 @@ int exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 
 int exec_hub(t_data *data)
 {
-	int i;
-	int x;
-	char ***commands;
-	char **split;
+	int		i;
+	int		x;
+	char	***commands;
+	char	**split;
 
 	i = 0;
 	split = ft_split_spec(data->line, '|');
@@ -218,9 +217,6 @@ int exec_hub(t_data *data)
 	free_splitted(split, 0);
 	i = 0;
 	while (i < tabsize(split))
-	{
-		ft_lstclear_redirect(&data->tPipe[i].redirect, free);
-		i++;
-	}
+		ft_lstclear_redirect(&data->tPipe[i++].redirect, free);
 	return (EXIT_SUCCESS);
 }

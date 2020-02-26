@@ -34,11 +34,21 @@ int		get_last_char(char *str, char c)
 	return (last_char);
 }
 
+void	error_command_nf(char *command)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
+
 void	write_preline(t_data *data)
 {
-	ft_printf(PRE_LINE, ((get_last_char(data->cwd, '/') != -1
-	&& ft_strlen(data->cwd) != 1) ?
-	data->cwd + get_last_char(data->cwd, '/') + 1 : data->cwd));
+	if (isatty(0))
+	{
+		ft_printf(PRE_LINE, ((get_last_char(data->cwd, '/') != -1
+		&& ft_strlen(data->cwd) != 1) ?
+		data->cwd + get_last_char(data->cwd, '/') + 1 : data->cwd));
+	}
 }
 
 int		count_char(char *str, char c)
@@ -47,8 +57,8 @@ int		count_char(char *str, char c)
 	int	counter;
 	int	quotes[2];
 
-	init_int(&index, &counter);
-	init_int(&quotes[0], &quotes[1]);
+	init_int(&index, &counter, 0, 0);
+	init_int(&quotes[0], &quotes[1], 0, 0);
 	while (str[index])
 	{
 		if (str[index] == '"' && !quotes[0])
@@ -72,8 +82,8 @@ int		remove_quotes(char **str)
 	x = ft_strlen(*str) - (count_char(*str, '\'') + count_char(*str, '"'));
 	if (!(new = ft_strnew(x)))
 		return (-1);
-	init_int(&i, &x);
-	init_int(&quotes[0], &quotes[1]);
+	init_int(&i, &x, 0, 0);
+	init_int(&quotes[0], &quotes[1], 0, 0);
 	while ((*str)[i])
 	{
 		if ((*str)[i] == '"' && !quotes[0])

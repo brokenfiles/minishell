@@ -1,21 +1,22 @@
 #include "../../includes/minishell.h"
 
-int get_new_line(t_data *data, char *env, int index, int size)
+int	get_new_line(t_data *data, char *env, int index, int size)
 {
 	char	*new_line;
 	char	**splitted;
 
-	splitted = ft_split(env, '=');
+	if (!(splitted = ft_split(env, '=')))
+		return (EXIT_FAILURE);
 	new_line = ft_strnew(ft_strlen(data->line) - size + ft_strlen(splitted[1]));
 	new_line = ft_strncat(new_line, data->line, index);
 	new_line = ft_strncat(new_line, splitted[1], ft_strlen(splitted[1]));
 	new_line = ft_strncat(new_line, &data->line[index + size], ft_strlen(data->line) - index - size);
 	free(data->line);
 	data->line = new_line;
-	return (free_splitted(splitted, 0));
+	return (free_splitted(splitted, EXIT_SUCCESS));
 }
 
-int get_var_env(t_data *data, char *str, int *index)
+int	get_var_env(t_data *data, char *str, int *index)
 {
 	int		i;
 	int		len;
@@ -62,7 +63,7 @@ int	is_interrogation(t_data *data, int x)
 	return (1);
 }
 
-int is_invalid_env(t_data *data, int x)
+int	is_invalid_env(t_data *data, int x)
 {
 	int i;
 	char *new_line;
@@ -89,7 +90,7 @@ int is_invalid_env(t_data *data, int x)
 	return (1);
 }
 
-int replace_env(t_data *data)
+int	replace_env(t_data *data)
 {
 	int	i;
 	int	index;
