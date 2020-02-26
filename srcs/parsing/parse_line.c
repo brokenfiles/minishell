@@ -76,12 +76,14 @@ int parse_line(t_data *data)
 	int index;
 
 	index = 0;
-	commands = ft_split_spec(data->line, ';');
+	if (!(commands = ft_split_spec(data->line, ';')))
+		return (EXIT_FAILURE);
 	while (commands[index])
 	{
 		if (data->line)
 			free(data->line);
-		data->line = ft_strdup(commands[index]);
+		if (!(data->line = ft_strdup(commands[index])))
+			return (free_splitted(commands, EXIT_FAILURE));
 		if (exec_hub(data) == EXIT_FAILURE)
 		{
 			data->last_return = EXIT_FAILURE;
