@@ -40,9 +40,6 @@ int	get_path(t_data *data, char **cmds)
 
 int	exec_prog(t_data *data, char **cmds)
 {
-	int			index;
-
-	index = 0;
 	if (get_path(data, cmds) == EXIT_FAILURE)
 	{
 		error_command_nf(cmds[0]);

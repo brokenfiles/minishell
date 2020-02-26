@@ -55,7 +55,7 @@ int run_command(t_data *data, char **cmds)
 		data->last_return = exec_unset(data, cmds);
 	else if (ft_strcmp(cmds[0], "export") == 0)
 		data->last_return = exec_export(data, cmds);
-	else if ((data->last_return = exec_prog(data, cmds)) == EXIT_FAILURE)
+	else if (exec_prog(data, cmds) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -75,10 +75,8 @@ int parse_line(t_data *data)
 		if (exec_hub(data) == EXIT_FAILURE)
 		{
 			data->last_return = EXIT_FAILURE;
-//			return (fsp(commands, data->command, 0, INVALID_FILE));
 			return (free_splitted(commands, EXIT_FAILURE));
 		}
-//		reset_redirections(data);
 		index++;
 	}
 	free_splitted(commands, 0);
