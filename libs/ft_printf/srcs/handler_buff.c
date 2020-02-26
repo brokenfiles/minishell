@@ -6,7 +6,7 @@
 /*   By: jchotel <jchotel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 12:32:12 by jchotel           #+#    #+#             */
-/*   Updated: 2020/02/25 10:47:59 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/02/26 10:59:26 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	set_buff(va_list va, t_arg *arg, int *count)
 
 	if (!(buffer = (char *)malloc(sizeof(char) * 1)))
 		return ;
-	bzero((void *)buffer, ft_strlen(buffer));
+	ft_bzero((void *)buffer, ft_strlen(buffer));
 	if (arg->conv == 'c')
 		ft_strjoin_c(&buffer, (char)(va_arg(va, int)));
 	else if (arg->conv == '%')

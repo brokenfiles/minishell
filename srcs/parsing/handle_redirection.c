@@ -10,7 +10,7 @@ int		handle_right_arrow(t_redirect *begin)
 		if (begin->type == DOUBLE_AQUOTE || begin->type == SIMPLE_AQUOTE)
 		{
 			current = begin;
-			fd = open(current->file, O_CREAT, 0644);
+			fd = open(current->file, begin->type == DOUBLE_AQUOTE ? O_CREAT : O_CREAT | O_TRUNC, 0644);
 			close(fd);
 		}
 		begin = begin->next;
