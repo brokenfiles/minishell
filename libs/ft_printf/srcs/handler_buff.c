@@ -18,7 +18,7 @@ void	set_buff(va_list va, t_arg *arg, int *count)
 
 	if (!(buffer = (char *)malloc(sizeof(char) * 1)))
 		return ;
-	bzero((void *)buffer, ft_strlen(buffer));
+	ft_bzero((void *)buffer, ft_strlen(buffer));
 	if (arg->conv == 'c')
 		ft_strjoin_c(&buffer, (char)(va_arg(va, int)));
 	else if (arg->conv == '%')
