@@ -39,6 +39,7 @@ int		fsp(char **splitted, char *str, int code, char *message);
 int		fnr(void (*f)(void *), void *mem, int code, char *message);
 int		free_splitted(char **splitted, int code);
 char	**ft_split_spec(char const *s, char c);
+void	handle_return(t_data *data);
 int		tabsize(char **str);
 int		parse_arguments(t_data *data);
 int		get_last_char(char *str, char c);

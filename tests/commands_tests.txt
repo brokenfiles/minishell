@@ -1,0 +1,3 @@
+pwd > test
+echo -n bonjour les amis " c  comment     allez ' vous" | cat -e | cat -e | wc -c < test > testo
+cat -e testo

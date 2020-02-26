@@ -150,6 +150,7 @@ int	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 	int		end;
 
 	end = 0;
+	process = -1;
 	if (cmds[pos + 1] == NULL)
 	{
 		if (pos > 0)
@@ -163,7 +164,8 @@ int	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 				return (EXIT_FAILURE);
 		}
 		while (end != -1)
-			end = wait(NULL);
+			end = waitpid(process, &data->last_return, 0);
+		handle_return(data);
 	}
 	else
 	{
