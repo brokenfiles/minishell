@@ -21,12 +21,12 @@ MAYBE BONUS ?
 --FAIT ◦ exit sans aucune option
 --FAIT • ; dans la ligne de commande doit séparer les commandes
 --FAIT • ’ et " doivent marcher comme dans bash, à l’exception du multiligne.
-==PRESQUE • Redirections > et >>
-==NON FAIT • Redirections <
+--FAIT • Redirections > et >>
+--FAIT • Redirections <
 --FAIT • Pipes | doivent marcher comme dans bash
 --FAIT • Les variables d’environnement ($ suivi de caractères) doivent marcher comme dans
        bash.
-==VÉRIFIER LES VALEURS DE REDIRECTION • $? doit marcher comme dans bash
+==VÉRIFIER LES VALEURS DE RETOUR • $? doit marcher comme dans bash
 ==VÉRIFIER LES COMPORTEMENTS • ctrl-C, ctrl-D et ctrl-\ doivent afficher le même résultat que dans bash.
 
 ls -la | cat -e > test

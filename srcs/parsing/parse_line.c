@@ -39,6 +39,16 @@ int command_exists(t_data *data)
 	return (0);
 }
 
+void	handle_return(t_data *data)
+{
+	if (data->last_return == EXIT_FAILURE || data->last_return == EXIT_SUCCESS)
+		return ;
+	if (data->last_return == 11 || data->last_return == 10)
+		data->last_return += 128;
+	else
+		data->last_return = 1;
+}
+
 int run_command(t_data *data, char **cmds)
 {
 	if (ft_strcmp(cmds[0], "exit") == 0)

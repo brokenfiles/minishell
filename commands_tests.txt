@@ -1,4 +1,0 @@
-rm -f test
-echo yo > test
-echo yoyo >> test
-cat -e < test
