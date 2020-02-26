@@ -20,12 +20,10 @@ typedef struct	s_data
 	char		**env;
 	char		*line;
 	char		*command;
-	char		*arguments_line;
 	char		**arguments;
-	t_list		*history;
 	char		cwd[PATH_MAX + 1];
-	t_pipe	tPipe[REDIRECT_MAX];
-	int         fd[2];
-	int         pipe[2];
+	t_pipe		tPipe[REDIRECT_MAX];
+	int			fd[2];
+	int			pipe[2];
 }				t_data;
 #endif
