@@ -2,7 +2,10 @@ strace -e trace=open,close,dup,dup2,pipe,execve -f -p $(pgrep minishell)
 
 faire des tests pour casser les pipes;
 
+ls -la | wc -l
+
 cat < Makefile > test < Makefile > testu < leaks.sh
+                 test doit être clear
 
 MAYBE BONUS ?
 
