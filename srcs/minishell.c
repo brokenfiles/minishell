@@ -3,8 +3,9 @@
 
 t_data	*g_data;
 
-void	sig_handler()
+void	sig_handler(int sig)
 {
+	(void)sig;
 	ft_putchar('\n');
 	write_preline(g_data);
 }

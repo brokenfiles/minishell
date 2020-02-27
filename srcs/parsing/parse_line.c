@@ -1,43 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_line.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/26 19:41:25 by llaurent          #+#    #+#             */
+/*   Updated: 2020/02/26 19:41:25 by llaurent         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int command_exists(t_data *data)
-{
-	struct stat buf;
-	char **paths;
-	char *joined;
-	char *tmp;
-	int index;
-	char *command;
-
-	command = data->command;
-	if ((ft_strcmp(command, "echo") == 0) || (ft_strcmp(command, "cd") == 0)
-		|| (ft_strcmp(command, "pwd") == 0) || (ft_strcmp(command, "export") == 0)
-		|| (ft_strcmp(command, "unset") == 0) || (ft_strcmp(command, "env") == 0)
-		|| (ft_strcmp(command, "exit") == 0))
-		return (1);
-	index = 0;
-	stat(command, &buf);
-	if ((S_ISREG(buf.st_mode) && (ft_strchr(command, '/'))))
-		return (1);
-	if (!(joined = get_env(data, "PATH")))
-		return (0);
-	paths = ft_split(joined, ':');
-	free(joined);
-	while (paths[index])
-	{
-		joined = ft_strjoin(paths[index], "/");
-		tmp = joined;
-		stat((joined = ft_strjoin(joined, command)), &buf);
-		free(tmp);
-		free(joined);
-		if ((S_ISREG(buf.st_mode)))
-			return (free_splitted(paths, 1));
-		index++;
-	}
-	free_splitted(paths, 1);
-	return (0);
-}
 
 void	handle_return(t_data *data)
 {
@@ -45,6 +18,8 @@ void	handle_return(t_data *data)
 		return ;
 	if (data->last_return == 11 || data->last_return == 10)
 		data->last_return += 128;
+	else if (data->last_return == 32512)
+		data->last_return = 127;
 	else
 		data->last_return = 1;
 }
@@ -65,7 +40,7 @@ int run_command(t_data *data, char **cmds)
 		data->last_return = exec_unset(data, cmds);
 	else if (ft_strcmp(cmds[0], "export") == 0)
 		data->last_return = exec_export(data, cmds);
-	else if (exec_prog(data, cmds) == EXIT_FAILURE)
+	else if (exec_prog(data, cmds, &data->last_return) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

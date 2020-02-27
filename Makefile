@@ -21,12 +21,14 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/exec_command/command_cd.c\
 				srcs/exec_command/command_unset.c\
 				srcs/exec_command/command_export.c\
+				srcs/exec_command/command_export2.c\
 				srcs/exec_command/exec_prog.c\
 				srcs/utils/redirection_utils.c\
 				srcs/utils/split_spec.c\
 				srcs/utils/string_utils.c\
 				srcs/utils/errors.c\
 				srcs/utils/replace_env.c\
+				srcs/utils/replace_env2.c\
 				srcs/utils/utils.c\
 				srcs/utils/get_env.c
 
