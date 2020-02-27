@@ -11,9 +11,8 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				libs/get_next_line/get_next_line_utils.c\
 				srcs/minishell.c\
 				srcs/parsing/parse_line.c\
-				srcs/parsing/arrow_right.c\
+				srcs/parsing/parsing_redirection.c\
 				srcs/parsing/manage_redirection.c\
-				srcs/parsing/redirection_utils.c\
 				srcs/parsing/handle_redirection.c\
 				srcs/structures/init_struct.c\
 				srcs/exec_command/command_env.c\
@@ -23,6 +22,7 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/exec_command/command_unset.c\
 				srcs/exec_command/command_export.c\
 				srcs/exec_command/exec_prog.c\
+				srcs/utils/redirection_utils.c\
 				srcs/utils/split_spec.c\
 				srcs/utils/string_utils.c\
 				srcs/utils/errors.c\

@@ -1,19 +1,33 @@
 #include "../../includes/minishell.h"
 
+char	*get_first_equal(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (ft_strdup(&str[i + 1]));
+		i++;
+	}
+	return (NULL);
+}
+
 int	get_new_line(t_data *data, char *env, int index, int size)
 {
 	char	*new_line;
-	char	**splitted;
+	char	*content;
 
-	if (!(splitted = ft_split(env, '=')))
-		return (EXIT_FAILURE);
-	new_line = ft_strnew(ft_strlen(data->line) - size + ft_strlen(splitted[1]));
+	content = get_first_equal(env);
+	new_line = ft_strnew(ft_strlen(data->line) - size + ft_strlen(content));
 	new_line = ft_strncat(new_line, data->line, index);
-	new_line = ft_strncat(new_line, splitted[1], ft_strlen(splitted[1]));
+	new_line = ft_strncat(new_line, content, ft_strlen(content));
 	new_line = ft_strncat(new_line, &data->line[index + size], ft_strlen(data->line) - index - size);
 	free(data->line);
 	data->line = new_line;
-	return (free_splitted(splitted, EXIT_SUCCESS));
+	free(content);
+	return (EXIT_SUCCESS);
 }
 
 int	get_var_env(t_data *data, char *str, int *index)

@@ -10,6 +10,8 @@ char	*get_only_export_var(t_data *data, int x)
 	while (data->arguments[x][i] && (ft_isalnum(data->arguments[x][i]) ||
 	data->arguments[x][i] == '_'))
 		i++;
+	if (i == 0)
+		return (NULL);
 	if (i > 0 && data->arguments[x][i] && data->arguments[x][i] == '=')
 		i++;
 	else
@@ -70,6 +72,35 @@ int		env_contains(t_data *data, char *str)
 	return (free_splitted(temp, 0));
 }
 
+int		display_export_alone(t_data *data, char **str)
+{
+	int i;
+	int x;
+	int is_start;
+	(void)data;
+
+	i = 0;
+	while (i < tabsize(str) && str[i])
+	{
+		is_start = 0;
+		x = 0;
+		ft_printf("declare -x ");
+		while (str[i][x])
+		{
+			if ((str[i][x - 1] == '=' && is_start == 0))
+			{
+				ft_putchar(34);
+				is_start = 1;
+			}
+			ft_putchar(str[i][x]);
+			x++;
+		}
+		i++;
+		ft_printf("%c%c", 34, 10);
+	}
+	return (EXIT_SUCCESS);
+}
+
 int		sort_env_export(t_data *data)
 {
 	int		index;
@@ -92,9 +123,7 @@ int		sort_env_export(t_data *data)
 		else
 			index++;
 	}
-	index = 0;
-	while (index < tabsize(temp) && temp[index])
-		ft_printf("%s\n", temp[index++]);
+	display_export_alone(data, temp);
 	return (free_splitted(temp, EXIT_SUCCESS));
 }
 
@@ -114,6 +143,8 @@ int		exec_export(t_data *data, char **cmds)
 			if (!(env_contains(data, export)))
 				add_export(data, export);
 		}
+		else
+			return (EXIT_FAILURE);
 		x++;
 	}
 	if (x == 0)

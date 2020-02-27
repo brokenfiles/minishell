@@ -55,14 +55,12 @@ int is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 			{
 				if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == EXIT_FAILURE)
 				{
-					if (is_right_arrow(data->tPipe[pos].redirect) == 1)
-						close(data->fd[1]);
 					ft_putstr_fd("minishell: no such file or directory\n", 2);
 					exit(0);
 					return (EXIT_FAILURE);
 				}
 			}
-			else
+			if (!is_right_arrow(data->tPipe[pos].redirect) && !is_left_arrow(data->tPipe[pos].redirect))
 				redirect(in_fd, STDIN_FILENO);
 			if (pos > 0)
 				close(in_fd);
@@ -100,11 +98,8 @@ int is_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 			data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
 		if (is_left_arrow(data->tPipe[pos].redirect))
 		{
-//			ft_putstr_fd("==- Passage par la commande [exec_fils]\n", 2);
-			if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == EXIT_FAILURE)
+			if (handle_left_arrow(data, data->tPipe[pos].redirect, 1) == EXIT_FAILURE)
 			{
-				if (is_right_arrow(data->tPipe[pos].redirect))
-					close(data->fd[1]);
 				ft_putstr_fd("minishell: no such file or directory\n", 2);
 				exit(0);
 				return (EXIT_FAILURE);
@@ -126,18 +121,14 @@ int	exec_fils(char ***cmds, int pos, int in_fd, t_data *data)
 		data->fd[1] = handle_right_arrow(data->tPipe[pos].redirect);
 	if (is_left_arrow(data->tPipe[pos].redirect))
 	{
-//		ft_putstr_fd("==- Passage par la commande [exec_fils]\n", 2);
-		redirect(data->pipe[1], 1);
-		if (handle_left_arrow(data, data->tPipe[pos].redirect, 0) == EXIT_FAILURE)
+		if (handle_left_arrow(data, data->tPipe[pos].redirect, 1) == EXIT_FAILURE)
 		{
-			if (is_right_arrow(data->tPipe[pos].redirect))
-				close(data->fd[1]);
 			ft_putstr_fd("minishell: no such file or directory\n", 2);
 			exit(0);
 			return (EXIT_FAILURE);
 		}
 	}
-	else
+	if (!is_right_arrow(data->tPipe[pos].redirect) && !is_left_arrow(data->tPipe[pos].redirect))
 		redirect(data->pipe[1], 1);
 	close(data->pipe[1]);
 	run_command(data, cmds[pos]);
@@ -159,23 +150,22 @@ int	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 	int		end;
 
 	end = 0;
-//	ft_printf("command runned: %s\n", cmds[pos][0]);
+	process = -1;
 	if (cmds[pos + 1] == NULL)
 	{
 		if (pos > 0)
 		{
-//			ft_printf("[%s] runned into pipeline\n", cmds[pos][0]);
 			if (is_pipeline(cmds, pos, in_fd, data) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 		}
 		else
 		{
-//			ft_printf("[%s] runned into command alone\n", cmds[pos][0]);
 			if (is_command_alone(cmds, pos, in_fd, data) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 		}
 		while (end != -1)
-			end = wait(NULL);
+			end = waitpid(process, &data->last_return, 0);
+		handle_return(data);
 	}
 	else
 	{
@@ -183,13 +173,11 @@ int	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 		process = fork();
 		if (process == 0)
 		{
-//			ft_printf("[%s] runned into else condition (fils)\n", cmds[pos][0]);
 			if (exec_fils(cmds, pos, in_fd, data) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 		}
 		else
 		{
-//			ft_printf("[%s] runned into else condition (père)\n", cmds[pos][0]);
 			if (exec_papa(cmds, pos, in_fd, data) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 		}
@@ -205,8 +193,10 @@ int exec_hub(t_data *data)
 	char	**split;
 
 	i = 0;
-	split = ft_split_spec(data->line, '|');
-	commands = malloc(sizeof(char **) * (tabsize(split) + 1));
+	if (!(split = ft_split_spec(data->line, '|')))
+		return (EXIT_FAILURE);
+	if (!(commands = malloc(sizeof(char **) * (tabsize(split) + 1))))
+		return (free_splitted(split, EXIT_FAILURE));
 	while (i < tabsize(split))
 	{
 		x = 0;
