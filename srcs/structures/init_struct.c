@@ -1,6 +1,24 @@
 
 #include "../../includes/minishell.h"
 
+int		inc_shlvl(t_data *data)
+{
+	char	**cmds;
+	char	*value;
+	char	*env_value;
+
+	env_value = get_env(data, "SHLVL");
+	cmds = malloc(sizeof(char *) * 3);
+	value = ft_itoa(ft_atoi(env_value) + 1);
+	cmds[0] = ft_strdup("export");
+	cmds[1] = ft_strjoin("SHLVL=", value);
+	cmds[2] = NULL;
+	exec_export(data, cmds);
+	free(env_value);
+	free(value);
+	return (free_splitted(cmds, EXIT_SUCCESS));
+}
+
 int		set_env(t_data *data, char **str)
 {
 	int		index;
@@ -49,6 +67,8 @@ t_data	*init_struct(char **env)
 	if (!(getcwd(data->cwd, sizeof(data->cwd))))
 		return (NULL);
 	if ((set_env(data, env)) == EXIT_FAILURE)
+		return (NULL);
+	if ((inc_shlvl(data)) == EXIT_FAILURE)
 		return (NULL);
 	init_pipe(data);
 	data->line = NULL;
