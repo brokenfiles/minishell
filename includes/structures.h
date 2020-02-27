@@ -29,11 +29,9 @@ typedef struct	s_data
 	int			last_return;
 	char		**env;
 	char		*line;
-	char		*command;
-	char		*arguments_line;
 	char		**arguments;
-	t_list		*history;
 	char		cwd[PATH_MAX + 1];
+<<<<<<< HEAD
 <<<<<<< HEAD
 	t_redirect	redirects[REDIRECT_MAX];
 =======
@@ -41,5 +39,10 @@ typedef struct	s_data
 	int         fd[2];
 	int         pipe[2];
 >>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
+=======
+	t_pipe		tPipe[REDIRECT_MAX];
+	int			fd[2];
+	int			pipe[2];
+>>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 }				t_data;
 #endif

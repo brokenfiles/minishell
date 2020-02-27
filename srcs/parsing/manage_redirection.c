@@ -87,7 +87,7 @@ int		redirect_output(t_redirect *redirect)
 	int	fd;
 
 	if (!(fd = open(redirect->file, redirect->type == DOUBLE_AQUOTE ? O_RDWR | O_CREAT | O_APPEND
-																	: O_RDWR | O_CREAT | O_TRUNC, 0644)))
+				: O_RDWR | O_CREAT | O_TRUNC, 0644)))
 		return (-1);
 	if (dup2(fd, STDOUT_FILENO) < 1)
 		return (-1);
@@ -315,6 +315,7 @@ int	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 	int		end;
 
 	end = 0;
+	process = -1;
 	if (cmds[pos + 1] == NULL)
 	{
 		if (pos > 0)
@@ -328,7 +329,8 @@ int	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data)
 				return (EXIT_FAILURE);
 		}
 		while (end != -1)
-			end = wait(NULL);
+			end = waitpid(process, &data->last_return, 0);
+		handle_return(data);
 	}
 	else
 	{
@@ -356,8 +358,10 @@ int exec_hub(t_data *data)
 	char	**split;
 
 	i = 0;
-	split = ft_split_spec(data->line, '|');
-	commands = malloc(sizeof(char **) * (tabsize(split) + 1));
+	if (!(split = ft_split_spec(data->line, '|')))
+		return (EXIT_FAILURE);
+	if (!(commands = malloc(sizeof(char **) * (tabsize(split) + 1))))
+		return (free_splitted(split, EXIT_FAILURE));
 	while (i < tabsize(split))
 	{
 		x = 0;

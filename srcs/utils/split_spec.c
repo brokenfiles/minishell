@@ -1,13 +1,15 @@
 
 #include "../../includes/minishell.h"
 
-static size_t	count_words(char *s, char c)
+int		count_words(char *s, char c)
 {
-	size_t	words;
+	int		words;
 	int		index;
 	int		double_quote;
 	int		simple_quote;
 
+	if (!s)
+		return (-1);
 	index = 0;
 	double_quote = 0;
 	simple_quote = 0;
@@ -20,36 +22,38 @@ static size_t	count_words(char *s, char c)
 			double_quote = !double_quote;
 		if (s[index] == '\'' && !double_quote)
 			simple_quote = !simple_quote;
-		if (s[index] == c && (!double_quote && !simple_quote) && s[index + 1] && s[index + 1] != c)
+		if (s[index] == c && (!double_quote && !simple_quote) &&
+		s[index + 1] && s[index + 1] != c)
 			words++;
 		index++;
 	}
 	return (words);
 }
 
-char			**ft_split_spec(char const *s, char c)
+void	define_quotes(int *sq, int *dq, char c)
 {
-	size_t words;
-	int double_quote;
-	int simple_quote;
-	char *begin;
-	char **result;
+	if (c == '"' && !(*sq))
+		*dq = !(*dq);
+	if (c == '\'' && !(*dq))
+		*sq = !(*sq);
+}
 
-	if (!s)
-		return (NULL);
-	double_quote = 0;
-	simple_quote = 0;
-	words = count_words((char *) s, c);
-	if (!(result = (char **) malloc(sizeof(char *) * (words + 1))))
+char	**ft_split_spec(char const *s, char c)
+{
+	int		words;
+	int		indexes[2];
+	char	*begin;
+	char	**result;
+
+	init_int(&indexes[0], &indexes[1], 0, 0);
+	words = count_words((char *)s, c);
+	if ((words == -1) || !(result = malloc(sizeof(char *) * (words + 1))))
 		return (NULL);
 	begin = (char *)s;
 	while (*s)
 	{
-		if (*s == '"' && !simple_quote)
-			double_quote = !double_quote;
-		if (*s == '\'' && !double_quote)
-			simple_quote = !simple_quote;
-		if (*s == c && (!double_quote && !simple_quote))
+		define_quotes(&indexes[0], &indexes[1], *s);
+		if (*s == c && (!indexes[1] && !indexes[0]))
 		{
 			if (begin != s)
 				*(result++) = ft_substr(begin, 0, s - begin);

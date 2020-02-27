@@ -15,13 +15,16 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/minishell.c\
 				srcs/parsing/parse_line.c\
 <<<<<<< HEAD
+<<<<<<< HEAD
 				srcs/parsing/parse_redirections.c\
 				srcs/parsing/parse_arguments.c\
 				srcs/parsing/manage_redirection.c\
 =======
 				srcs/parsing/arrow_right.c\
+=======
+				srcs/parsing/parsing_redirection.c\
+>>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 				srcs/parsing/manage_redirection.c\
-				srcs/parsing/redirection_utils.c\
 				srcs/parsing/handle_redirection.c\
 >>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 				srcs/structures/init_struct.c\
@@ -31,14 +34,20 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/exec_command/command_cd.c\
 				srcs/exec_command/command_unset.c\
 				srcs/exec_command/command_export.c\
+				srcs/exec_command/command_export2.c\
 				srcs/exec_command/exec_prog.c\
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+				srcs/utils/redirection_utils.c\
+>>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 				srcs/utils/split_spec.c\
 >>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 				srcs/utils/string_utils.c\
 				srcs/utils/errors.c\
 				srcs/utils/replace_env.c\
+				srcs/utils/replace_env2.c\
 				srcs/utils/utils.c\
 				srcs/utils/get_env.c
 

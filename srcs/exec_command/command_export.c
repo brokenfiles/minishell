@@ -14,6 +14,8 @@ char	*get_only_export_var(t_data *data, int x)
 	data->arguments[x][i] == '_'))
 >>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 		i++;
+	if (i == 0)
+		return (NULL);
 	if (i > 0 && data->arguments[x][i] && data->arguments[x][i] == '=')
 		i++;
 	else
@@ -54,10 +56,12 @@ int		env_contains(t_data *data, char *str)
 	char	**temp;
 
 	i = 0;
-	temp = ft_split(str, '=');
+	if (!(temp = ft_split(str, '=')))
+		return (EXIT_FAILURE);
 	while (data->env[i])
 	{
-		split = ft_split(data->env[i], '=');
+		if (!(split = ft_split(data->env[i], '=')))
+			return (free_splitted(temp, EXIT_FAILURE));
 		if (ft_strcmp(split[0], temp[0]) == 0)
 		{
 			if (ft_strlen(split[0]) == ft_strlen(temp[0]))
@@ -74,6 +78,7 @@ int		env_contains(t_data *data, char *str)
 	return (free_splitted(temp, 0));
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 int     sort_env_export(t_data *data)
 {
@@ -107,32 +112,41 @@ int     sort_env_export(t_data *data)
 	return (free_splitted(temp, 0));
 =======
 int		sort_env_export(t_data *data)
+=======
+int		display_export_alone(char **str)
+>>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 {
-	int		index;
-	char	**temp;
+	int i;
+	int x;
+	int is_start;
 
-	if (!(temp = malloc(sizeof(char*) * (tabsize(data->env) + 1))))
-		return (EXIT_FAILURE);
-	temp[tabsize(data->env)] = 0;
-	index = 0;
-	while (index++ < tabsize(data->env))
-		temp[index - 1] = ft_strdup(data->env[index - 1]);
-	index = 0;
-	while (temp[index] && temp[index + 1])
+	i = 0;
+	while (i < tabsize(str) && str[i])
 	{
-		if (ft_strcmp(temp[index], temp[index + 1]) > 0)
+		is_start = 0;
+		x = 0;
+		ft_printf("declare -x ");
+		while (str[i][x])
 		{
-			ft_swap((void **)&temp[index], (void **)&temp[index + 1]);
-			index = 0;
+			if ((str[i][x - 1] == '=' && is_start == 0))
+			{
+				ft_putchar(34);
+				is_start = 1;
+			}
+			ft_putchar(str[i][x++]);
 		}
-		else
-			index++;
+		i++;
+		ft_printf("%c%c", 34, 10);
 	}
+<<<<<<< HEAD
 	index = 0;
 	while (index < tabsize(temp) && temp[index])
 		ft_printf("%s\n", temp[index++]);
 	return (free_splitted(temp, EXIT_SUCCESS));
 >>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
+=======
+	return (EXIT_SUCCESS);
+>>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 }
 
 int		exec_export(t_data *data, char **cmds)
@@ -151,6 +165,8 @@ int		exec_export(t_data *data, char **cmds)
 			if (!(env_contains(data, export)))
 				add_export(data, export);
 		}
+		else
+			return (EXIT_FAILURE);
 		x++;
 	}
 	if (x == 0)
