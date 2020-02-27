@@ -3,26 +3,6 @@
 int		is_regular_file(char *file)
 {
 	struct stat	buff;
-<<<<<<< HEAD
-	char		**paths;
-	char		*joined;
-	char		*tmp;
-<<<<<<< HEAD
-=======
-	int			ret;
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
-	int			index;
-
-	index = 0;
-	data->command = cmds[0];
-<<<<<<< HEAD
-	stat(data->command, &buff);
-	if (!S_ISREG(buff.st_mode))
-=======
-	ret = stat(data->command, &buff);
-	if (ret == -1 || !S_ISREG(buff.st_mode) || ft_strncmp(data->command, "./", 2))
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
-=======
 
 	if (stat(file, &buff) == -1)
 		return (0);
@@ -56,7 +36,6 @@ int		get_path(t_data *data, char **cmds)
 	char	*path;
 
 	if (!is_regular_file(cmds[0]) || ft_strncmp(cmds[0], "./", 2))
->>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 	{
 		if (!(path = get_env(data, "PATH")))
 			return (EXIT_FAILURE);
@@ -76,8 +55,6 @@ int		get_path(t_data *data, char **cmds)
 		}
 		free_splitted(save, 0);
 	}
-<<<<<<< HEAD
-=======
 	return (EXIT_SUCCESS);
 }
 
@@ -90,33 +67,5 @@ int		exec_prog(t_data *data, char **cmds, int *ret)
 		exit(127);
 		return (EXIT_FAILURE);
 	}
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 	return (EXIT_SUCCESS);
-}
-
-int	exec_prog(t_data *data, char **cmds)
-{
-	char		*tmp;
-	int			index;
-
-	index = 0;
-	get_path(data, cmds);
-	index = 0;
-	while (cmds[index])
-	{
-		tmp = cmds[index];
-		cmds[index] = ft_strtrim(cmds[index], "\"'");
-		free(tmp);
-		index++;
-	}
-	if (execve(cmds[0], cmds, data->env) == -1)
-	{
-		ft_printf("minishell: command not found: %s\n", cmds[0]);
-		return (0);
-	}
-	return (1);
-	/*if (status == 11 || status == 10)
-		status += 128;
-	if (status != 139 && status != 138)
-		status = status ? EXIT_FAILURE : EXIT_SUCCESS;*/
 }

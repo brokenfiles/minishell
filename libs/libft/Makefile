@@ -68,11 +68,7 @@ RM			=	rm -f
 
 .c.o:
 				@$(CC) $(FLAGS) -c $< -o ${<:.c=.o}
-<<<<<<< HEAD
-				@printf "\033[2K\033[1;32mLibft > Generated \033[1;33m${<:.c=.o}\033[0;0m\r"
-=======
 				@printf "\033[2K\033[0;35mLIBFT\033[0;0m:        \033[0;33mCompilation...    \033[0;31m%-15.15s\033[0;0m\r" $(notdir ${<})
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 
 $(NAME): ${OBJS}
 				@ar rcs $(NAME) ${OBJS}

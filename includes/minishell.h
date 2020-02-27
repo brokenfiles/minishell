@@ -24,31 +24,16 @@ int		exec_hub(t_data *data);
 int		run_command(t_data *data, char **cmds);
 int		parse_line(t_data *data);
 int		replace_env(t_data *data);
-<<<<<<< HEAD
-void	reset_redirections(t_data *data, int need_free);
-t_data	*init_struct(char **env);
-int		exec_env(t_data *data);
-int		exec_pwd(t_data *data);
-int		exec_echo(t_data *data, char **cmds);
-=======
 void	reset_redirections(t_data *data);
 t_data	*init_struct(char **env);
 int		exec_env(t_data *data, char **cmds);
 int		exec_pwd(t_data *data);
 int		exec_echo(char **cmds);
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 int		exec_cd(t_data *data, char **cmds);
 int		exec_unset(t_data *data, char **cmds);
 int		exec_export(t_data *data, char **cmds);
-<<<<<<< HEAD
-int		exec_prog(t_data *data, char **cmds);
-<<<<<<< HEAD
-=======
-=======
 int		exec_prog(t_data *data, char **cmds, int *ret);
->>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 void	error_command_nf(char *command);
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 int		get_var_env(t_data *data, char *str, int *index);
 int		fsp(char **splitted, char *str, int code, char *message);
 int		fnr(void (*f)(void *), void *mem, int code, char *message);
@@ -56,30 +41,16 @@ int		free_splitted(char **splitted, int code);
 char	**ft_split_spec(char const *s, char c);
 void	handle_return(t_data *data);
 int		tabsize(char **str);
-<<<<<<< HEAD
-int		quit(char *error, int code);
-int		parse_arguments(t_data *data);
-int		get_last_char(char *str, char c);
-char	*get_env_str(t_data *data, char *temp);
-=======
 int		parse_arguments(t_data *data);
 int		get_last_char(char *str, char c);
 int		get_first_char(char *str, char c);
 int		sort_env_export(t_data *data);
 int		display_export_alone(char **str);
 char	*get_env(t_data *data, char *temp);
-<<<<<<< HEAD
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
-int		get_next_char(char *str, char c);
-=======
->>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 void	write_preline(t_data *data);
 int		remove_quotes(char **str);
 int		get_redirections(t_data *data);
 void	redirect(int oldfd, int newfd);
-<<<<<<< HEAD
-void	exec_pipeline(char ***cmds, char **env, int pos, int in_fd, t_data *data);
-=======
 int	exec_pipeline(char ***cmds, int pos, int in_fd, t_data *data);
 int     redirection_hub(t_data *data, char **cmds, int pos);
 int		is_isspace(char c);
@@ -102,6 +73,5 @@ int	handle_right_arrow(t_redirect *begin);
 int		is_right_arrow(t_redirect *beggin);
 int		is_left_arrow(t_redirect *beggin);
 int	handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline);
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 
 #endif

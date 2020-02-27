@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-- Pipes | doivent marcher comme dans bash
-=======
 strace -e trace=open,close,dup,dup2,pipe,execve -f -p $(pgrep minishell)
 
 faire des tests pour casser les pipes;
@@ -33,4 +30,3 @@ MAYBE BONUS ?
 ==VÉRIFIER LES COMPORTEMENTS • ctrl-C, ctrl-D et ctrl-\ doivent afficher le même résultat que dans bash.
 
 ls -la | cat -e > test
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7

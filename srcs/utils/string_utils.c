@@ -18,46 +18,6 @@ int		get_last_char(char *str, char c)
 	return (last_char);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-void	write_preline(t_data *data)
-{
-	ft_printf(PRE_LINE, ((get_last_char(data->cwd, '/') != -1
-	&& ft_strlen(data->cwd) != 1) ?
-	data->cwd + get_last_char(data->cwd, '/') + 1 : data->cwd));
-}
-
-int		remove_quotes(char **str)
-{
-	int i;
-	int x;
-	char *new;
-
-	i = 0;
-	x = 0;
-	while ((*str)[i])
-	{
-		if (((*str)[i] && (*str)[i] != '\'' && (*str)[i] != '"'))
-			x++;
-		i++;
-	}
-	if (!(new = ft_strnew(x)))
-		return (-1);
-	i = 0;
-	x = 0;
-	while ((*str)[i])
-	{
-		if (((*str)[i] != '\'') && ((*str)[i] != '"'))
-=======
-void	error_command_nf(char *command)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd(": command not found\n", 2);
-}
-
-=======
->>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 void	write_preline(t_data *data)
 {
 	if (isatty(0))
@@ -107,13 +67,8 @@ int		remove_quotes(char **str)
 			quotes[1] = !quotes[1];
 		if ((*str)[i] == '\'' && !quotes[1])
 			quotes[0] = !quotes[0];
-<<<<<<< HEAD
-		if (((*str)[i] != '"' && (*str)[i] != '\'') || (quotes[1] && (*str)[i] == '\'') || (quotes[0] && (*str)[i] == '"'))
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
-=======
 		if (((*str)[i] != '"' && (*str)[i] != '\'') ||
 		(quotes[1] && (*str)[i] == '\'') || (quotes[0] && (*str)[i] == '"'))
->>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 			new[x++] = (*str)[i];
 		i++;
 	}

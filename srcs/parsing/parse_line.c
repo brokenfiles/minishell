@@ -24,30 +24,18 @@ void	handle_return(t_data *data)
 		data->last_return = 1;
 }
 
-<<<<<<< HEAD
-int	run_command(t_data *data, char **cmds)
-=======
 int run_command(t_data *data, char **cmds)
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 {
 	if (ft_strcmp(cmds[0], "exit") == 0)
 		exit(EXIT_SUCCESS);
 	else if (ft_strcmp(cmds[0], "env") == 0)
-<<<<<<< HEAD
-		data->last_return = exec_env(data);
-=======
 		data->last_return = exec_env(data, cmds);
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 	else if (ft_strcmp(cmds[0], "pwd") == 0)
 		data->last_return = exec_pwd(data);
 	else if (ft_strcmp(cmds[0], "cd") == 0)
 		data->last_return = exec_cd(data, cmds);
 	else if (ft_strcmp(cmds[0], "echo") == 0)
-<<<<<<< HEAD
-		data->last_return = exec_echo(data, cmds);
-=======
 		data->last_return = exec_echo(cmds);
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
 	else if (ft_strcmp(cmds[0], "unset") == 0)
 		data->last_return = exec_unset(data, cmds);
 	else if (ft_strcmp(cmds[0], "export") == 0)
@@ -69,30 +57,13 @@ int parse_line(t_data *data)
 	{
 		if (data->line)
 			free(data->line);
-<<<<<<< HEAD
-		data->line = ft_strdup(commands[index]);
-<<<<<<< HEAD
-		get_redirections(data);
-		if (exec_hub(data) == EXIT_FAILURE)
-		{
-			data->last_return = EXIT_FAILURE;
-			return (fsp(commands, data->command, 0, INVALID_FILE));
-		}
-=======
-=======
 		if (!(data->line = ft_strdup(commands[index])))
 			return (free_splitted(commands, EXIT_FAILURE));
->>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 		if (exec_hub(data) == EXIT_FAILURE)
 		{
 			data->last_return = EXIT_FAILURE;
 			return (free_splitted(commands, EXIT_FAILURE));
 		}
-<<<<<<< HEAD
-//		reset_redirections(data);
->>>>>>> fc196d398b6c627c28d0fdefd5d9231ec4b489a7
-=======
->>>>>>> 586c70967af1505838861dbb3ab967e8f7b9a799
 		index++;
 	}
 	free_splitted(commands, 0);
