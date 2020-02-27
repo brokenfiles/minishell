@@ -19,7 +19,6 @@ typedef struct	s_data
 	int			last_return;
 	char		**env;
 	char		*line;
-	char		*command;
 	char		**arguments;
 	char		cwd[PATH_MAX + 1];
 	t_pipe		tPipe[REDIRECT_MAX];

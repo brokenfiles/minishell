@@ -1,4 +1,4 @@
-rm -f path test_return test_return1 test test1 test2
+rm -f path test_return test_return1 test test1 test2 test3 bonjour path
 echo "Hello   world; It's me !   "
 export TEST="Hi, my name is louis."
 echo -n $TEST
@@ -9,16 +9,18 @@ echo -n $PATH > path | cat -e | wc -l
 echo $?
 cat < test.sh | cat -e > test_return < path < path > test_return1
 echo $?
-echo $?
 helps
 echo $?
+cat -e < test.sh > test | wc -l | cat -e
 echo -n 'First Message' > test1
+cat test>>test2>>test3>>bonjour<test.sh
 echo This is a test named "Truffe Max"    > test > test1 >> test2
 echo This is a test named "Durian"    > test >> test1 >> test2
 echo This is a test named "Master sword"    >> test >> test1 >> test2
+cat test < test2 < ../Makefile >> test_return < test3 < path >> bonjour
 cat -e test test1 test2
 cat -e test_return1
-rm -f path test_return test_return1 test test1 test2
+rm -f path test_return test_return1 test test1 test2 test3 bonjour path
 pwd > pwd
 cat pwd
 pwd
