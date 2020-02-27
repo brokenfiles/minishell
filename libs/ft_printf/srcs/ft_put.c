@@ -6,7 +6,7 @@
 /*   By: jchotel <jchotel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 19:52:44 by jchotel           #+#    #+#             */
-/*   Updated: 2020/02/26 17:33:24 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/02/27 15:57:06 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	ft_putnbr_u_buff(char **buffer, unsigned int nb)
 
 void	ft_putstr_buff(char **buffer, char *str)
 {
-	int index;
-	char *tmp;
+	int		index;
+	char	*tmp;
 
 	tmp = NULL;
 	index = 0;
@@ -50,7 +50,7 @@ void	ft_putstr_buff(char **buffer, char *str)
 			index++;
 		}
 		free(tmp);
-		return;
+		return ;
 	}
 	while (str[index])
 		ft_strjoin_c(buffer, str[index++]);
