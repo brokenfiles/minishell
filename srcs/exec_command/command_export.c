@@ -52,10 +52,12 @@ int		env_contains(t_data *data, char *str)
 	char	**temp;
 
 	i = 0;
-	temp = ft_split(str, '=');
+	if (!(temp = ft_split(str, '=')))
+		return (EXIT_FAILURE);
 	while (data->env[i])
 	{
-		split = ft_split(data->env[i], '=');
+		if (!(split = ft_split(data->env[i], '=')))
+			return (free_splitted(temp, EXIT_FAILURE));
 		if (ft_strcmp(split[0], temp[0]) == 0)
 		{
 			if (ft_strlen(split[0]) == ft_strlen(temp[0]))
@@ -72,12 +74,11 @@ int		env_contains(t_data *data, char *str)
 	return (free_splitted(temp, 0));
 }
 
-int		display_export_alone(t_data *data, char **str)
+int		display_export_alone(char **str)
 {
 	int i;
 	int x;
 	int is_start;
-	(void)data;
 
 	i = 0;
 	while (i < tabsize(str) && str[i])
@@ -92,39 +93,12 @@ int		display_export_alone(t_data *data, char **str)
 				ft_putchar(34);
 				is_start = 1;
 			}
-			ft_putchar(str[i][x]);
-			x++;
+			ft_putchar(str[i][x++]);
 		}
 		i++;
 		ft_printf("%c%c", 34, 10);
 	}
 	return (EXIT_SUCCESS);
-}
-
-int		sort_env_export(t_data *data)
-{
-	int		index;
-	char	**temp;
-
-	if (!(temp = malloc(sizeof(char*) * (tabsize(data->env) + 1))))
-		return (EXIT_FAILURE);
-	temp[tabsize(data->env)] = 0;
-	index = 0;
-	while (index++ < tabsize(data->env))
-		temp[index - 1] = ft_strdup(data->env[index - 1]);
-	index = 0;
-	while (temp[index] && temp[index + 1])
-	{
-		if (ft_strcmp(temp[index], temp[index + 1]) > 0)
-		{
-			ft_swap((void **)&temp[index], (void **)&temp[index + 1]);
-			index = 0;
-		}
-		else
-			index++;
-	}
-	display_export_alone(data, temp);
-	return (free_splitted(temp, EXIT_SUCCESS));
 }
 
 int		exec_export(t_data *data, char **cmds)

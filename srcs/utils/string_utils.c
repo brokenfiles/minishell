@@ -1,21 +1,5 @@
 #include "../../includes/minishell.h"
 
-int		get_next_char(char *str, char c)
-{
-	int	index;
-
-	index = 0;
-	while (str[index])
-	{
-		if (str[index] == c)
-			return (index);
-		index++;
-	}
-	if (str[index] == c)
-		return (index);
-	return (-1);
-}
-
 int		get_last_char(char *str, char c)
 {
 	int	index;
@@ -32,13 +16,6 @@ int		get_last_char(char *str, char c)
 	if (str[index] == c)
 		last_char = index;
 	return (last_char);
-}
-
-void	error_command_nf(char *command)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd(": command not found\n", 2);
 }
 
 void	write_preline(t_data *data)
@@ -90,7 +67,8 @@ int		remove_quotes(char **str)
 			quotes[1] = !quotes[1];
 		if ((*str)[i] == '\'' && !quotes[1])
 			quotes[0] = !quotes[0];
-		if (((*str)[i] != '"' && (*str)[i] != '\'') || (quotes[1] && (*str)[i] == '\'') || (quotes[0] && (*str)[i] == '"'))
+		if (((*str)[i] != '"' && (*str)[i] != '\'') ||
+		(quotes[1] && (*str)[i] == '\'') || (quotes[0] && (*str)[i] == '"'))
 			new[x++] = (*str)[i];
 		i++;
 	}

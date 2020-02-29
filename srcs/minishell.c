@@ -3,17 +3,17 @@
 
 t_data	*g_data;
 
-void	sig_handler()
+void	sig_handler(int sig)
 {
+	(void)sig;
 	ft_putchar('\n');
 	write_preline(g_data);
 }
 
-int	main(int ac, char **av, char **env)
+int		main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-
 	g_data = init_struct(env);
 	write_preline(g_data);
 	signal(SIGINT, sig_handler);

@@ -14,7 +14,7 @@ t_redirect	*ft_lstlast_redirect(t_redirect *lst)
 	return (now);
 }
 
-void	ft_lstaddback_redirect(t_redirect **alst, t_redirect *new)
+void		ft_lstaddback_redirect(t_redirect **alst, t_redirect *new)
 {
 	t_redirect *temp;
 
@@ -45,7 +45,7 @@ t_redirect	*ft_lstnew_redirect(void)
 	return (new);
 }
 
-void	ft_lstclear_redirect(t_redirect **lst, void (*del)(void*))
+void		ft_lstclear_redirect(t_redirect **lst, void (*del)(void*))
 {
 	t_redirect *now;
 	t_redirect *after;
@@ -70,7 +70,7 @@ void	ft_lstclear_redirect(t_redirect **lst, void (*del)(void*))
 	}
 }
 
-void	ft_lstaddfront_redirect(t_redirect **alst, t_redirect *new)
+void		ft_lstaddfront_redirect(t_redirect **alst, t_redirect *new)
 {
 	if (alst && new)
 	{
