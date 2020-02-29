@@ -6,7 +6,7 @@
 /*   By: llaurent <llaurent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 19:41:25 by llaurent          #+#    #+#             */
-/*   Updated: 2020/02/27 15:58:19 by llaurent         ###   ########.fr       */
+/*   Updated: 2020/02/26 19:41:25 by llaurent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_return(t_data *data)
 		data->last_return = 1;
 }
 
-int		run_command(t_data *data, char **cmds)
+int run_command(t_data *data, char **cmds)
 {
 	if (ft_strcmp(cmds[0], "exit") == 0)
 		exit(EXIT_SUCCESS);
@@ -45,10 +45,10 @@ int		run_command(t_data *data, char **cmds)
 	return (EXIT_SUCCESS);
 }
 
-int		parse_line(t_data *data)
+int parse_line(t_data *data)
 {
-	char	**commands;
-	int		index;
+	char **commands;
+	int index;
 
 	index = 0;
 	if (!(commands = ft_split_spec(data->line, ';')))

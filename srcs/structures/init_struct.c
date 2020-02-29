@@ -24,7 +24,7 @@ void	init_pipe(t_data *data)
 
 	index = 0;
 	while (index < REDIRECT_MAX)
-		data->tpipe[index++].redirect = NULL;
+		data->tPipe[index++].redirect = NULL;
 }
 
 void	reset_redirections(t_data *data)
@@ -34,9 +34,9 @@ void	reset_redirections(t_data *data)
 	index = 0;
 	while (index < REDIRECT_MAX)
 	{
-		if (data->tpipe[index].redirect != NULL)
-			ft_lstclear_redirect(&data->tpipe[index].redirect, free);
-		data->tpipe[index++].redirect = NULL;
+		if (data->tPipe[index].redirect != NULL)
+			ft_lstclear_redirect(&data->tPipe[index].redirect, free);
+		data->tPipe[index++].redirect = NULL;
 	}
 }
 

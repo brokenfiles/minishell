@@ -12,12 +12,8 @@ SRCSC		=	libs/get_next_line/get_next_line.c\
 				srcs/minishell.c\
 				srcs/parsing/parse_line.c\
 				srcs/parsing/parsing_redirection.c\
-				srcs/parsing/parsing_redirection2.c\
 				srcs/parsing/manage_redirection.c\
-				srcs/parsing/manage_redirection2.c\
-				srcs/parsing/manage_redirection3.c\
 				srcs/parsing/handle_redirection.c\
-				srcs/parsing/handle_redirection2.c\
 				srcs/structures/init_struct.c\
 				srcs/exec_command/command_env.c\
 				srcs/exec_command/command_pwd.c\
