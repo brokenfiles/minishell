@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_redirection.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/01 18:07:45 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/03/01 18:07:45 by mbrignol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-int		handle_right_arrow(t_redirect *begin)
+int			handle_right_arrow(t_redirect *begin)
 {
 	t_redirect	*current;
 	int			fd;
@@ -10,7 +22,13 @@ int		handle_right_arrow(t_redirect *begin)
 		if (begin->type == DOUBLE_AQUOTE || begin->type == SIMPLE_AQUOTE)
 		{
 			current = begin;
-			fd = open(current->file, begin->type == DOUBLE_AQUOTE ? O_CREAT : O_CREAT | O_TRUNC, 0644);
+			fd = open(current->file, begin->type == DOUBLE_AQUOTE ?
+			O_CREAT : O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+			{
+				error_file_np(current->file);
+				return (-1);
+			}
 			close(fd);
 		}
 		begin = begin->next;
@@ -19,7 +37,7 @@ int		handle_right_arrow(t_redirect *begin)
 	return (fd);
 }
 
-int		is_right_arrow(t_redirect *begin)
+int			is_right_arrow(t_redirect *begin)
 {
 	while (begin)
 	{
@@ -32,7 +50,7 @@ int		is_right_arrow(t_redirect *begin)
 	return (0);
 }
 
-int		is_left_arrow(t_redirect *begin)
+int			is_left_arrow(t_redirect *begin)
 {
 	while (begin)
 	{
@@ -65,22 +83,9 @@ int			handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
 	int			fd;
 	int			save;
 	t_redirect	*current;
-	t_redirect	*first_link;
-	int			ret;
-	struct stat	buff;
 
-	first_link = begin;
-	while (begin)
-	{
-		if (begin->type == LEFT_AQUOTE)
-		{
-			current = begin;
-			ret = stat(current->file, &buff);
-			if (ret == -1 || S_ISDIR(buff.st_mode))
-				return (EXIT_FAILURE);
-		}
-		begin = begin->next;
-	}
+	if (!(current = has_only_reg(begin)))
+		return (EXIT_FAILURE);
 	if ((fd = open(current->file, O_RDONLY)) == -1)
 		return (EXIT_FAILURE);
 	save = dup(STDIN_FILENO);
@@ -89,8 +94,11 @@ int			handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
 	close(fd);
 	dup2(STDIN_FILENO, save);
 	close(save);
-	if (got_right_after_left_arrow(first_link))
-		handle_right_arrow(first_link);
+	if (got_right_after_left_arrow(begin))
+	{
+		if (handle_right_arrow(begin) == -1)
+			return (EXIT_FAILURE);
+	}
 	else if (is_pipeline == 1)
 		redirect(data->pipe[1], 1);
 	return (EXIT_SUCCESS);

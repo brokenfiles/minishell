@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/01 18:07:24 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/03/01 18:07:24 by mbrignol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -31,12 +42,12 @@ int		exec_cd(t_data *data, char **cmds)
 		return (ret == 2 ? EXIT_SUCCESS : EXIT_FAILURE);
 	if (tabsize(args) > 1)
 	{
-		ft_printf("cd: too many arguments\n");
+		ft_printf("minishell: cd: too many arguments\n");
 		return (EXIT_FAILURE);
 	}
 	if (chdir((const char *)args[0]) == -1)
 	{
-		ft_printf("cd: no such file or directory: %s\n", args[0]);
+		ft_printf("minishell: cd: %s: No such file or directory\n", args[0]);
 		return (EXIT_FAILURE);
 	}
 	if (!(getcwd(data->cwd, sizeof(data->cwd))))

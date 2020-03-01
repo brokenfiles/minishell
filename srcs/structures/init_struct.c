@@ -1,5 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_struct.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/01 18:08:27 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/03/01 18:08:27 by mbrignol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int		inc_shlvl(t_data *data)
+{
+	char	**cmds;
+	char	*value;
+	char	*env_value;
+
+	env_value = get_env(data, "SHLVL");
+	cmds = malloc(sizeof(char *) * 3);
+	value = ft_itoa(ft_atoi(env_value) + 1);
+	cmds[0] = ft_strdup("export");
+	cmds[1] = ft_strjoin("SHLVL=", value);
+	cmds[2] = NULL;
+	exec_export(data, cmds);
+	free(env_value);
+	free(value);
+	return (free_splitted(cmds, EXIT_SUCCESS));
+}
 
 int		set_env(t_data *data, char **str)
 {
@@ -24,7 +53,7 @@ void	init_pipe(t_data *data)
 
 	index = 0;
 	while (index < REDIRECT_MAX)
-		data->tPipe[index++].redirect = NULL;
+		data->tpipe[index++].redirect = NULL;
 }
 
 void	reset_redirections(t_data *data)
@@ -34,9 +63,9 @@ void	reset_redirections(t_data *data)
 	index = 0;
 	while (index < REDIRECT_MAX)
 	{
-		if (data->tPipe[index].redirect != NULL)
-			ft_lstclear_redirect(&data->tPipe[index].redirect, free);
-		data->tPipe[index++].redirect = NULL;
+		if (data->tpipe[index].redirect != NULL)
+			ft_lstclear_redirect(&data->tpipe[index].redirect, free);
+		data->tpipe[index++].redirect = NULL;
 	}
 }
 
@@ -49,6 +78,8 @@ t_data	*init_struct(char **env)
 	if (!(getcwd(data->cwd, sizeof(data->cwd))))
 		return (NULL);
 	if ((set_env(data, env)) == EXIT_FAILURE)
+		return (NULL);
+	if ((inc_shlvl(data)) == EXIT_FAILURE)
 		return (NULL);
 	init_pipe(data);
 	data->line = NULL;

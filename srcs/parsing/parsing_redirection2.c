@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_env.c                                      :+:      :+:    :+:   */
+/*   parsing_redirection2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/01 18:07:27 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/03/01 18:07:27 by mbrignol         ###   ########.fr       */
+/*   Created: 2020/03/01 18:08:23 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/03/01 18:08:23 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		exec_env(t_data *data, char **cmds)
+int	get_nb_redirect(char *str)
 {
-	char	**tmp;
+	int	index;
+	int	nb;
 
-	tmp = data->env;
-	if (!tmp || !*tmp)
-		return (EXIT_FAILURE);
-	if (tabsize(cmds) > 1)
+	nb = 0;
+	index = 0;
+	while (str[index])
 	{
-		ft_printf("env: '%s': no such file or directory\n", cmds[1]);
-		return (EXIT_FAILURE);
+		if (str[index] && (str[index] == '<' || str[index] == '>'))
+		{
+			nb++;
+			while (str[index] && (str[index] == '<' || str[index] == '>'))
+				index++;
+		}
+		else
+			index++;
 	}
-	while (*tmp)
-		ft_printf("%s\n", *(tmp++));
-	return (EXIT_SUCCESS);
+	return (nb);
 }

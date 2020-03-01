@@ -1,39 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   handle_redirection2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/01 18:08:32 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/03/01 18:08:32 by mbrignol         ###   ########.fr       */
+/*   Created: 2020/03/01 18:07:50 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/03/01 18:07:50 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*get_env(t_data *data, char *temp)
+t_redirect	*has_only_reg(t_redirect *begin)
 {
-	int		index;
-	char	**split;
-	char	*ret;
+	struct stat	buff;
+	t_redirect	*current;
+	int			ret;
 
-	index = 0;
-	while (data->env[index])
+	current = NULL;
+	while (begin)
 	{
-		if (!(split = ft_split(data->env[index], '=')))
-			return (NULL);
-		if (ft_strcmp(temp, split[0]) == 0)
+		if (begin->type == LEFT_AQUOTE)
 		{
-			if (ft_strlen(temp) == ft_strlen(split[0]))
+			current = begin;
+			ret = stat(current->file, &buff);
+			if (ret == -1 || !S_ISREG(buff.st_mode))
 			{
-				ret = ft_strdup(split[1]);
-				free_splitted(split, 0);
-				return (ret);
+				error_command_nf(current->file);
+				return (NULL);
+			}
+			if (!(buff.st_mode & S_IRUSR))
+			{
+				error_file_np(current->file);
+				return (NULL);
 			}
 		}
-		free_splitted(split, 0);
-		index++;
+		begin = begin->next;
 	}
-	return (NULL);
+	return (current);
 }
