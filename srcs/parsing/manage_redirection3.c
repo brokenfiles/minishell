@@ -6,7 +6,7 @@
 /*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/01 18:08:00 by mbrignol          #+#    #+#             */
-/*   Updated: 2020/03/01 18:08:00 by mbrignol         ###   ########.fr       */
+/*   Updated: 2020/03/01 18:08:53 by mbrignol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,11 @@ int	is_command_alone(char ***cmds, int pos, int in_fd, t_data *data)
 			close(data->fd[1]);
 		}
 		if (is_left_arrow(data->tpipe[pos].redirect))
+		{
 			if (!(has_only_reg(data->tpipe[pos].redirect)))
 				return (EXIT_SUCCESS);
+			run_command(data, cmds[pos]);
+		}
 		if (!is_right_arrow(data->tpipe[pos].redirect) &&
 			!is_left_arrow(data->tpipe[pos].redirect))
 			run_command(data, cmds[pos]);
