@@ -49,7 +49,7 @@ ${NAME}:	header ${OBJS}
 			@printf "\033[2K\033[0;35mLIBFT\033[0;0m:        \033[0;32mCompleted         \033[0;31m----\033[0;0m          \r\n"
 			@make -C libs/ft_printf
 			@printf "\033[2K\033[0;35mFT_PRINTF\033[0;0m:    \033[0;32mCompleted         \033[0;31m----\033[0;0m          \r"
-			@${CC} -g -fsanitize=address ${CFLAGS} ${OBJS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
+			@${CC} ${CFLAGS} ${OBJS} -L ./libs/libft -lft -L ./libs/ft_printf -lftprintf -o ${NAME}
 			@printf "\n\033[0;0m⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n\033[0;35mMINISHELL\033[0;0m:    \033[0;32mReady             \033[0;31m----          \033[0;0m\n⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤⏤\n"
 
 run:		${NAME}

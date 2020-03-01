@@ -1,17 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_redirection2.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/01 18:07:57 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/03/01 18:07:57 by mbrignol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int		exec_child(char ***cmds, int pos, int in_fd, t_data *data)
 {
 	close(data->pipe[0]);
 	redirect(in_fd, STDIN_FILENO);
-	if (is_right_arrow(data->tpipe[pos].redirect))
-		data->fd[1] = handle_right_arrow(data->tpipe[pos].redirect);
+	if (is_right_arrow(data->tpipe[pos].redirect) == 1)
+		if ((data->fd[1] = handle_right_arrow(data->tpipe[pos].redirect)) == -1)
+			exit(EXIT_FAILURE);
 	if (is_left_arrow(data->tpipe[pos].redirect))
-	{
 		if (handle_left_arrow(data, data->tpipe[pos].redirect, 1)
 			== EXIT_FAILURE)
 			exit(EXIT_FAILURE);
-	}
 	if (!is_right_arrow(data->tpipe[pos].redirect) &&
 	!is_left_arrow(data->tpipe[pos].redirect))
 		redirect(data->pipe[1], 1);

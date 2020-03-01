@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/01 18:07:07 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/03/01 18:07:07 by mbrignol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -20,6 +31,7 @@
 # include "libft.h"
 # include "printf.h"
 
+void		error_file_np(char *file);
 int			exec_hub(t_data *data);
 int			run_command(t_data *data, char **cmds);
 int			parse_line(t_data *data);

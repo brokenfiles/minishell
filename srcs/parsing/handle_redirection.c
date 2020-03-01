@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_redirection.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbrignol <mbrignol@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/01 18:07:45 by mbrignol          #+#    #+#             */
+/*   Updated: 2020/03/01 18:07:45 by mbrignol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int			handle_right_arrow(t_redirect *begin)
@@ -12,6 +24,11 @@ int			handle_right_arrow(t_redirect *begin)
 			current = begin;
 			fd = open(current->file, begin->type == DOUBLE_AQUOTE ?
 			O_CREAT : O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+			{
+				error_file_np(current->file);
+				return (-1);
+			}
 			close(fd);
 		}
 		begin = begin->next;
@@ -78,7 +95,10 @@ int			handle_left_arrow(t_data *data, t_redirect *begin, int is_pipeline)
 	dup2(STDIN_FILENO, save);
 	close(save);
 	if (got_right_after_left_arrow(begin))
-		handle_right_arrow(begin);
+	{
+		if (handle_right_arrow(begin) == -1)
+			return (EXIT_FAILURE);
+	}
 	else if (is_pipeline == 1)
 		redirect(data->pipe[1], 1);
 	return (EXIT_SUCCESS);
